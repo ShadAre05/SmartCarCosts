@@ -1,0 +1,24 @@
+# IDE
+.idea/
+.vscode/
+*.suo
+*.user
+
+# Build
+bin/
+obj/
+dist/
+node_modules/
+
+# Environment
+.env
+.env.local
+*.local
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
