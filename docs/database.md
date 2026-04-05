@@ -2,7 +2,7 @@
 
 https://dbdiagram.io/d/SmartCarCosts-69cd82e3fb2db18e3b5d5ddc
 
-# База данных приложения "Car Expenses Tracker"
+# База данных приложения "Smart Car Costs"
 
 ## Таблицы и описание
 
