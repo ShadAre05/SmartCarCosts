@@ -77,10 +77,9 @@ The system automatically sends reminders:
 
 | Role | Name | GitHub |
 |------|------|--------|
-| Team Lead / Backend | Arseni Simanchuk | @ShadAre05 |
+| Team Lead / Backend / Frontend | Arseni Simanchuk | @ShadAre05 |
 | Backend | Vladyslav Kosheliuk | @Vladkosheliuk |
 | Backend | Matsvei Nilalayeu | @Matvey-N |
-| Frontend | Arseni Simanchuk | @ShadAre05 |
 
 ---
 
