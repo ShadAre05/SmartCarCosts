@@ -1,132 +1,91 @@
-**Название проекта:** Smart Car Costs
-
-
-
-
-**Описание проекта:**
-*Smart Car Costs* — это веб-приложение для учета и анализа расходов на автомобиль. Пользователь может фиксировать все затраты, связанные с владением автомобилем (топливо, страховка, ремонт, техническое обслуживание, штрафы, парковка и др.), а также отслеживать их изменение во времени.
-
-Основная цель проекта — предоставить пользователю удобный инструмент для контроля расходов и понимания реальной стоимости владения автомобилем, а так же напоминание о истекающем сроке страховки, замены мысла и ТО (Техническое Обслуживание).
-
-
-
-
-**Реальная проблема:**
-Владельцы автомобилей часто не ведут системный учет расходов и забывают о плановом обслуживании, из-за чего сложно оценить общую стоимость содержания автомобиля.
-
-
-
-
-**Целевая аудитория:**
-
-\* Владельцы автомобилей
-
-\* Студенты и молодые специалисты
-
-\* Пользователи, заинтересованные в контроле личных финансов для будущего
-
-
-
-
-**Ценность продукта:**
-
-
-
-
-**Приложение позволяет:**
-
-\* централизованно хранить все расходы на автомобиль
-
-\* анализировать траты по категориям
-
-\* отслеживать динамику расходов во времени
-
-\* получать напоминания о важных событиях (страховка, ТО)
-
-\* принимать более обоснованные финансовые решения
-
-
-
-
-**Основной функционал:**
-
-\* Добавление, редактирование и удаление расходов
-
-\* Категоризация расходов (топливо, страховка, ремонт и др.)
-
-\* Привязка расходов к дате (календарь)
-
-\* Фильтрация по временным промежуткам
-
-\* Отображение аналитики (графики и статистика)
-
-\* Конвертация валют (вспомогательная функция)
-
-\* Система уведомлений о приближении важных событий (истечение страховки, технического осмотра)
-
-
-
-
-**Роли пользователей:**
-
-\* User (пользователь): ведет учет своих расходов, управляет автомобилем и получает аналитику
-
-\* Admin (администратор): управляет категориями расходов, просматривает агрегированную статистику, контролирует данные системы (для компаний)
-
-
-
-
-**Экраны приложения:**
-
-1\. Дашборд (общая статистика, графики, динамика расходов)
-
-2\. Список расходов (с фильтрацией по дате и категориям)
-
-3\. Добавление/редактирование расхода
-
-4\. Профиль пользователя и автомобиля
-
-5\. Раздел уведомлений (страховка, ТО)
-
-6\. Админ-панель (управление категориями и аналитика)
-
-
-
-**Система уведомлений:**
-
-Пользователь может указать даты окончания страховки и технического обслуживания. Система автоматически отслеживает приближение этих дат и отправляет уведомления заранее (За месяц, за 7 дней и за день), что позволяет избежать просрочек и дополнительных расходов.
-
-
-
-**Аналитика:**
-
-\* Расходы по категориям
-
-\* Расходы по временным периодам (день, месяц, год)
-
-\* Динамика расходов (изменение затрат во времени)
-
-\* Общая стоимость владения автомобилем
-
-\* Сравнение расходов за разные периоды
-
-
-
-
-**Техническая реализация:**
-
-\* Backend: REST API с JWT-аутентификацией (access + refresh tokens), Java 23, Spring Boot 3.2
-
-\* Frontend: Java Thymeleaf
-
-\* База данных: реляционная СУБД (PostgreSQL)
-
-## Команда
-
-| Роль | Имя | GitHub |
-|------|-----|--------|
-| Team Lead | Arseni Simanchuk | @ShadAre05 |
-| Backend |  |  |
-| Backend |  |  |
-| Frontend | Arseni Simanchuk | @ShadAte05 |  -> Java Thymeleaf
-
+# Smart Car Costs
+
+## Project Description:
+**Smart Car Costs** is a web application for tracking and analyzing car-related expenses.  
+It helps users monitor the real cost of car ownership and stay on top of important maintenance events.
+
+---
+
+## Problem
+Car owners often do not systematically track their expenses and forget about scheduled maintenance.  
+As a result, it is difficult to understand the total cost of owning a car and avoid unexpected expenses.
+
+---
+
+## Target Audience:
+- Car owners  
+- Students and young professionals  
+- People interested in personal finance management  
+
+---
+
+## Product Value:
+The application allows users to:
+- Store all car-related expenses in one place  
+- Analyze expenses by categories and time periods  
+- Track spending trends over time  
+- Receive reminders for important events (insurance, maintenance)  
+- Make better financial decisions  
+
+---
+
+## Main Features
+- Add, edit, and delete expenses  
+- Categorize expenses (fuel, insurance, repairs, etc.)  
+- Filter expenses by date and category  
+- View analytics (charts and statistics)  
+- Notification system for important events  
+- (Optional) Currency conversion  
+
+---
+
+## Notification System
+Users can set important dates (insurance, maintenance, inspections).  
+The system automatically sends reminders:
+- 1 month before  
+- 1 week before  
+- 1 day before  
+
+---
+
+## Analytics
+- Expenses by category  
+- Expenses by time period (day, month, year)  
+- Expense trends over time  
+- Total cost of car ownership  
+- Comparison between different periods  
+
+---
+
+## User Roles
+- **User** – tracks expenses and views analytics  
+- **Admin** – manages categories and views aggregated statistics in company
+
+---
+
+## Application Screens
+1. Dashboard (statistics, charts, trends)  
+2. Expense List (filters by date and category)  
+3. Add/Edit Expense  
+4. User & Vehicle Profile  
+5. Notifications  
+6. Admin Panel  
+
+---
+
+## Team
+
+| Role | Name | GitHub |
+|------|------|--------|
+| Team Lead / Backend | Arseni Simanchuk | @ShadAre05 |
+| Backend | Vladyslav Kosheliuk | @Vladkosheliuk |
+| Backend | Matsvei Nilalayeu | @Matvey-N |
+| Frontend | Arseni Simanchuk | @ShadAre05 |
+
+---
+
+## Tech Stack
+- Backend: Spring Boot (Java)  
+- Frontend: Java Thymeleaf
+- Database: PostgreSQL  
+- Authentication: JWT  
