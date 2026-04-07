@@ -2,172 +2,171 @@
 
 https://dbdiagram.io/d/SmartCarCosts-69cd82e3fb2db18e3b5d5ddc
 
-# База данных приложения "Smart Car Costs"
+# Data Base webapp "Smart Car Costs"
 
-## Таблицы и описание
+## Tables and their description
 
 ---
 
 ### 1. `users`
-Хранит информацию о пользователях приложения.
+Stores information abour applications users
 
-- `id` — уникальный идентификатор пользователя  
-- `email` — почта (уникальная)  
-- `first_name` / `last_name` — имя и фамилия  
-- `password_hash` — хэш пароля  
-- `created_at` — дата создания пользователя  
+- `id` — unique user identifier
+- `email` — email (unique)  
+- `first_name` / `last_name` — first and last name
+- `password_hash` — password hash
+- `created_at` — user creation date
 
-**Связи:**  
-- `user_cars` (1:N) — пользователь может иметь до 3 машин  
-- `user_company_roles` (1:N) — роли в компаниях  
-- `notifications_log` (1:N) — история уведомлений  
+**Connections:**  
+- `user_cars` (1:N) — one user can have only 3 cars
+- `user_company_roles` (1:N) — roles in company 
+- `notifications_log` (1:N) — notification story  
 
 ---
 
 ### 2. `car_brands`
-Хранит автомобильные марки (бренды).
+Store car brands (upload from opensource datasets).
 
-- `id` — уникальный идентификатор марки  
-- `name` — название бренда (BMW, Audi, Toyota и т.д.)  
+- `id` — unique identifier of brand
+- `name` — name of brand (BMW, Audi, Toyota, etc.)  
 
-**Связи:**  
-- `car_models` (1:N) — одна марка может иметь много моделей  
+**Connections:**  
+- `car_models` (1:N) — One mark can have many models
 
 ---
 
 ### 3. `car_models`
-Хранит конкретные модели автомобилей.
+Stores specific car models (upload from opensource datasets).
 
-- `id` — уникальный идентификатор модели  
-- `brand_id` — ссылка на бренд (FK)  
-- `model_name` — название модели (540i, A6, Camry и т.д.)  
-- `generation` — поколение модели (F10, F11 и т.д.)  
+- `id` — unique model identifier
+- `brand_id` — brand reference (FK)
+- `model_name` — model name (540i, A6, Camry, etc.)
+- `generation` — model generation (F10, F11, etc.)
 
-**Связи:**  
-- `user_cars` (1:N) — конкретная машина пользователя привязана к модели  
+**Connections:**
+- `user_cars` (1:N) — a specific user car is linked to a model
 
 ---
 
 ### 4. `user_cars` 
-Хранит конкретные машины пользователей.
+Stores specific user vehicles.
 
-- `id` — уникальный идентификатор машины  
-- `user_id` — владелец машины (FK)  
-- `model_id` — модель машины (FK)  
-- `year` — год выпуска  
-- `license_plate` — номерной знак  
-- `created_at` — дата добавления  
+- `id` — unique vehicle identifier
+- `user_id` — vehicle owner (FK)
+- `model_id` — vehicle model (FK)
+- `year` — year of manufacture
+- `license_plate` — license plate
+- `created_at` — date added
 
-**Особенности:**  
-- Ограничение: до 3 машин на пользователя (реализуется в backend)  
-- Каждая машина может иметь свои расходы и напоминания  
+**Features:**
+- Limit: up to 3 vehicles per user (implemented in the backend)
+- Each vehicle can have its own expenses and reminders
 
 ---
 
 ### 5. `expense_categories`
-Хранит категории расходов на машины.
+Stores car expense categories.
 
-- `id` — уникальный идентификатор категории  
-- `name` — название категории (топливо, страховка, ремонт и т.д.)  
+- `id` — unique category identifier
+- `name` — category name (fuel, insurance, repairs, etc.)
 
-**Связи:**  
-- `expenses` (1:N) — расходы пользователей привязаны к категории  
+**Connections:**
+- `expenses` (1:N) — user expenses linked to a category
 
 ---
 
 ### 6. `expenses`
-Хранит расходы пользователя на конкретную машину.
+Stores user expenses for a specific car.
 
-- `id` — уникальный идентификатор расхода  
-- `user_car_id` — FK на машину  
-- `category_id` — FK на категорию  
-- `amount` — сумма  
-- `description` — описание расхода  
-- `expense_date` — дата расхода (по умолчанию текущая)  
-- `created_at` — дата создания записи  
+- `id` — Unique expense identifier
+- `user_car_id` — FK for the car
+- `category_id` — FK for the category
+- `amount` — Amount
+- `description` — Expense description
+- `expense_date` — Expense date (current by default)
+- `created_at` — Record creation date
 
-**Связи:**  
-- `user_cars` — машина, на которую потрачены деньги  
-- `expense_categories` — категория расхода  
+**Connections:**
+- `user_cars` — The car the money was spent on
+- `expense_categories` — Expense category
 
 ---
 
 ### 7. `reminder_types`
-Хранит типы напоминаний.
+Stores reminder types.
 
-- `id` — уникальный идентификатор типа  
-- `name` — название (страховка, ТО и т.д.)  
+- `id` — unique type identifier
+- `name` — name (insurance, maintenance, etc.)
 
-**Связи:**  
-- `reminders` (1:N) — каждая напоминалка относится к определенному типу  
+**Connections:**
+- `reminders` (1:N) — each reminder belongs to a specific type
 
 ---
 
 ### 8. `reminders`
-Хранит напоминания для машин пользователей.
+Stores reminders for users' cars.
 
-- `id` — уникальный идентификатор  
-- `user_car_id` — FK на машину  
-- `reminder_type_id` — FK на тип напоминания  
-- `remind_at` — дата, когда сработает напоминание  
-- `notify_month` / `notify_week` / `notify_day` — флаги для уведомлений  
+- `id` — unique identifier
+- `user_car_id` — FK for the car
+- `reminder_type_id` — FK for the reminder type
+- `remind_at` — date when the reminder will trigger
+- `notify_month` / `notify_week` / `notify_day` — flags for notifications
 
-**Связи:**  
-- `user_cars` — напоминание относится к машине  
-- `reminder_types` — тип напоминания  
+**Connections:**
+- `user_cars` — the reminder is specific to the car
+- `reminder_types` — reminder type
 
 ---
 
 ### 9. `notifications_log`
-Хранит историю отправленных уведомлений пользователям.
+Stores the history of notifications sent to users.
 
-- `id` — уникальный идентификатор  
-- `user_id` — FK на пользователя  
-- `message` — текст уведомления  
-- `sent_at` — время отправки  
+- `id` — unique identifier
+- `user_id` — FK for the user
+- `message` — notification text
+- `sent_at` — sending time
 
 ---
 
 ### 10. `companies`
-Хранит компании, к которым могут принадлежать пользователи.
+Stores companies to which users may belong.
 
-- `id` — уникальный идентификатор компании  
-- `name` — название компании  
-- `created_at` — дата создания  
+- `id` — unique company identifier
+- `name` — company name
+- `created_at` — creation date
 
-**Связи:**  
-- `user_company_roles` — пользователи с ролями в компании  
+**Connections:**
+- `user_company_roles` — users with company roles
 
 ---
 
 ### 11. `roles`
-Хранит роли пользователей в компаниях.
+Stores user roles in companies.
 
-- `id` — уникальный идентификатор  
-- `name` — название роли (ADMIN, USER)  
+- `id` — unique identifier
+- `name` — role name (ADMIN, USER)
 
-**Связи:**  
-- `user_company_roles` — связь роли с пользователями и компаниями  
+**Connections:**
+- `user_company_roles` — role associations with users and companies
 
 ---
 
 ### 12. `user_company_roles`
-Связующая таблица для пользователей и компаний с ролями.
+A link table for users and companies with roles.
 
-- `id` — уникальный идентификатор  
-- `user_id` — FK на пользователя  
-- `company_id` — FK на компанию  
-- `role_id` — FK на роль  
-- `joined_at` — дата вступления  
+- `id` — unique identifier
+- `user_id` — FK for the user
+- `company_id` — FK for the company
+- `role_id` — FK for the role
+- `joined_at` — joining date
 
-**Особенности:**  
-- Позволяет одному пользователю быть в нескольких компаниях с разными ролями  
+**Features:**
+- Allows a single user to be a member of multiple companies with different roles
 
 ---
 
-## Связи между таблицами (ER-схема текстово)
+## Connections between tables (ER-schema by text)
 
-```text
 users (1) ── (N) user_cars ── (N) car_models ── (1) car_brands
 user_cars (1) ── (N) expenses ── (1) expense_categories
 user_cars (1) ── (N) reminders ── (1) reminder_types
