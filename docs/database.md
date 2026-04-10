@@ -15,6 +15,7 @@ Stores information abour applications users
 - `email` — email (unique)  
 - `first_name` / `last_name` — first and last name
 - `password_hash` — password hash
+- `country` — select a county where are you located
 - `created_at` — user creation date
 
 **Connections:**  
