@@ -13,7 +13,7 @@ Stores information abour applications users
 
 - `id` — unique user identifier
 - `email` — email (unique)  
-- `first_name` / `last_name` — first and last name
+- `full_name` — full name
 - `password_hash` — password hash
 - `country` — select a county where are you located
 - `created_at` — user creation date
