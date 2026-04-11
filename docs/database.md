@@ -14,6 +14,7 @@ Stores information abour applications users
 - `id` — unique user identifier
 - `email` — email (unique)  
 - `full_name` — full name
+- `avatar` — you can choose some photo for you account
 - `password_hash` — password hash
 - `country` — select a county where are you located
 - `created_at` — user creation date
