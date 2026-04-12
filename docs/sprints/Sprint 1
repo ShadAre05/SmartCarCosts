@@ -1,67 +1,70 @@
-# Спринт 1: 2026.03.23 — 2026.04.12
+# Sprint 1: 2026.03.23 — 2026.04.12
 
-## Цель спринта
-Сделать структуру проекта, отрисовать UI (Figma), спроектировать БД, написать User-Stories
+## Goal of Sprint
+Create a project structure, draw the UI (Figma), design a database, write user stories, and describe the project architecture.
 
-## Результаты
+## Results
 
-### Выполнено
-| Задача | Исполнитель | PR |
-|--------|-------------|-----|
-|  Выше  |    Arseni   | --- |
+### Complete
+|  Task  | Executor | PR |
+|--------|----------|-----|
+|  Upper |  Arseni  | --- |
 
-### Не выполнено
-| Задача | Причина | Перенос |
+### Not Complete
+| Task | Reason | Transfering |
 |--------|---------|---------|
 | | | |
 
-### Метрики
-- **Запланировано задач:** 1
-- **Выполнено:** 1
+### Metrics
+- **Planned tasks:** 5
+- **Complete:** 5
 - **Velocity:** Y/X = 100%
 
 ---
 
-## Демо
+## Demo
 
-### Что показали
-- Функция 1: [Трансляция экрана]
-- Функция 2: [скриншот/GIF]
+### What was shown
+- Feature 1: [Screencast]
+- Feature 2: [Screenshot/GIF]
 
-### Фидбек
-_Комментарии от руководителя/команды_
+### Feedback
+_Comments from mentor_
 
 ---
 
-## Проблемы и блокеры
+## Problens and blockers
 
-| Проблема | Статус | Решение |
-|----------|--------|---------|
+| Problem | Status | Solution |
+|---------|--------|----------|
 | | | |
 
-Пока нет проблем
+For now there is now problems
 ---
 
-## План на следующий спринт
+## Plan for the next sprint
 
-### Приоритеты
-1. Начать реализацию backend
-2. Начать проектирование и интеграцию БД
-3. НАчать поиск открытых dataset с полными названиями машин
+### Prioroty
+1. Start to create backend
+2. Start designing and integrating the database
+3. Start searching for open datasets with full vehicle names
 
-### Задачи
-- [ ] Задача 1 ()
-- [ ] Задача 2 ()
-- [ ] Задача 3 ()
-Будет распределено на встрече 2026.04.13
+### Task
+- [ ] Task 1 ()
+- [ ] Task 2 ()
+- [ ] Task 3 ()
+Will be distributed at meeting on 2026.04.13
 
 ---
 
-## Состояние проекта
+## State of project
 
-| Область | Статус | Комментарий |
+| Space | Status | Comment |
 |---------|--------|-------------|
-| Backend | 🟢 / 🟡 / 🔴 | |
-| Frontend | 🟢 / 🟡 / 🔴 | |
-| CI/CD | 🟢 / 🟡 / 🔴 | |
-| Документация | 🟢 / 🟡 / 🔴 | |
+| Backend | 🔴 | We are on the start to create our project |
+| Frontend | 🔴 | We are on the start to create our project |
+| CI/CD | 🔴 | We are on the start to create our project |
+| Documentation | 🟢 | Almost done |
+
+
+🟢 / 🟡 / 🔴
