@@ -8,9 +8,9 @@
 | Backend | Matsvei Nikalayeu | @Matvey-N | matsvei.nikalayeu@stud.esdc.lt |
 | Backend | Vladyslav Kosheliuk | @Vladkosheliuk | vladyslav.kosheliuk@stud.esdc.lt |
 
-**Репозиторий:** https://github.com/ShadAre05/SmartCarCosts/
+**Repository:** https://github.com/ShadAre05/SmartCarCosts/
 
-**Канал Teams:** https://teams.microsoft.com/l/chat/19:5c4fd3fa3a624c39a0160d124f310ac8@thread.v2/conversations?context=%7B%22contextType%22%3A%22chat%22%7D
+**Team сhannel:** https://teams.microsoft.com/l/chat/19:5c4fd3fa3a624c39a0160d124f310ac8@thread.v2/conversations?context=%7B%22contextType%22%3A%22chat%22%7D
 
 **Figma:** https://www.figma.com/design/mj1LEKgipZpJiga6GVekkg/SmartCarCosts?node-id=0-1&p=f&t=nTddjnYjrXMGq9fj-0
 
