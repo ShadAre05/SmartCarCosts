@@ -16,7 +16,7 @@ US: As a user, I want to see a report on expenses by month/year/category to plan
 
 US: As a user, I want to receive recommendations on how to optimize expenses to save money (In plans).
 
-US: As a user, I want to convert my expenses into another currency to get an idea of ​​my spending in a potential foreign country.
+US: As a user, I want to convert my expenses into another currency to get an idea of ​​my spending in a potential foreign country. (In future)
 
 ## Reminders and Notifications
 
