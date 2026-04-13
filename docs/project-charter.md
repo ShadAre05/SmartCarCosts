@@ -100,5 +100,5 @@ The application provides a centralized system to track all car-related expenses 
 | Participant | Date | Signature |
 |----------|------|---------|
 | Arseni Simanchuk | 2026.04.12 | Agreed |
-| | | Agreed |
+| Matsvei Nikalayeu | 2026.04.13 | Agreed |
 | | | Agreed |
