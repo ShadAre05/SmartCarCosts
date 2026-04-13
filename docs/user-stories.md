@@ -1,31 +1,65 @@
 ## User Stories
 
-## Basic Functionality
+---
 
-US: As a user, I want to register and log in to keep my vehicle data secure.
+## Authentication & Roles
 
-US: As a user, I want to add my vehicles (car make, model, year, VIN) to track expenses separately for each one.
+US: As a user, I want to register and log in to keep my data secure.
 
-US: As a user, I want to view a list of all my vehicles and their expense statistics to get an overall picture.
+US: As a user, I want to choose my role (USER or SERVICE) during registration so that I get the appropriate functionality and interface.
 
-## Finance
+---
 
-US: As a user, I want to add expenses for gas, fines, parking, and service stations to keep a complete record.
+## USER Functionality (Car Owner)
 
-US: As a user, I want to see a report on expenses by month/year/category to plan my budget.
+US: As a user, I want to add up to 3 vehicles (brand, model, year, engine, fuel type, license plate) to track them separately.
 
-US: As a user, I want to receive recommendations on how to optimize expenses to save money (In plans).
+US: As a user, I want to view a list of my vehicles and basic information about them.
 
-US: As a user, I want to convert my expenses into another currency to get an idea of ​​my spending in a potential foreign country. (In future)
+US: As a user, I want to add expenses (fuel, insurance, fines, parking, service stations, etc.) for each vehicle to keep a full financial record.
+
+US: As a user, I want to delete expenses to manage my records.
+
+US: As a user, I want to view expense statistics by category and time period (month/year/custom range) to analyze my spending.
+
+---
+
+## 🛠️ SERVICE Functionality (Service Station)
+
+US: As a service user, I want to add vehicles without limitation to manage service operations.
+
+US: As a service user, I want to register a vehicle with VIN for unique information about cars
+
+US: As a service user, I want to create service records for each vehicle including:
+- description of work performed  
+- parts cost  
+- labor cost  
+- total cost  
+
+US: As a service user, I want to view the history of service records for each vehicle.
+
+---
 
 ## Reminders and Notifications
 
-US: As a user, I want to receive notifications about vehicle maintenance expirations, insurance due dates, oil changes, and other vehicle components so I don't miss important maintenance.
+US: As a user, I want to receive notifications about important events (insurance expiration, maintenance, inspections) so I don’t miss them.
 
-US: As a user, I want to customize the frequency of reminders (daily, weekly, or one day in advance) for convenience.
+US: As a user, I want to customize reminder timing (month, week, day before event) for better planning.
 
-## Security and Management
+---
 
-US: As a user, I want secure access via login and password so that no one can see my data.
+## Security and Account Management
 
-US: As a user, I want to be able to reset my password to regain access if I lose it.
+US: As a user, I want secure access via login and password so that no one can access my data.
+
+US: As a user, I want to reset my password if I forget it.
+
+---
+
+## Future Features (Out of Scope)
+
+US: As a user, I want to receive recommendations on how to optimize my expenses.
+
+US: As a user, I want to find nearby service stations on a map.
+
+US: As a user, I want to export my data (CSV/Excel).
