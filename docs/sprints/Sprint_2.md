@@ -11,6 +11,7 @@ postrgeSQL, update README file and correct other documents; delete "admin" role 
 |--------|----------|-----|
 |  Update DB |  Arseni  | --- |
 |  Update documentation |  Arseni  | --- |
+|  make new maket for "service station" on Figma |  Arseni  | --- |
 |  Make "Register", "Confirm email", "Main interface", "Reminder page" |  Vladyslav  | --- |
 |  Make "Login", "Forget password", "Reset", "Reset password window (from email)", "Add new car" |  Matsvei  | --- |
 
@@ -20,7 +21,7 @@ postrgeSQL, update README file and correct other documents; delete "admin" role 
 | | | |
 
 ### Metrics
-- **Planned tasks:** 15
+- **Planned tasks:** 16
 - **Complete:** 
 - **Velocity:** Y/X = 100%
 
