@@ -151,4 +151,4 @@ This dual-role system allows better transparency, structured data management, an
 |----------|------|---------|
 | Arseni Simanchuk | 2026.04.12 | Agreed |
 | Matsvei Nikalayeu | 2026.04.13 | Agreed |
-| | | Agreed |
+| Vladyslav Kosheliuk | 2026.04.14 | Agreed |
