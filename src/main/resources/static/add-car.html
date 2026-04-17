@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add New Car - Smart Car Costs</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <div class="logo-box">CarSmartCosts</div>
+        
+        <div class="form-card wide">
+            <h2>Add new car</h2>
+            <h3 style="font-weight: normal; margin-bottom: 5px;">By parameters</h3>
+            <p style="margin-bottom: 25px;">Fill in the parameters below</p>
+            
+            <form action="#" method="POST">
+                <div class="grid-2-col">
+                    <div>
+                        <div class="form-group">
+                            <label>Brand<span class="required">*</span></label>
+                            <select name="brand_id">
+                                <option>Audi</option>
+                                <option>BMW</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Model<span class="required">*</span></label>
+                            <select name="model_id">
+                                <option>Model</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Generation</label>
+                            <select name="generation">
+                                <option>Generation</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group" style="margin-top: 30px;">
+                            <label>Licence plate</label>
+                            <input type="text" name="license_plate" placeholder="Enter licence plate">
+                        </div>
+                        <div class="form-group">
+                            <label>VIN Number</label>
+                            <input type="text" name="vin" placeholder="Enter VIN number">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="form-group">
+                            <label>Year<span class="required">*</span></label>
+                            <select name="year">
+                                <option>Not selected</option>
+                            </select>
+                            <small>(Opened after selected "model")</small>
+                        </div>
+                        <div class="form-group">
+                            <label>Engine capacity<span class="required">*</span></label>
+                            <input type="text" name="engine_capacity" placeholder="Enter engine capacity">
+                            <small>(double <50.0)</small>
+                        </div>
+                        <div class="form-group">
+                            <label>Type of fuel<span class="required">*</span></label>
+                            <select name="fuel_type">
+                                <option>Select type of fuel</option>
+                                <option>Petrol</option>
+                                <option>Diesel</option>
+                            </select>
+                            <small>(Petrol, diesel, hybrid, gas, EV)</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid-2-col mt-3">
+                    <button type="button" class="btn btn-orange">Cancel</button>
+                    <button type="submit" class="btn btn-green">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
