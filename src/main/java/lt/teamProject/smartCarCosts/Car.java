@@ -1,3 +1,5 @@
+package lt.teamProject.smartCarCosts;
+
 @Entity
 @Table(name = "cars")
 public class Car {
