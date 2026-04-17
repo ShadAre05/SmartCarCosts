@@ -1,0 +1,126 @@
+/* style.css */
+* {
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #666666; /* Dark grey outer background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* The red container with white border */
+.app-container {
+    background-color: #d32f2f; 
+    border: 15px solid white;
+    width: 100%;
+    max-width: 1000px;
+    min-height: 600px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+}
+
+/* Top left logo box */
+.logo-box {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    background-color: #e0e0e0;
+    padding: 15px 20px;
+    font-weight: bold;
+    color: #000;
+}
+
+/* The central grey card */
+.form-card {
+    background-color: #d9d9d9;
+    padding: 40px 50px;
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-card.wide {
+    max-width: 700px; /* Wider card for the Add Car page */
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 24px;
+    font-weight: normal;
+}
+
+/* Form Groups */
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 16px;
+}
+
+input[type="email"],
+input[type="password"],
+input[type="text"],
+input[type="number"],
+select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    font-size: 16px;
+}
+
+/* Figma specific colored inputs */
+.input-pink {
+    background-color: #c252b3 !important; /* Pink from Figma */
+    color: white;
+    border: none;
+}
+
+/* Buttons */
+.btn {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+    color: #000;
+}
+
+.btn-red { background-color: #d32f2f; color: white; }
+.btn-green { background-color: #66bb6a; }
+.btn-orange { background-color: #e67e22; }
+
+/* Text links */
+.text-link {
+    color: #1a0dab;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.text-center { text-align: center; }
+.mt-3 { margin-top: 20px; }
+
+/* Grid for Add Car Page */
+.grid-2-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+.required { color: red; }

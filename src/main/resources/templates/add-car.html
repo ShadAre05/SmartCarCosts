@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add New Car - Smart Car Costs</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+    <div class="app-container">
+        <a th:href="@{/main.html}" href="main.html" class="logo-box" style="text-decoration: none; display: inline-block; box-sizing: border-box;">CarSmartCosts</a>
+        
+        <div class="form-card wide">
+            <h2>Add new car</h2>
+            <h3 style="font-weight: normal; margin-bottom: 5px;">By parameters</h3>
+            <p style="margin-bottom: 25px;">Fill in the parameters below</p>
+            
+            <form th:action="@{/add-car}" th:object="${car}" method="POST">
+                <div class="grid-2-col">
+                    <div>
+                        <div class="form-group">
+                            <label>Brand<span class="required">*</span></label>
+                            <select th:field="*{brandId}">
+                                <option value="" disabled selected>Select Brand</option>
+                                <option th:each="brand : ${brands}" th:value="${brand.id}" th:text="${brand.name}"></option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Model<span class="required">*</span></label>
+                            <select th:field="*{modelId}">
+                                <option value="" disabled selected>Select Model</option>
+                                <option th:each="model : ${models}" th:value="${model.id}" th:text="${model.modelName}"></option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Generation</label>
+                            <input type="text" th:field="*{generation}" placeholder="Enter generation">
+                        </div>
+                        
+                        <div class="form-group" style="margin-top: 30px;">
+                            <label>Licence plate</label>
+                            <input type="text" th:field="*{licensePlate}" placeholder="Enter licence plate">
+                        </div>
+                        <div class="form-group">
+                            <label>VIN Number</label>
+                            <input type="text" th:field="*{vin}" placeholder="Enter VIN number">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="form-group">
+                            <label>Year<span class="required">*</span></label>
+                            <input type="number" th:field="*{year}" placeholder="Enter year">
+                        </div>
+                        <div class="form-group">
+                            <label>Engine capacity<span class="required">*</span></label>
+                            <input type="number" step="0.1" th:field="*{engineCapacity}" placeholder="Enter engine capacity">
+                            <small>(double <50.0)</small>
+                        </div>
+                        <div class="form-group">
+                            <label>Type of fuel<span class="required">*</span></label>
+                            <select th:field="*{fuelType}">
+                                <option value="" disabled selected>Select type of fuel</option>
+                                <option value="Petrol">Petrol</option>
+                                <option value="Diesel">Diesel</option>
+                                <option value="Hybrid">Hybrid</option>
+                                <option value="Gas">Gas</option>
+                                <option value="EV">EV</option>
+                            </select>
+                            <small>(Petrol, diesel, hybrid, gas, EV)</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid-2-col mt-3">
+                    <a th:href="@{/main.html}" class="btn btn-orange" style="text-align: center; text-decoration: none; display: inline-block;">Cancel</a>
+                    <button type="submit" class="btn btn-green">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
