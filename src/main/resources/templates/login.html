@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Login - Smart Car Costs</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" th:href="@{/style.css}" href="style.css">
 </head>
 <body>
     <div class="app-container">
-        <a href="main.html" class="logo-box" style="text-decoration: none;">CarSmartCosts</a>
+        <a th:href="@{/main.html}" href="main.html" class="logo-box" style="text-decoration: none; display: inline-block; box-sizing: border-box;">CarSmartCosts</a>
         
         <div class="form-card">
             <h2>Sign in to your account</h2>
             
-            <form action="#" method="POST">
+            <form th:action="@{/login}" action="#" method="POST">
                 <div class="form-group">
                     <label>Email</label>
                     <input type="email" class="input-pink" name="email" placeholder="Enter your email...">
@@ -21,7 +21,7 @@
                 <div class="form-group" style="position: relative;">
                     <label style="display: flex; justify-content: space-between;">
                         Password 
-                        <a href="forget-password.html" class="text-link">Forget password?</a>
+                        <a th:href="@{/forget-password.html}" href="forget-password.html" class="text-link">Forget password?</a>
                     </label>
                     <input type="password" class="input-pink" name="password" id="loginPassword" placeholder="Enter your password..." style="padding-right: 40px;">
                     <span onclick="togglePassword('loginPassword')" style="position: absolute; right: 15px; top: 38px; cursor: pointer;">👁️</span>
