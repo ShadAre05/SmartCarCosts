@@ -18,5 +18,24 @@
             </div>
         </div>
     </div>
+    <div class="text-center" style="margin-bottom: 20px;">
+    <button id="resendBtn" class="btn btn-orange" disabled>Resend link (60s)</button>
+</div>
+    <script>
+    let timeLeft = 60;
+    const btn = document.getElementById('resendBtn');
+    
+    const timer = setInterval(() => {
+        timeLeft--;
+        btn.innerText = `Resend link (${timeLeft}s)`;
+        
+        if (timeLeft <= 0) {
+            clearInterval(timer);
+            btn.innerText = "Resend link";
+            btn.disabled = false;
+            btn.classList.replace('btn-orange', 'btn-green'); // Turns green when ready
+        }
+    }, 1000);
+</script>
 </body>
 </html>
