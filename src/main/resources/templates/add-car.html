@@ -1,71 +1,70 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Add New Car - Smart Car Costs</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" th:href="@{/style.css}">
 </head>
 <body>
     <div class="app-container">
-        <a href="main.html" class="logo-box" style="text-decoration: none;">CarSmartCosts</a>
+        <a th:href="@{/main.html}" class="logo-box" style="text-decoration: none;">CarSmartCosts</a>
         
         <div class="form-card wide">
             <h2>Add new car</h2>
             <h3 style="font-weight: normal; margin-bottom: 5px;">By parameters</h3>
             <p style="margin-bottom: 25px;">Fill in the parameters below</p>
             
-            <form action="#" method="POST">
+            <form th:action="@{/add-car}" th:object="${car}" method="POST">
                 <div class="grid-2-col">
                     <div>
                         <div class="form-group">
                             <label>Brand<span class="required">*</span></label>
-                            <select name="brand_id">
-                                <option>Audi</option>
-                                <option>BMW</option>
+                            <select th:field="*{brandId}">
+                                <option value="" disabled selected>Select Brand</option>
+                                <option th:each="brand : ${brands}" th:value="${brand.id}" th:text="${brand.name}"></option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label>Model<span class="required">*</span></label>
-                            <select name="model_id">
-                                <option>Model</option>
+                            <select th:field="*{modelId}">
+                                <option value="" disabled selected>Select Model</option>
+                                <option th:each="model : ${models}" th:value="${model.id}" th:text="${model.modelName}"></option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label>Generation</label>
-                            <select name="generation">
-                                <option>Generation</option>
-                            </select>
+                            <input type="text" th:field="*{generation}" placeholder="Enter generation">
                         </div>
                         
                         <div class="form-group" style="margin-top: 30px;">
                             <label>Licence plate</label>
-                            <input type="text" name="license_plate" placeholder="Enter licence plate">
+                            <input type="text" th:field="*{licensePlate}" placeholder="Enter licence plate">
                         </div>
                         <div class="form-group">
                             <label>VIN Number</label>
-                            <input type="text" name="vin" placeholder="Enter VIN number">
+                            <input type="text" th:field="*{vin}" placeholder="Enter VIN number">
                         </div>
                     </div>
                     
                     <div>
                         <div class="form-group">
                             <label>Year<span class="required">*</span></label>
-                            <select name="year">
-                                <option>Not selected</option>
-                            </select>
-                            <small>(Opened after selected "model")</small>
+                            <input type="number" th:field="*{year}" placeholder="Enter year">
                         </div>
                         <div class="form-group">
                             <label>Engine capacity<span class="required">*</span></label>
-                            <input type="text" name="engine_capacity" placeholder="Enter engine capacity">
+                            <input type="number" step="0.1" th:field="*{engineCapacity}" placeholder="Enter engine capacity">
                             <small>(double <50.0)</small>
                         </div>
                         <div class="form-group">
                             <label>Type of fuel<span class="required">*</span></label>
-                            <select name="fuel_type">
-                                <option>Select type of fuel</option>
-                                <option>Petrol</option>
-                                <option>Diesel</option>
+                            <select th:field="*{fuelType}">
+                                <option value="" disabled selected>Select type of fuel</option>
+                                <option value="Petrol">Petrol</option>
+                                <option value="Diesel">Diesel</option>
+                                <option value="Hybrid">Hybrid</option>
+                                <option value="Gas">Gas</option>
+                                <option value="EV">EV</option>
                             </select>
                             <small>(Petrol, diesel, hybrid, gas, EV)</small>
                         </div>
@@ -73,7 +72,7 @@
                 </div>
                 
                 <div class="grid-2-col mt-3">
-                    <button type="button" class="btn btn-orange">Cancel</button>
+                    <a th:href="@{/main.html}" class="btn btn-orange" style="text-align: center; text-decoration: none; display: inline-block;">Cancel</a>
                     <button type="submit" class="btn btn-green">Add</button>
                 </div>
             </form>
