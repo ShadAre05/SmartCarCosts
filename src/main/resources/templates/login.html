@@ -15,15 +15,16 @@
             <form action="#" method="POST">
                 <div class="form-group">
                     <label>Email</label>
-                    <input type="email" class="input-pink" name="email">
+                    <input type="email" class="input-pink" name="email" placeholder="Enter your email...">
                 </div>
                 
-                <div class="form-group">
+                <div class="form-group" style="position: relative;">
                     <label style="display: flex; justify-content: space-between;">
                         Password 
                         <a href="forget-password.html" class="text-link">Forget password?</a>
                     </label>
-                    <input type="password" class="input-pink" name="password">
+                    <input type="password" class="input-pink" name="password" id="loginPassword" placeholder="Enter your password..." style="padding-right: 40px;">
+                    <span onclick="togglePassword('loginPassword')" style="position: absolute; right: 15px; top: 38px; cursor: pointer;">👁️</span>
                 </div>
                 
                 <button type="submit" class="btn btn-red">Sign in</button>
@@ -35,5 +36,16 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function togglePassword(fieldId) {
+            var field = document.getElementById(fieldId);
+            if (field.type === "password") {
+                field.type = "text";
+            } else {
+                field.type = "password";
+            }
+        }
+    </script>
 </body>
 </html>
