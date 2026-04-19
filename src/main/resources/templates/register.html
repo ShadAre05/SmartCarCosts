@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <link rel="stylesheet" th:href="@{/css/register.css}">
+</head>
+<body>
+
+<div class="page">
+
+    <!-- Redirect to main page -->
+    <a th:href="@{/main-page}" class="logo-link">
+        <div class="logo">
+            SmartCarCosts
+        </div>
+    </a>
+
+    <div class="center-box">
+        <h2>Create new account</h2>
+
+        <!-- Registration form -->
+        <form method="post" th:action="@{/register}" th:object="${registerRequest}">
+
+            <!-- Email -->
+            <label for="email">Email</label>
+            <input id="email" type="email" th:field="*{email}">
+            <p class="error"
+               th:if="${#fields.hasErrors('email')}"
+               th:errors="*{email}"></p>
+
+            <!-- Password -->
+            <label for="password">Password</label>
+            <input id="password" type="password" th:field="*{password}">
+            <p class="error"
+               th:if="${#fields.hasErrors('password')}"
+               th:errors="*{password}"></p>
+
+            <!-- Full name -->
+            <label for="fullName">Full name</label>
+            <input id="fullName" type="text" th:field="*{fullName}">
+            <p class="error"
+               th:if="${#fields.hasErrors('fullName')}"
+               th:errors="*{fullName}"></p>
+
+            <!-- Country -->
+            <label for="country">Country</label>
+            <select id="country" th:field="*{country}">
+                <option value="">Select from the list</option>
+                <option value="Austria">Austria</option>
+                <option value="Belgium">Belgium</option>
+                <option value="Bulgaria">Bulgaria</option>
+                <option value="Croatia">Croatia</option>
+                <option value="Cyprus">Cyprus</option>
+                <option value="Czechia">Czechia</option>
+                <option value="Denmark">Denmark</option>
+                <option value="Estonia">Estonia</option>
+                <option value="Finland">Finland</option>
+                <option value="France">France</option>
+                <option value="Germany">Germany</option>
+                <option value="Greece">Greece</option>
+                <option value="Hungary">Hungary</option>
+                <option value="Ireland">Ireland</option>
+                <option value="Italy">Italy</option>
+                <option value="Latvia">Latvia</option>
+                <option value="Lithuania">Lithuania</option>
+                <option value="Luxembourg">Luxembourg</option>
+                <option value="Malta">Malta</option>
+                <option value="Netherlands">Netherlands</option>
+                <option value="Poland">Poland</option>
+                <option value="Portugal">Portugal</option>
+                <option value="Romania">Romania</option>
+                <option value="Slovakia">Slovakia</option>
+                <option value="Slovenia">Slovenia</option>
+                <option value="Spain">Spain</option>
+                <option value="Sweden">Sweden</option>
+            </select>
+            <p class="error"
+               th:if="${#fields.hasErrors('country')}"
+               th:errors="*{country}"></p>
+
+            <button type="submit" class="btn-create">Create account</button>
+        </form>
+
+        <p class="login-link">
+            Already have an account?
+            <a th:href="@{/login}">Sign in</a>
+        </p>
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -3,7 +3,7 @@
 .vscode/
 *.suo
 *.user
-
+target/
 # Build
 bin/
 obj/
