@@ -39,7 +39,17 @@ Stores roles available in the system.
 
 ---
 
-### 3. `car_brands`
+### 3. `country`
+Stores a list of counties in table.
+- `id` — unique country identifier
+- `country_name` - county anme (ALL countries)
+
+**Connections:**  
+- `users` (1:N) — one country can be selected to many users
+
+---
+
+### 4. `car_brands`
 Stores car brands (can be preloaded from datasets).
 
 - `id` — unique brand identifier  
@@ -50,7 +60,7 @@ Stores car brands (can be preloaded from datasets).
 
 ---
 
-### 4. `car_models`
+### 5. `car_models`
 Stores specific car models.
 
 - `id` — unique model identifier  
@@ -63,7 +73,7 @@ Stores specific car models.
 
 ---
 
-### 5. `cars`
+### 6. `cars`
 Stores general information about cars.
 
 - `id` — unique car identifier  
@@ -85,7 +95,7 @@ Stores general information about cars.
 
 ---
 
-### 6. `user_cars`
+### 7. `user_cars`
 Links users with their cars.
 
 - `id` — unique identifier  
@@ -105,7 +115,7 @@ Links users with their cars.
 
 ---
 
-### 7. `expense_categories`
+### 8. `expense_categories`
 Stores categories of expenses.
 
 - `id` — unique identifier  
@@ -116,7 +126,7 @@ Stores categories of expenses.
 
 ---
 
-### 8. `expenses`
+### 9. `expenses`
 Stores expenses made by users on their cars.
 
 - `id` — unique expense identifier  
@@ -133,7 +143,7 @@ Stores expenses made by users on their cars.
 
 ---
 
-### 9. `service_records`
+### 10. `service_records`
 Stores service operations performed by service stations.
 
 - `id` — unique identifier  
@@ -152,7 +162,7 @@ Stores service operations performed by service stations.
 
 ---
 
-### 10. `reminder_types`
+### 11. `reminder_types`
 Stores types of reminders.
 
 - `id` — unique identifier  
@@ -163,7 +173,7 @@ Stores types of reminders.
 
 ---
 
-### 11. `reminders`
+### 12. `reminders`
 Stores reminders for user cars.
 
 - `id` — unique identifier  
@@ -178,7 +188,7 @@ Stores reminders for user cars.
 
 ---
 
-### 12. `notifications_log`
+### 13. `notifications_log`
 Stores history of notifications sent to users.
 
 - `id` — unique identifier  
