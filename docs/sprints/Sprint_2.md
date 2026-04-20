@@ -9,11 +9,11 @@ postrgeSQL, update README file and correct other documents; delete "admin" role 
 ### Complete
 |  Task  | Executor | PR |
 |--------|----------|-----|
-|  Update DB |  Arseni  | --- |
-|  Update documentation |  Arseni  | --- |
-|  make new maket for "service station" on Figma |  Arseni  | --- |
-|  Make "Register", "Confirm email", "Main interface", "Reminder page" |  Vladyslav  | --- |
-|  Make "Login", "Forget password", "Reset", "Reset password window (from email)", "Add new car" |  Matsvei  | --- |
+|  Update DB |  Arseni  | + |
+|  Update documentation |  Arseni  | + |
+|  Make new maket for "service station" on Figma |  Arseni  | + |
+|  Make "Register", "Confirm email", "Main interface", "Reminder page" |  Vladyslav  | Done |
+|  Make "Login", "Forget password", "Reset", "Reset password window (from email)", "Add new car" |  Matsvei  | Almost Done |
 
 ### Not Complete
 | Task | Reason | Transfering |
@@ -22,8 +22,8 @@ postrgeSQL, update README file and correct other documents; delete "admin" role 
 
 ### Metrics
 - **Planned tasks:** 16
-- **Complete:** 
-- **Velocity:** Y/X = 100%
+- **Complete:** 16
+- **Velocity:** 16/16 = 100%
 
 ---
 
@@ -43,7 +43,9 @@ _Comments from mentor_
 
 | Problem | Status | Solution |
 |---------|--------|----------|
-| | | |
+| Wrong archtecture for classes | In progress | Make packages for classes |
+| Validation in html in some part of code | In progress | Make Controllers and Services for it |
+| Some problem with git Control version (there is no some files to start application on local environment) | In progress | Update .gitignore and make dependencies |
 
 For now there is now problems
 ---
@@ -67,8 +69,8 @@ For now there is now problems
 
 | Space | Status | Comment |
 |---------|--------|-------------|
-| Backend | 🔴 | We will start it |
-| Frontend | 🔴 | We will start learning about Thymeleaf |
+| Backend | 🟡 | We start to create bacckend clear solution |
+| Frontend | 🔴 | We will start learning about Thymeleaf and html |
 | CI/CD | 🔴 | We are at the beggining |
 | Documentation | 🟢 | Almost done |
 
