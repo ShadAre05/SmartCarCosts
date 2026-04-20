@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Main Interface</title>
+    <link rel="stylesheet" th:href="@{/css/main-interface.css}">
+</head>
+<body>
+
+<div class="page">
+<!-- HEADER -->
+    <header class="top-bar">
+
+        <a th:href="@{/main-interface}" class="logo">
+            SmartCarCosts
+        </a>
+
+        <!-- User profile -->
+        <div class="profile-box" onclick="openModal()">
+            <span class="user-name" th:text="${userName}"></span>
+            <div class="avatar"></div>
+        </div>
+
+    </header>
+
+    <main class="main-content">
+
+        <!-- Left panel -->
+        <section class="left-panel">
+
+            <div class="cars-box">
+
+                <div class="cars-title">Your Cars</div>
+
+                <!-- Show when no cars exist-->
+                <div class="empty-cars" th:if="${#lists.isEmpty(cars)}">
+                    No cars yet
+                </div>
+
+                <!-- Cars list -->
+                <div th:if="${!#lists.isEmpty(cars)}">
+                    <div class="car-row" th:each="car : ${cars}">
+                        <button type="button" class="circle-btn">−</button>
+                        <button type="button" class="car-card" th:text="${car}">
+                            Car name
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Add new car -->
+                <div class="car-row">
+                    <a th:href="@{/add-car}" class="circle-btn">+</a>
+                    <button type="button" class="car-card add-car">
+                        Add new car
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- Reminder buttons -->
+            <div class="reminder-buttons">
+                <button type="button" class="reminder-btn" onclick="openReminderModal()">
+                    Reminders
+                </button>
+
+                <a th:href="@{/my-reminders}" class="reminder-btn">My reminders</a>
+            </div>
+
+        </section>
+
+        <!-- Right panel -->
+        <section class="right-panel">
+
+            <div class="content-area">
+                <div class="costs-title">Costs</div>
+
+                <div class="empty-state-box">
+                    <p>
+                        Select the car whose statistics<br>
+                        you want to view
+                    </p>
+                </div>
+            </div>
+
+            <!-- Add costs button -->
+            <div class="costs-side-actions">
+                <a th:href="@{/add-costs}" class="big-plus">+</a>
+                <span class="add-costs-text">Add costs</span>
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+<!-- Reminder modal -->
+<div id="reminderModal" class="modal">
+    <div class="reminder-modal-content">
+
+        <button class="close-btn" onclick="closeReminderModal()">×</button>
+
+        <h2>Remind page</h2>
+
+        <p class="reminder-subtitle">
+            We will remind you about an important event related to your car.
+        </p>
+
+        <p class="reminder-text">Please enter reminder information:</p>
+
+        <form id="reminderForm"
+              th:action="@{/reminders}"
+              th:object="${reminderRequest}"
+              method="post">
+
+            <div class="reminder-row">
+                <label for="reminderType">Type of reminder:</label>
+
+                <div>
+                    <select id="reminderType" th:field="*{reminderType}">
+                        <option value="">Select a reminder</option>
+                        <option value="insurance">Insurance</option>
+                        <option value="maintenance">Maintenance</option>
+                        <option value="inspection">Inspection</option>
+                        <option value="oil-change">Oil change</option>
+                    </select>
+
+
+                    <div class="error"
+                         th:if="${#fields.hasErrors('reminderType')}"
+                         th:errors="*{reminderType}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="reminder-row">
+                <label for="reminderDate">Select end date:</label>
+
+                <div>
+                    <input type="date" id="reminderDate" th:field="*{reminderDate}">
+
+                    <div class="error"
+                         th:if="${#fields.hasErrors('reminderDate')}"
+                         th:errors="*{reminderDate}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="reminder-row reminder-checkbox-row">
+                <span>How many times you want to get reminder:</span>
+
+                <div>
+                    <div class="reminder-check-group">
+                        <label>
+                            <input type="checkbox" th:field="*{monthBefore}">
+                            A month before
+                        </label>
+
+                        <label>
+                            <input type="checkbox" th:field="*{weekBefore}">
+                            A week before
+                        </label>
+
+                        <label>
+                            <input type="checkbox" th:field="*{dayBefore}">
+                            A day before
+                        </label>
+                    </div>
+
+                    <div class="error" th:if="${reminderOptionError}" th:text="${reminderOptionError}"></div>
+                </div>
+            </div>
+
+            <div class="reminder-actions">
+                <button type="button" class="cancel-btn" onclick="closeReminderModal()">
+                    Cancel
+                </button>
+
+                <button type="submit" class="create-btn">
+                    Create notification
+                </button>
+            </div>
+
+            <div class="success-text" th:if="${successMessage}" th:text="${successMessage}"></div>
+        </form>
+    </div>
+</div>
+
+
+<!-- Profile modal -->
+<div id="modal" class="modal">
+    <div class="modal-content">
+
+        <button class="close-btn" onclick="closeModal()">×</button>
+
+        <h2>Profile</h2>
+
+        <!--SETTINGS EDIT PROFILE--->
+
+    </div>
+</div>
+
+<script th:inline="javascript">
+    function openModal() {
+        document.getElementById("modal").style.display = "flex";
+    }
+    function closeModal() {
+        document.getElementById("modal").style.display = "none";
+    }
+    function openReminderModal() {
+        document.getElementById("reminderModal").style.display = "flex";
+    }
+    function closeReminderModal() {
+        document.getElementById("reminderModal").style.display = "none";
+    }
+
+    const shouldOpenReminderModal = [[${openReminderModal}]];
+
+    if (shouldOpenReminderModal){
+        openReminderModal();
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const reminderModal = document.getElementById("reminderModal");
+
+        reminderModal?.addEventListener("click", function (event) {
+            if (event.target === reminderModal) {
+                closeReminderModal();
+            }
+        });
+    });
+
+</script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirm Email</title>
+    <link rel="stylesheet" th:href="@{/css/register.css}">
+</head>
+<body>
+
+<div class="page">
+
+    <a th:href="@{/main-page}" class="logo-link">
+        <div class="logo">SmartCarCosts</div>
+    </a>
+
+    <div class="center-box confirm-box">
+
+        <!-- Main message -->
+        <p class="confirm-text">
+            We sent a confirmation link to your email.<br>
+            Please check your inbox and follow the instructions.
+        </p>
+
+        <!-- Resend confirmation email -->
+        <div class="confirm-resend">
+            <form th:action="@{/resend-confirmation}" method="post">
+                <button
+                        type="submit"
+                        class="resend-btn"
+                        id="resendBtn"
+                        th:disabled="${remainingSeconds > 0}">
+                    Resend
+                </button>
+
+                <div id="timerText"></div>
+            </form>
+        </div>
+
+        <!-- Countdown timer -->
+        <script th:inline="javascript">
+            let remainingSeconds = [[${remainingSeconds}]];
+            const resendBtn = document.getElementById('resendBtn');
+            const timerText = document.getElementById('timerText');
+
+            function renderTimer(){
+                if (remainingSeconds > 0){
+                    resendBtn.disabled = true;
+                    timerText.textContent = "(timer from " + remainingSeconds + "s)";
+                    remainingSeconds--;
+                } else {
+                    resendBtn.disabled = false;
+                    timerText.textContent = "(you can resend now)";
+                }
+            }
+
+            renderTimer();
+            setInterval(renderTimer, 1000);
+        </script>
+
+        <!-- Back to sign in -->
+        <p class="confirm-back">
+            Back to <a th:href="@{/login}">sign in</a>
+        </p>
+
+     </div>
+</div>
+</body>
+</html>

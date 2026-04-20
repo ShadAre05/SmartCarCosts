@@ -1,0 +1,189 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #5a5a5a;
+}
+
+.page {
+    position: relative;
+    min-height: calc(100vh - 40px);
+    margin: 20px;
+    background: white;
+    border: 12px solid white;
+}
+
+.logo {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: #dddddd;
+    padding: 18px 28px;
+    font-size: 18px;
+}
+
+.error {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+    margin-bottom: 8px;
+    min-height: 18px;
+    display: block;
+}
+
+.center-box {
+    width: 400px;
+    background: #e9e9e9;
+    padding: 36px 32px 24px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.center-box h2 {
+    text-align: center;
+    margin-bottom: 28px;
+    font-size: 22px;
+    font-weight: normal;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-size: 18px;
+    margin-bottom: 10px;
+    margin-top: 14px;
+}
+
+input,
+select {
+    height: 38px;
+    border: none;
+    background: #cc33cc;
+    color: white;
+    font-size: 18px;
+    padding: 0 12px;
+}
+
+.btn-create {
+    margin: 30px auto 0;
+    width: 250px;
+    height: 45px;
+    border: none;
+    background: #31d331;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-create:hover {
+    background: #28d428;
+}
+
+.login-link {
+    text-align: center;
+    margin-top: 18px;
+    font-size: 14px;
+}
+
+.login-link a {
+    color: blue;
+    text-decoration: none;
+}
+
+.confirm-box {
+    text-align: center;
+    padding-top: 80px;
+    padding-bottom: 60px;
+}
+
+.confirm-text {
+    font-size: 20px;
+    line-height: 1.6;
+    max-width: 420px;
+    margin: 0 auto;
+}
+
+.confirm-resend {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.confirm-resend a {
+    color: #2d8cff;
+    text-decoration: none;
+}
+
+.confirm-resend span {
+    color: #000;
+}
+
+.confirm-back {
+    margin-top: 30px;
+    font-size: 18px;
+}
+
+.confirm-back a {
+    color: #2d8cff;
+    text-decoration: none;
+}
+
+.confirm-resend a:hover {
+    text-decoration: underline;
+}
+
+.confirm-box {
+    text-align: center;
+    padding: 60px 40px;
+}
+
+.logo-link{
+    text-decoration: none;
+    color: black;
+    display: inline-block;
+}
+
+.resend-btn{
+    border: none;
+    background: none;
+    color: #2d8cff;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+}
+
+.resend-btn:hover{
+    text-decoration: underline;
+}
+
+.confirm-resend form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.resend-btn:hover:enabled {
+    text-decoration: underline;
+}
+
+.resend-btn:disabled {
+    color: #9aa7b8;
+    cursor: not-allowed;
+    text-decoration: none;
+}
+
+#timerText {
+    color: #1a1a1a;
+    font-size: 18px;
+}
