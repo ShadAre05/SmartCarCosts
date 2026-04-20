@@ -47,7 +47,6 @@ _Comments from mentor_
 | Validation in html in some part of code | In progress | Make Controllers and Services for it |
 | Some problem with git Control version (there is no some files to start application on local environment) | In progress | Update .gitignore and make dependencies |
 
-For now there is now problems
 ---
 
 ## Plan for the next sprint
