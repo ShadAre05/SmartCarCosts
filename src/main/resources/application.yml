@@ -1,18 +1,24 @@
 spring:
-  autoconfigure:
-    exclude:
-      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+  datasource:
+    url: jdbc:postgresql://aws-1-eu-central-1.pooler.supabase.com:5432/postgres
+    username: postgres.clobleulphasflvdrzxk
+    password: ${DB_PASSWORD}
 
-
+    jpa:
+      hibernate:
+        ddl-auto: update
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.PostgreSQLDialect
 
   mail:
     host: smtp.gmail.com
     port: 587
-    username: smartcarcosts.app@gmail.com
-    password: mucf bcll lkce gigz
+    username: your_email@gmail.com
+    password: your_password
     properties:
-       mail:
-         smtp:
-           auth: true
-           starttls:
-             enable: true
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true

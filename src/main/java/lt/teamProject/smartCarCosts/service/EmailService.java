@@ -1,4 +1,4 @@
-package lt.teamProject.smartCarCosts.service;
+package lt.teamProject.SmartCarCosts.service;
 
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -21,9 +21,9 @@ public class EmailService {
         message.setSubject("Confirm your SmartCarCosts account");
         message.setText(
                 "Hello!\n\n" +
-                      "Please confirm your account by clicking the link below:\n" +
-                      confirmationLink + "\n\n" +
-                      "If you did not create this account, ignore this email."
+                        "Please confirm your account by clicking the link below:\n" +
+                        confirmationLink + "\n\n" +
+                        "If you did not create this account, ignore this email."
         );
 
         mailSender.send(message);

@@ -1,4 +1,5 @@
-package lt.teamProject.smartCarCosts.dto;
+package lt.teamProject.SmartCarCosts.dto;
+
 import jakarta.validation.constraints.NotBlank;
 
 public class ReminderRequest {
@@ -56,4 +57,3 @@ public class ReminderRequest {
         this.dayBefore = dayBefore;
     }
 }
-

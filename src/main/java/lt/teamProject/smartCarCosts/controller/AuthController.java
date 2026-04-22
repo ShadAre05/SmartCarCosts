@@ -1,10 +1,10 @@
-package lt.teamProject.smartCarCosts.controller;
+package lt.teamProject.SmartCarCosts.controller;
 
 import jakarta.validation.Valid;
-import lt.teamProject.smartCarCosts.dto.RegisterRequest;
-import lt.teamProject.smartCarCosts.dto.ReminderRequest;
-import lt.teamProject.smartCarCosts.service.ConfirmationTokenService;
-import lt.teamProject.smartCarCosts.service.EmailService;
+import lt.teamProject.SmartCarCosts.dto.RegisterRequest;
+import lt.teamProject.SmartCarCosts.dto.ReminderRequest;
+import lt.teamProject.SmartCarCosts.service.ConfirmationTokenService;
+import lt.teamProject.SmartCarCosts.service.EmailService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -104,8 +104,8 @@ public class AuthController {
         // Custom validation: at least one checkbox must be selected
         boolean noReminderOptionSelected =
                 !reminderRequest.isMonthBefore()
-                && !reminderRequest.isWeekBefore()
-                && !reminderRequest.isDayBefore();
+                        && !reminderRequest.isWeekBefore()
+                        && !reminderRequest.isDayBefore();
 
         if (noReminderOptionSelected) {
             model.addAttribute("reminderOptionError", "Select at least one reminder option");
@@ -150,9 +150,9 @@ public class AuthController {
         return "redirect:/main-interface";
     }
 
-        // Resend confirmation email (with cooldown)
-        @PostMapping("/resend-confirmation")
-        public String resendConfirmation(HttpSession session){
+    // Resend confirmation email (with cooldown)
+    @PostMapping("/resend-confirmation")
+    public String resendConfirmation(HttpSession session){
         String email = (String) session.getAttribute("userEmail");
         Long resendAvailableAt = (Long) session.getAttribute("resendAvailableAt");
 
@@ -177,11 +177,11 @@ public class AuthController {
         session.setAttribute("resendAvailableAt", System.currentTimeMillis() + 60_000);
 
         return "redirect:/confirm-email-notice";
-        }
+    }
 
-        // Main interface page
-        @GetMapping("/main-interface")
-        public String mainPage(Model model, HttpSession session) {
+    // Main interface page
+    @GetMapping("/main-interface")
+    public String mainPage(Model model, HttpSession session) {
 
         String userName = (String) session.getAttribute("userName");
 
@@ -198,9 +198,9 @@ public class AuthController {
         model.addAttribute("reminderRequest", new ReminderRequest());
         model.addAttribute("openReminderModal", false);
 
-            return "main-interface";
-        }
-
-
-
+        return "main-interface";
     }
+
+
+
+}
