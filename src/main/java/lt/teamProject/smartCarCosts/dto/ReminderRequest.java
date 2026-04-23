@@ -62,4 +62,3 @@ public class ReminderRequest {
         this.dayBefore = dayBefore;
     }
 }
-

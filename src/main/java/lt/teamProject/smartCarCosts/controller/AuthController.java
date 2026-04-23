@@ -1,4 +1,4 @@
-package lt.teamProject.smartCarCosts.controller;
+package lt.teamProject.SmartCarCosts.controller;
 
 import jakarta.validation.Valid;
 import lt.teamProject.smartCarCosts.dto.RegisterRequest;
@@ -129,8 +129,8 @@ public class AuthController {
         // Custom validation: at least one checkbox must be selected
         boolean noReminderOptionSelected =
                 !reminderRequest.isMonthBefore()
-                && !reminderRequest.isWeekBefore()
-                && !reminderRequest.isDayBefore();
+                        && !reminderRequest.isWeekBefore()
+                        && !reminderRequest.isDayBefore();
 
         if (noReminderOptionSelected) {
             model.addAttribute("reminderOptionError", "Select at least one reminder option");
@@ -202,9 +202,9 @@ public class AuthController {
         return "redirect:/main-interface";
     }
 
-        // Resend confirmation email (with cooldown)
-        @PostMapping("/resend-confirmation")
-        public String resendConfirmation(HttpSession session){
+    // Resend confirmation email (with cooldown)
+    @PostMapping("/resend-confirmation")
+    public String resendConfirmation(HttpSession session){
         String email = (String) session.getAttribute("userEmail");
         Long resendAvailableAt = (Long) session.getAttribute("resendAvailableAt");
 
@@ -229,11 +229,11 @@ public class AuthController {
         session.setAttribute("resendAvailableAt", System.currentTimeMillis() + 60_000);
 
         return "redirect:/confirm-email-notice";
-        }
+    }
 
-        // Main interface page
-        @GetMapping("/main-interface")
-        public String mainPage(Model model, HttpSession session) {
+    // Main interface page
+    @GetMapping("/main-interface")
+    public String mainPage(Model model, HttpSession session) {
 
         String userName = (String) session.getAttribute("userName");
 
@@ -251,9 +251,9 @@ public class AuthController {
         model.addAttribute("openReminderModal", false);
         model.addAttribute("reminderTypes", reminderTypeRepository.findAll());
 
-            return "main-interface";
-        }
-
-
-
+        return "main-interface";
     }
+
+
+
+}

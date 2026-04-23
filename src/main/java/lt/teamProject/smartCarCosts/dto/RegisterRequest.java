@@ -1,4 +1,4 @@
-package lt.teamProject.smartCarCosts.dto;
+package lt.teamProject.SmartCarCosts.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

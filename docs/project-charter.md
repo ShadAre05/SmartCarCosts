@@ -58,14 +58,15 @@ This dual-role system allows better transparency, structured data management, an
 ### MVP (for final delivery)
 
 #### Authentication & Roles
-- [ ] User registration and authentication (JWT)
+- [ ] User and service station registration and authentication (JWT)
 - [ ] Role selection during registration (USER / SERVICE)
 
 ---
 
 #### USER functionality
 - [ ] Add up to 3 vehicles (brand, model, year, engine, fuel, license plate)
-- [ ] Add and delete expenses  
+- [ ] Add and delete expenses
+- [ ] Edit account with avatar, email and etc.
 - [ ] View expense list with filtering (by date, category)  
 - [ ] Basic analytics (expenses by category and period)  
 - [ ] Set reminders (insurance, maintenance, etc.)
@@ -98,6 +99,7 @@ This dual-role system allows better transparency, structured data management, an
 - [ ] Automatic currency detection by country
 - [ ] Integration with banking APIs (automatic expense tracking)
 - [ ] Linking users with service stations (shared service history)
+- [ ] Check entered name of service with real name on Google map
 
 ---
 

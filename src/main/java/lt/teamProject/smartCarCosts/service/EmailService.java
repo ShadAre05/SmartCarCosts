@@ -1,4 +1,4 @@
-package lt.teamProject.smartCarCosts.service;
+package lt.teamProject.SmartCarCosts.service;
 
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
