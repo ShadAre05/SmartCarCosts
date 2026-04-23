@@ -23,61 +23,40 @@
         <form method="post" th:action="@{/register}" th:object="${registerRequest}">
 
             <!-- Email -->
-            <label for="email">Email</label>
-            <input id="email" type="email" th:field="*{email}">
-            <p class="error"
-               th:if="${#fields.hasErrors('email')}"
-               th:errors="*{email}"></p>
+            <div class="field-group">
+                <label for="email">Email</label>
+                <input id="email" type="email" th:field="*{email}">
+                <p class="error"
+                   th:text="${#fields.hasErrors('email') ? #fields.errors('email')[0] : ''}"></p>
+                <p class="error" th:if="${emailExistsError}" th:text="${emailExistsError}"></p>
+            </div>
 
             <!-- Password -->
-            <label for="password">Password</label>
-            <input id="password" type="password" th:field="*{password}">
-            <p class="error"
-               th:if="${#fields.hasErrors('password')}"
-               th:errors="*{password}"></p>
+            <div class="field-group">
+                <label for="password">Password</label>
+                <input id="password" type="password" th:field="*{password}">
+                <p class="error"
+                   th:text="${#fields.hasErrors('password') ? #fields.errors('password')[0] : ''}"></p>
+            </div>
 
             <!-- Full name -->
-            <label for="fullName">Full name</label>
-            <input id="fullName" type="text" th:field="*{fullName}">
-            <p class="error"
-               th:if="${#fields.hasErrors('fullName')}"
-               th:errors="*{fullName}"></p>
+            <div class="field-group">
+                <label for="fullName">Full name</label>
+                <input id="fullName" type="text" th:field="*{fullName}">
+                <p class="error"
+                   th:text="${#fields.hasErrors('fullName') ? #fields.errors('fullName')[0] : ''}"></p>
+            </div>
 
             <!-- Country -->
-            <label for="country">Country</label>
             <select id="country" th:field="*{country}">
                 <option value="">Select from the list</option>
-                <option value="Austria">Austria</option>
-                <option value="Belgium">Belgium</option>
-                <option value="Bulgaria">Bulgaria</option>
-                <option value="Croatia">Croatia</option>
-                <option value="Cyprus">Cyprus</option>
-                <option value="Czechia">Czechia</option>
-                <option value="Denmark">Denmark</option>
-                <option value="Estonia">Estonia</option>
-                <option value="Finland">Finland</option>
-                <option value="France">France</option>
-                <option value="Germany">Germany</option>
-                <option value="Greece">Greece</option>
-                <option value="Hungary">Hungary</option>
-                <option value="Ireland">Ireland</option>
-                <option value="Italy">Italy</option>
-                <option value="Latvia">Latvia</option>
-                <option value="Lithuania">Lithuania</option>
-                <option value="Luxembourg">Luxembourg</option>
-                <option value="Malta">Malta</option>
-                <option value="Netherlands">Netherlands</option>
-                <option value="Poland">Poland</option>
-                <option value="Portugal">Portugal</option>
-                <option value="Romania">Romania</option>
-                <option value="Slovakia">Slovakia</option>
-                <option value="Slovenia">Slovenia</option>
-                <option value="Spain">Spain</option>
-                <option value="Sweden">Sweden</option>
+
+                <option th:each="country : ${countries}"
+                        th:value="${country.countryName}"
+                        th:text="${country.countryName}">
+                </option>
             </select>
-            <p class="error"
-               th:if="${#fields.hasErrors('country')}"
-               th:errors="*{country}"></p>
+
 
             <button type="submit" class="btn-create">Create account</button>
         </form>

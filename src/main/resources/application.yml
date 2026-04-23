@@ -4,12 +4,12 @@ spring:
     username: postgres.clobleulphasflvdrzxk
     password: ${DB_PASSWORD}
 
-    jpa:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
       hibernate:
-        ddl-auto: update
-      properties:
-        hibernate:
-          dialect: org.hibernate.dialect.PostgreSQLDialect
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 
   mail:
     host: smtp.gmail.com

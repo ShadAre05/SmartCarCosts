@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Main Interface</title>
@@ -119,10 +119,10 @@
                 <div>
                     <select id="reminderType" th:field="*{reminderType}">
                         <option value="">Select a reminder</option>
-                        <option value="insurance">Insurance</option>
-                        <option value="maintenance">Maintenance</option>
-                        <option value="inspection">Inspection</option>
-                        <option value="oil-change">Oil change</option>
+                        <option th:each="type : ${reminderTypes}"
+                                th:value="${type.name}"
+                                th:text="${type.name}">
+                        </option>
                     </select>
 
 
@@ -153,23 +153,28 @@
                     <div class="reminder-check-group">
                         <label>
                             <input type="checkbox" th:field="*{monthBefore}">
-                            A month before
+                            1 month before
                         </label>
 
                         <label>
                             <input type="checkbox" th:field="*{weekBefore}">
-                            A week before
+                            1 week before
                         </label>
 
                         <label>
                             <input type="checkbox" th:field="*{dayBefore}">
-                            A day before
+                            1 day before
                         </label>
                     </div>
 
-                    <div class="error" th:if="${reminderOptionError}" th:text="${reminderOptionError}"></div>
+                    <div class="error"
+                         th:if="${reminderOptionError}"
+                         th:text="${reminderOptionError}">
+                    </div>
                 </div>
             </div>
+
+
 
             <div class="reminder-actions">
                 <button type="button" class="cancel-btn" onclick="closeReminderModal()">
