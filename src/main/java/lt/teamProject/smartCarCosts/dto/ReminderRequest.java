@@ -1,13 +1,19 @@
 package lt.teamProject.smartCarCosts.dto;
+
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDate;
 
 public class ReminderRequest {
 
     @NotBlank(message = "Reminder type is required")
     private String reminderType;
 
-    @NotBlank(message = "End date is required")
-    private String reminderDate;
+    @NotNull(message = "End date is required")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate reminderDate;
 
     private boolean monthBefore;
     private boolean weekBefore;
@@ -24,11 +30,11 @@ public class ReminderRequest {
         this.reminderType = reminderType;
     }
 
-    public String getReminderDate(){
+    public LocalDate getReminderDate() {
         return reminderDate;
     }
 
-    public void setReminderDate(String reminderDate){
+    public void setReminderDate(LocalDate reminderDate) {
         this.reminderDate = reminderDate;
     }
 

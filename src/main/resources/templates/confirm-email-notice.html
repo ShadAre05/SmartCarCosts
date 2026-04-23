@@ -29,10 +29,9 @@
                         class="resend-btn"
                         id="resendBtn"
                         th:disabled="${remainingSeconds > 0}">
-                    Resend
+                    Resend <span id="timerText"></span>
                 </button>
 
-                <div id="timerText"></div>
             </form>
         </div>
 
@@ -45,7 +44,7 @@
             function renderTimer(){
                 if (remainingSeconds > 0){
                     resendBtn.disabled = true;
-                    timerText.textContent = "(timer from " + remainingSeconds + "s)";
+                    timerText.textContent = "(" + remainingSeconds + "s)";
                     remainingSeconds--;
                 } else {
                     resendBtn.disabled = false;

@@ -1,48 +1,62 @@
 package lt.teamProject.smartCarCosts.service;
 
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
+import lt.teamProject.smartCarCosts.entity.ConfirmationToken;
+import lt.teamProject.smartCarCosts.repository.ConfirmationTokenRepository;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.time.LocalDateTime;
+import java.util.Optional;
+
 
 @Service
 public class ConfirmationTokenService {
 
-    // In-memory storage: - email mapping
-    private final Map<String, String> tokenEmails = new ConcurrentHashMap<>();
-    // In-memory storage: token - expiration timestamp
-    private final Map<String, Long> tokenExpires = new ConcurrentHashMap<>();
+    private final ConfirmationTokenRepository confirmationTokenRepository;
 
-    // Save token with 15-minute expiration
-    public void saveToken(String token, String email){
-        tokenEmails.put(token, email);
-        tokenExpires.put(token, System.currentTimeMillis() + 15 * 60 * 1000);
+    public ConfirmationTokenService(ConfirmationTokenRepository confirmationTokenRepository) {
+        this.confirmationTokenRepository = confirmationTokenRepository;
     }
 
-    // Checks if token exists and is still valid
-    public boolean isValidToken(String token){
-        Long expiresAt = tokenExpires.get(token);
+    // Save token
+    @Transactional
+    public void saveToken(String token, String email) {
+        ConfirmationToken confirmationToken = new ConfirmationToken(
+                token,
+                email,
+                LocalDateTime.now(),
+                LocalDateTime.now().plusMinutes(5)
+        );
+        confirmationTokenRepository.save(confirmationToken);
+    }
 
-        if (expiresAt == null){
+    // Checks whether the token exists and is not expired.
+    public boolean isValidToken(String token){
+        Optional<ConfirmationToken> optionalToken = confirmationTokenRepository.findByToken(token);
+
+        if (optionalToken.isEmpty()) {
             return false;
         }
 
-        // Remove token if expired
-        if (System.currentTimeMillis() > expiresAt){
+        ConfirmationToken confirmationToken = optionalToken.get();
+
+        if (LocalDateTime.now().isAfter(confirmationToken.getExpiresAt())) {
             removeToken(token);
             return false;
         }
-        return tokenEmails.containsKey(token);
+        return true;
     }
 
-    // Get email associated with token
-    public String getEmailByToken(String token){
-        return tokenEmails.get(token);
+    public String getEmailByToken(String token) {
+        return confirmationTokenRepository.findByToken(token)
+                .map(ConfirmationToken::getEmail)
+                .orElse(null);
     }
 
-    // Remove token from storage
-    public void removeToken(String token){
-        tokenEmails.remove(token);
-        tokenExpires.remove(token);
+    @Transactional
+    public void removeToken(String token) {
+        confirmationTokenRepository.findByToken(token)
+                .ifPresent(confirmationTokenRepository::delete);
     }
 }
+

@@ -2,13 +2,13 @@ package lt.teamProject.smartCarCosts.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import lt.teamProject.smartCarCosts.validation.ValidFullName;
+import lt.teamProject.smartCarCosts.validation.ValidPassword;
 
 public class RegisterRequest {
 
     // User full name (2-30 characters)
-    @NotBlank(message = "Full name is required")
-    @Size(min = 2, max = 30, message = "Full name must be between 2 and 30 characters")
+    @ValidFullName
     private String fullName;
 
     // User email (must be valid format)
@@ -17,8 +17,7 @@ public class RegisterRequest {
     private String email;
 
     // User password (minimum 8 characters)
-    @NotBlank(message = "Password is required")
-    @Size(min = 8, message = "Password must be at least 8 characters long")
+    @ValidPassword
     private String password;
 
     // Optional user country
