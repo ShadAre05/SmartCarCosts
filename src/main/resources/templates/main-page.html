@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SmartCarCosts</title>
+    <link rel="stylesheet" th:href="@{/css/main-page.css}">
+</head>
+<body>
+
+<div class="page-wrapper">
+
+    <header class="header">
+        <form th:action="@{/}" method="get">
+            <button type="submit" class="logo-btn">SmartCarCosts</button>
+        </form>
+
+        <div class="auth-block">
+            <span>Already have an account?</span>
+            <form th:action="@{/login}" method="get">
+                <button type="submit" class="sign-in-btn">Sign In</button>
+            </form>
+        </div>
+    </header>
+
+    <main class="hero">
+        <section class="hero-content">
+            <p>
+                You tired to spend a lot of money for your car and want to
+                calculate your amount? Let's start to make more objective spending
+            </p>
+
+            <form th:action="@{/register}" method="get">
+                <button type="submit" class="get-started-btn">Get started</button>
+            </form>
+        </section>
+    </main>
+</div>
+</body>
+</html>
