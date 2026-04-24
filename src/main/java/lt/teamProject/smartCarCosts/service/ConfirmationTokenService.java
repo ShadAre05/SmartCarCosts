@@ -1,4 +1,4 @@
-package lt.teamProject.SmartCarCosts.service;
+package lt.teamProject.smartCarCosts.service;
 
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;

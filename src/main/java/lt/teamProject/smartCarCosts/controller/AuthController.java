@@ -1,4 +1,4 @@
-package lt.teamProject.SmartCarCosts.controller;
+package lt.teamProject.smartCarCosts.controller;
 
 import jakarta.validation.Valid;
 import lt.teamProject.smartCarCosts.dto.RegisterRequest;
