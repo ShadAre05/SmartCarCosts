@@ -63,7 +63,9 @@
                     Reminders
                 </button>
 
-                <a th:href="@{/my-reminders}" class="reminder-btn">My reminders</a>
+                <button type="button" class="reminder-btn" onclick="openMyRemindersModal()">
+                    My reminders
+                </button>
             </div>
 
         </section>
@@ -226,6 +228,38 @@
     </div>
 </div>
 
+<!-- My reminders modal -->
+<div id="myRemindersModal" class="modal">
+    <div class="my-reminders-modal-content">
+
+        <h2>Current reminders</h2>
+
+        <!-- Reminders table wrapper with scroll -->
+        <div class="my-reminders-table-wrapper">
+            <table class="my-reminders-table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Date of created</th>
+                    <th>Type of reminder</th>
+                    <th>Date of end</th>
+                    <th>A month before</th>
+                    <th>A week before</th>
+                    <th>A day before</th>
+                    <th class="delete-header"></th>
+                </tr>
+                </thead>
+
+            </table>
+        </div>
+
+        <!-- Close button -->
+        <button type="button" class="my-reminders-done-btn" onclick="closeMyRemindersModal()">
+            Done
+        </button>
+    </div>
+</div>
+
 
 <!-- Profile modal -->
 <div id="modal" class="modal">
@@ -252,6 +286,16 @@
     }
     function closeReminderModal() {
         document.getElementById("reminderModal").style.display = "none";
+    }
+
+    // Open my reminders modal
+    function openMyRemindersModal(){
+        document.getElementById("myRemindersModal").style.display = "flex";
+    }
+
+    // Close my reminders modal
+    function closeMyRemindersModal(){
+        document.getElementById("myRemindersModal").style.display = "none";
     }
 
     // Open edit spending modal
@@ -286,6 +330,7 @@
     document.addEventListener("DOMContentLoaded", function () {
         const reminderModal = document.getElementById("reminderModal");
         const editSpendingModal = document.getElementById("editSpendingModal");
+        const myRemindersModal = document.getElementById("myRemindersModal");
 
         reminderModal?.addEventListener("click", function (event) {
             if (event.target === reminderModal) {
@@ -296,6 +341,12 @@
         editSpendingModal?.addEventListener("click", function (event) {
             if (event.target === editSpendingModal){
                 closeEditSpendingModal();
+            }
+        });
+
+        myRemindersModal?.addEventListener("click", function (event){
+            if (event.target === myRemindersModal) {
+                closeMyRemindersModal();
             }
         });
     });
