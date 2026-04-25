@@ -1,0 +1,107 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #666;
+}
+
+.page-wrapper {
+    margin: 50px auto;
+    width: 92%;
+    min-height: 620px;
+    background-color: #96dfea;
+    border: 10px solid white;
+    padding: 25px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-btn {
+    background-color: #e0e0e0;
+    padding: 14px 28px;
+    color: #000;
+    font-size: 18px;
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.auth-block {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    color: white;
+    font-size: 20px;
+}
+
+.sign-in-btn{
+    background-color: #eee;
+    color: #000;
+    text-decoration: none;
+    padding: 14px 30px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.hero {
+    display: flex;
+    justify-content: center;
+    margin-top: 35px;
+}
+
+.hero-content {
+    width: 85%;
+    min-height: 390px;
+    background-color: #ddd;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 35px;
+    padding: 40px;
+}
+
+.hero-content p{
+    max-width: 650px;
+    font-size: 20px;
+    line-height: 1.45;
+    color: #000;
+}
+
+.get-started-btn {
+    background-color: #cf3d3d;
+    color: white;
+    text-decoration: none;
+    padding: 18px 60px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.logo-btn,
+.sign-in-btn,
+.get-started-btn{
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.logo-btn:hover,
+.sign-in-btn:hover,
+.get-started-btn:hover{
+    filter: brightness(1.15);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.logo-btn:active,
+.sign-in-btn:active
+.get-started-btn:active{
+    transform: scale(0.96);
+}

@@ -174,10 +174,7 @@ public class AuthController {
 
         return "main-interface";
     }
-    @GetMapping("/add-car")
-    public String addCarPage() {
-        return "add-car";
-    }
+
     @GetMapping("/my-reminders")
     public String myRemindersPage(){
         return"my-reminders";
