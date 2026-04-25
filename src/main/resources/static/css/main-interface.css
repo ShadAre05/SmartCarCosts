@@ -487,6 +487,114 @@ body {
     cursor: pointer;
 }
 
+/* My reminders modal content */
+.my-reminders-modal-content{
+    position: relative;
+    width: 820px;
+    min-height: 430px;
+    background-color: #808080;
+    color: white;
+    padding: 28px;
+}
+
+/* My reminders title */
+.my-reminders-modal-content h2 {
+    margin: 0 0 18px 0;
+    text-align: center;
+    font-size: 30px;
+}
+
+/* Scroll wrapper */
+.my-reminders-table-wrapper {
+    max-height: 230px;
+    overflow-y: auto;
+    padding-right: 8px;
+}
+
+/* Reminders table */
+.my-reminders-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    background-color: #d9d9d9;
+    color: black;
+}
+
+/* Table cells */
+.my-reminders-table th,
+.my-reminders-table td {
+    border: 2px solid #333;
+    padding: 8px;
+    text-align: center;
+}
+
+.my-reminders-table tbody tr{
+    height: 45px;
+}
+
+/* Table header */
+.my-reminders-table th{
+    background-color: #f5f5b8;
+    font-weight: normal;
+}
+
+/* Empty rows height */
+.my-reminders-table tbody{
+    height: 150px;
+}
+
+/* Custom checkbox */
+.my-reminders-table input[type="checkbox"]{
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+/* Delete button */
+.delete-reminder-btn {
+    background-color: #000;
+    color: white;
+    border: none;
+    padding: 6px 9px;
+    cursor: pointer;
+}
+
+/* Delete column wider */
+.del-column {
+    width: 80px;
+}
+
+.my_reminders-table td:last-child
+.my-reminders-table th:last-child{
+    width: 85px;
+    min-width: 85px;
+}
+
+/* Done button */
+.my-reminders-done-btn{
+    position: absolute;
+    bottom: 22px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #35c85a;
+    color: black;
+    border: none;
+    padding: 12px 85px;
+    font-size: 22px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+/* Done button hover */
+.my-reminders-done-btn:hover{
+    background-color: #4be06f;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+}
+
+/* Done button click */
+.my-reminders-done-btn:active{
+    transform: translateX(-50%) scale(0.96);
+}
 
 #reminderForm {
     width: 100%;
