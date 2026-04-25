@@ -387,6 +387,108 @@ body {
     background: #5ac488;
 }
 
+/* Edit spending button */
+.edit-spending-btn {
+    margin-top: 24px;
+    background-color: #111;
+    color: white;
+    border: 3px solid white;
+    border-radius: 14px;
+    padding: 12px 18px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+/* Clickable date label */
+.edit-date-label {
+    color: #00a6ff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.edit-date-label:hover {
+    color: #6bd2ff;
+    text-shadow: 0 0 8px rgba(0, 166, 255, 0.8);
+}
+
+/* Hidden date input */
+.edit-spending-date-hidden {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    width: 1px;
+    height: 1px;
+}
+
+/* Edit spending button hover */
+.edit-spending-btn:hover {
+    background-color: #2b2b2b;
+    box-shadow: 0 5px 14px rgba(0, 0, 0, 0.35);
+    transform: scale(1.05);
+}
+
+/* Edit spending modal content */
+.edit-spending-modal-content {
+    position: relative;
+    width: 860px;
+    min-height: 520px;
+    background-color: #646451;
+    color: white;
+    padding: 28px;
+}
+
+/* Edit spending modal title */
+.edit-spending-modal-content h2{
+    margin: 0 0 35px 0;
+    font-size: 28px;
+}
+
+/* Date row */
+.edit-spending-date-row{
+    display: flex;
+    align-items: center;
+    gap: 80px;
+    font-size: 22px;
+    margin-top: 10px;
+}
+
+/* Date label */
+.edit-spending-date-row label{
+    color: #00a6ff;
+    font-weight: bold;
+}
+
+/* Date input */
+.edit-spending-date-input {
+    padding: 9px 12px;
+    font-size: 18px;
+}
+
+/* Selected date text */
+.selected-edit-date{
+    color: #d4d4c4;
+    font-size: 22px;
+}
+
+/* Done button */
+.edit-spending-done-btn{
+    position: absolute;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #ff9fa3;
+    color: black;
+    border: none;
+    padding: 14px 90px;
+    font-size: 26px;
+    cursor: pointer;
+}
+
+
 #reminderForm {
     width: 100%;
 }
+

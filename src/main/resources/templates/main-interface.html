@@ -86,6 +86,11 @@
             <div class="costs-side-actions">
                 <a th:href="@{/add-costs}" class="big-plus">+</a>
                 <span class="add-costs-text">Add costs</span>
+
+                <!-- Opens edit spending modal -->
+                <button type="button" class="edit-spending-btn" onclick="openEditSpendingModal()">
+                    ✎ Edit spending
+                </button>
             </div>
 
         </section>
@@ -191,6 +196,36 @@
     </div>
 </div>
 
+<!--Edit spending modal -->
+<div id="editSpendingModal" class="modal">
+    <div class="edit-spending-modal-content">
+
+        <!-- Close modal  -->
+        <button class="close-btn" onclick="closeEditSpendingModal()">×</button>
+
+        <h2>History of spending</h2>
+
+        <!-- Date filter -->
+        <div class="edit-spending-date-row">
+            <label class="edit-date-label" onclick="openEditDatePicker()">Select date:</label>
+
+            <!-- Hidden date input -->
+            <input type="date"
+                   id="editSpendingDate"
+                   class="edit-spending-date-hidden"
+                   onchange="showSelectedEditDate()">
+
+            <!-- Shows selected date -->
+            <span id="selectedEditDate" class="selected-edit-date">select date</span>
+        </div>
+
+        <!-- Close button -->
+        <button type="button" class="edit-spending-done-btn" onclick="closeEditSpendingModal()">
+            Done
+        </button>
+    </div>
+</div>
+
 
 <!-- Profile modal -->
 <div id="modal" class="modal">
@@ -219,6 +254,29 @@
         document.getElementById("reminderModal").style.display = "none";
     }
 
+    // Open edit spending modal
+    function openEditSpendingModal(){
+        document.getElementById("editSpendingModal").style.display = "flex";
+    }
+
+    // Close edit spending modal
+    function closeEditSpendingModal(){
+        document.getElementById("editSpendingModal").style.display = "none";
+    }
+
+    // Open hidden date picker
+    function openEditDatePicker() {
+        document.getElementById("editSpendingDate").showPicker();
+    }
+
+    // Show selected date near input
+    function showSelectedEditDate(){
+        const selectedDate = document.getElementById("editSpendingDate").value;
+        const selectedDateText = document.getElementById("selectedEditDate");
+
+        selectedDateText.textContent = selectedDate ? selectedDate : "select date";
+    }
+
     const shouldOpenReminderModal = [[${openReminderModal}]];
 
     if (shouldOpenReminderModal){
@@ -227,13 +285,21 @@
 
     document.addEventListener("DOMContentLoaded", function () {
         const reminderModal = document.getElementById("reminderModal");
+        const editSpendingModal = document.getElementById("editSpendingModal");
 
         reminderModal?.addEventListener("click", function (event) {
             if (event.target === reminderModal) {
                 closeReminderModal();
             }
         });
+
+        editSpendingModal?.addEventListener("click", function (event) {
+            if (event.target === editSpendingModal){
+                closeEditSpendingModal();
+            }
+        });
     });
+
 
 </script>
 </body>
