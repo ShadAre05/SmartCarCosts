@@ -37,22 +37,58 @@
                     No cars yet
                 </div>
 
-                <!-- Cars list -->
-                <div th:if="${!#lists.isEmpty(cars)}">
-                    <div class="car-row" th:each="car : ${cars}">
-                        <button type="button" class="circle-btn">−</button>
-                        <button type="button" class="car-card" th:text="${car}">
-                            Car name
-                        </button>
-                    </div>
-                </div>
+                <div class="cars-fixed">
 
-                <!-- Add new car -->
-                <div class="car-row">
-                    <a th:href="@{/add-car}" class="circle-btn">+</a>
-                    <button type="button" class="car-card add-car">
-                        Add new car
-                    </button>
+                    <!-- Slot 1 -->
+                    <div class="car-row">
+                        <div th:if="${cars.size() > 0}">
+                            <form th:action="@{/delete-car}" method="post">
+                                <input type="hidden" name="carId" th:value="${cars[0].id}">
+                                <button class="circle-btn">-</button>
+                            </form>
+
+                            <button class="car-card" th:text="${cars[0].name}"></button>
+                        </div>
+
+                        <div th:if="${cars.size() == 0}">
+                            <button class="circle-btn" onclick="openAddCarModal()">+</button>
+                            <button class="car-card add-car" onclick="openAddCarModal()">Add new car</button>
+                        </div>
+                    </div>
+
+                    <!-- Slot 2 -->
+                    <div class="car-row">
+                        <div th:if="${cars.size() > 1}">
+                            <form th:action="@{/delete-car}" method="post">
+                                <input type="hidden" name="carId" th:value="${cars[1].id}">
+                                <button class="circle-btn">-</button>
+                            </form>
+
+                            <button class="car-card" th:text="${cars[1].name}"></button>
+                        </div>
+
+                        <div th:if="${cars.size() <= 1}">
+                            <button class="circle-btn" onclick="openAddCarModal()">+</button>
+                            <button class="car-card add-car" onclick="openAddCarModal()">Add new car</button>
+                        </div>
+                    </div>
+
+                    <!-- Slot 3 -->
+                    <div class="car-row">
+                        <div th:if="${cars.size() > 2}">
+                            <form th:action="@{/delete-car}" method="post">
+                                <input type="hidden" name="carId" th:value="${cars[2].id}">
+                                <button class="circle-btn">-</button>
+                            </form>
+
+                            <button class="car-card" th:text="${cars[2].name}"></button>
+                        </div>
+
+                        <div th:if="${cars.size() <= 2}">
+                            <button class="circle-btn" onclick="openAddCarModal()">+</button>
+                            <button class="car-card add-car" onclick="openAddCarModal()">Add new car</button>
+                        </div>
+                    </div>
                 </div>
 
             </div>
@@ -73,20 +109,72 @@
         <!-- Right panel -->
         <section class="right-panel">
 
-            <div class="content-area">
-                <div class="costs-title">Costs</div>
+            <div class="costs-main-block">
 
-                <div class="empty-state-box">
-                    <p>
-                        Select the car whose statistics<br>
-                        you want to view
-                    </p>
+                <div class="content-area">
+                    <div class="costs-title">Costs</div>
+
+                    <div class="empty-state-box">
+                        <p>
+                            Select the car whose statistics<br>
+                            you want to view
+                        </p>
+                    </div>
+                </div>
+
+
+                <!-- Costs date filter -->
+                <form th:action="@{/main-interface}" method="get" class="costs-filter-form">
+                    <button type="button" class="select-date-btn" onclick="openStartDatePicker()">
+                        Select date:
+                    </button>
+
+                    <!-- Hidden start date -->
+                    <input type="date"
+                           id="costStartDate"
+                           name="startDate"
+                           class="hidden-date-input"
+                           onchange="openEndDatePicker()">
+
+                    <!-- Hidden end date -->
+                    <input type="date"
+                           id="costEndDate"
+                           name="endDate"
+                           class="hidden-date-input"
+                           onchange="this.form.submit()">
+
+                    <span class="selected-cost-period"
+                          th:text="${selectedPeriod}">
+                        select date
+                    </span>
+
+                    <!-- Reset selected period -->
+                    <a th:href="@{/main-interface}" class="clean-date-btn">Clean</a>
+
+                    <!-- Shows total for selected period -->
+                    <div class="cost-total-box"
+                         th:text="${periodTotal + '€'}">
+                        0€
+                    </div>
+                </form>
+
+                <!-- All time total -->
+                <div class="costs-total-row">
+                    <span class="total-label">Total:</span>
+
+                    <span></span>
+                    <span></span>
+
+                    <div class="cost-total-box"
+                         th:text="${allTimeTotal + '€'}">
+                        0€
+                    </div>
                 </div>
             </div>
 
             <!-- Add costs button -->
             <div class="costs-side-actions">
-                <a th:href="@{/add-costs}" class="big-plus">+</a>
+                <button type="button" class="big-plus" onclick="openAddTransactionModal()">+</button>
                 <span class="add-costs-text">Add costs</span>
 
                 <!-- Opens edit spending modal -->
@@ -99,6 +187,47 @@
 
     </main>
 
+</div>
+
+<!-- Add transaction modal -->
+<div id="addTransactionModal" class="modal">
+    <div class="add-transaction-modal-content">
+
+        <h2>Adding new transaction</h2>
+
+    </div>
+</div>
+
+<!-- Add car modal -->
+<div id="addCarModal" class="modal">
+    <div class="add-car-page-modal">
+
+        <div class="add-car-page">
+
+            <div class="add-car-panel">
+                <h2>Add new car</h2>
+
+                <div class="add-car-layout">
+                    <div>
+                        <h3>By parameters</h3>
+                        <p>Fill in the parameters below</p>
+                    </div>
+                </div>
+
+                <div class="add-car-actions">
+                    <button type="button" class="add-car-cancel-btn" onclick="closeAddCarModal()">
+                        Cancel
+                    </button>
+
+                    <button type="button" class="add-car-submit-btn">
+                        Add
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
 </div>
 
 <!-- Reminder modal -->
@@ -288,6 +417,36 @@
         document.getElementById("reminderModal").style.display = "none";
     }
 
+    // Open add transaction modal
+    function openAddTransactionModal() {
+        document.getElementById("addTransactionModal").style.display = "flex";
+    }
+
+    // Close add transaction modal
+    function closeAddTransactionModal() {
+        document.getElementById("addTransactionModal").style.display = "none";
+    }
+
+    // Open add car modal
+    function openAddCarModal(){
+        document.getElementById("addCarModal").style.display = "flex"
+    }
+
+    // Close add car modal
+    function closeAddCarModal() {
+        document.getElementById("addCarModal").style.display = "none"
+    }
+
+    // Open start date picker for costs filter
+    function openStartDatePicker() {
+        document.getElementById("costStartDate").showPicker();
+    }
+
+    // Open end date picker for costs filter
+    function openEndDatePicker(){
+        document.getElementById("costEndDate").showPicker();
+    }
+
     // Open my reminders modal
     function openMyRemindersModal(){
         document.getElementById("myRemindersModal").style.display = "flex";
@@ -331,6 +490,8 @@
         const reminderModal = document.getElementById("reminderModal");
         const editSpendingModal = document.getElementById("editSpendingModal");
         const myRemindersModal = document.getElementById("myRemindersModal");
+        const addCarModal = document.getElementById("addCarModal")
+        const addTransactionModal = document.getElementById("addTransactionModal");
 
         reminderModal?.addEventListener("click", function (event) {
             if (event.target === reminderModal) {
@@ -347,6 +508,18 @@
         myRemindersModal?.addEventListener("click", function (event){
             if (event.target === myRemindersModal) {
                 closeMyRemindersModal();
+            }
+        });
+
+        addCarModal?.addEventListener("click", function (event) {
+            if (event.target === addCarModal) {
+                closeAddCarModal();
+            }
+        })
+
+        addTransactionModal?.addEventListener("click", function (event) {
+            if (event.target === addTransactionModal) {
+                closeAddTransactionModal();
             }
         });
     });

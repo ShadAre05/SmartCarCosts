@@ -3,9 +3,8 @@ package lt.teamProject.smartCarCosts.controller;
 import jakarta.validation.Valid;
 import lt.teamProject.smartCarCosts.dto.RegisterRequest;
 import lt.teamProject.smartCarCosts.dto.ReminderRequest;
-import lt.teamProject.smartCarCosts.service.ConfirmationTokenService;
-import lt.teamProject.smartCarCosts.service.EmailService;
-import lt.teamProject.smartCarCosts.service.UserService;
+import lt.teamProject.smartCarCosts.entity.Car;
+import lt.teamProject.smartCarCosts.service.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,6 +16,8 @@ import jakarta.servlet.http.HttpSession;
 import lt.teamProject.smartCarCosts.repository.CountryRepository;
 import lt.teamProject.smartCarCosts.repository.ReminderTypeRepository;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -29,17 +30,23 @@ public class AuthController {
     private final ConfirmationTokenService confirmationTokenService;
     private final UserService userService;
     private final ReminderTypeRepository reminderTypeRepository;
+    private final ExpenseService expenseService;
+    private final CarService carService;
 
     public AuthController(EmailService emailService,
                           ConfirmationTokenService confirmationTokenService,
                           CountryRepository countryRepository,
                           UserService userService,
-                          ReminderTypeRepository reminderTypeRepository) {
+                          ReminderTypeRepository reminderTypeRepository,
+                          ExpenseService expenseService,
+                          CarService carService) {
         this.emailService = emailService;
         this.confirmationTokenService = confirmationTokenService;
         this.countryRepository = countryRepository;
         this.userService = userService;
         this.reminderTypeRepository = reminderTypeRepository;
+        this.expenseService = expenseService;
+        this.carService = carService;
     }
     // Show registration page
     @GetMapping("/register")
@@ -175,11 +182,6 @@ public class AuthController {
         return "main-interface";
     }
 
-    @GetMapping("/my-reminders")
-    public String myRemindersPage(){
-        return"my-reminders";
-    }
-
     // Handle email confirmation via token
     @GetMapping("/confirm-email")
     public String confirmEmail(@RequestParam String token) {
@@ -228,9 +230,30 @@ public class AuthController {
         return "redirect:/confirm-email-notice";
     }
 
+    @PostMapping("/add-car")
+    public String addCar(@ModelAttribute Car car){
+        Long userId = 1L;
+        carService.addCar(car, userId);
+
+        return "redirect:/main-interface";
+    }
+
+    @PostMapping("/delete-car")
+    public String deleteCar(@RequestParam Long carId) {
+        Long userId = 1L;
+
+        carService.deleteCar(carId, userId);
+
+        return "redirect:/main-interface";
+    }
+
     // Main interface page
     @GetMapping("/main-interface")
-    public String mainPage(Model model, HttpSession session) {
+    public String mainPage(Model model,
+                           HttpSession session,
+                           @RequestParam(required = false) LocalDate startDate,
+                           @RequestParam(required = false) LocalDate endDate
+    ) {
 
         String userName = (String) session.getAttribute("userName");
 
@@ -240,13 +263,22 @@ public class AuthController {
         }
         model.addAttribute("userName", userName);
 
-        // Temporary empty cars list (until DB is added)
-        List<String> cars = new ArrayList<>();
+        Long userId = 1L; // temporary until real logged-in user is connected
+        List<Car> cars = carService.getUserCars(userId);
         model.addAttribute("cars", cars);
 
         model.addAttribute("reminderRequest", new ReminderRequest());
         model.addAttribute("openReminderModal", false);
         model.addAttribute("reminderTypes", reminderTypeRepository.findAll());
+
+        BigDecimal allTimeTotal = expenseService.getAllTimeTotal();
+        BigDecimal periodTotal = expenseService.getTotalByPeriod(startDate, endDate);
+        String selectedPeriod = expenseService.formatSelectedPeriod(startDate, endDate);
+
+        model.addAttribute("allTimeTotal", allTimeTotal);
+        model.addAttribute("periodTotal", periodTotal);
+        model.addAttribute("selectedPeriod", selectedPeriod);
+        model.addAttribute("expenseCategories", expenseService.getExpenseCategories());
 
         return "main-interface";
     }
