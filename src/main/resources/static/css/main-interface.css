@@ -13,20 +13,22 @@ body {
 
 /* PAGE */
 .page {
-    min-height: 100vh;
-    margin: 20px;
-    background: white;
-    border: 12px solid white;
+    width: 92vw;
+    height: 86vh;
+    margin: 20px auto;
+    background-color: #ed1f24;
+    border: 8px solid white;
     padding: 14px;
+    box-sizing: border-box;
 }
 
 /* TOP BAR */
 .top-bar {
-    background: #ef1f1f;
-    padding: 14px;
+    height: 55px;
     display: flex;
     align-items: center;
-    gap: 16px;
+    background-color: #ed1f24;
+    margin-bottom: 18px;
 }
 
 /* LOGO */
@@ -37,14 +39,15 @@ body {
 }
 
 .logo {
-    background: #eeeeee;
-    padding: 16px 20px;
-    min-width: 140px;
-    text-align: center;
-    font-size: 16px;
+    width: 120px;
+    height: 45px;
+    background-color: #ddd;
+    color: black;
     text-decoration: none;
-    color: #1a1a1a;
-    display: inline-block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
 }
 
 /* SPACE */
@@ -56,122 +59,196 @@ body {
 
 /* PROFILE */
 .profile-box {
-    background: #eeeeee;
-    padding: 8px 14px;
+    margin-left: auto;
+    width: 175px;
+    height: 45px;
+    background-color: #ddd;
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     gap: 10px;
+    padding: 0 12px;
+    cursor: pointer;
 }
 
 .user-name {
-    font-size: 16px;
+    font-size: 14px;
+    color: black;
 }
 
 .avatar {
-    width: 42px;
-    height: 42px;
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
-    background: #2f2f45;
+    background-color: #2c2c46;
+}
+
+.hidden-date-input {
+    position: fixed;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    width: 1px;
+    height: 1px;
+}
+
+.costs-filter-form {
+    display: grid;
+    grid-template-columns: 120px 1fr 70px 95px;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    width: 100%;
+    margin-bottom: 2px;
+}
+
+.select-date-btn {
+    background: none;
+    border: none;
+    color: #1a73e8;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: left;
+    padding: 0;
+    text-decoration: underline;
+    transition: 0.2s;
+}
+
+.select-date-btn:hover {
+    color: #4ea1ff;
+    text-decoration: none;
+}
+
+.selected-cost-period {
+    color: #9b7a36;
+    font-size: 16px;
+}
+
+.clean-date-btn {
+    background-color: #d9d9d9;
+    color: #2884ff;
+    text-decoration: none;
+    padding: 4px 8px;
+    text-align: center;
+    font-size: 14px;
+    height: 28px;
+}
+
+.cost-total-box {
+    background-color: #e6e6e6;
+    color: black;
+    text-align: right;
+    padding: 4px 8px;
+    font-size: 16px;
+    font-weight: normal;
+    width: 95px;
+    height: 28px;
+    box-sizing: border-box;
+}
+
+/* Main costs block */
+.costs-main-block {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.costs-total-row {
+    display: grid;
+    grid-template-columns: 120px 1fr 70px 95px;
+    align-items: center;
+    gap: 10px;
+    margin-top: 4px;
+    width: 100%;
+}
+
+.select-date-btn,
+.total-label {
+    background: none;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: left;
+    padding: 0;
 }
 
 /* MAIN CONTENT */
 .main-content {
-    margin-top: 16px;
     display: flex;
     gap: 18px;
-    background: #ef1f1f;
-    padding: 14px;
+    height: calc(100% - 73px);
 }
 
 /* LEFT PANEL */
 .left-panel {
-    width: 330px;
+    width: 280px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
-/* CARS BOX */
-.cars-box {
-    background: white;
-    padding: 14px;
-}
-
 .cars-title {
-    background: #1a1a1a;
+    background-color: #111;
     color: white;
-    padding: 10px;
-    text-align: left;
-    font-size: 18px;
-    margin-bottom: 14px;
+    padding: 9px 12px;
+    font-size: 17px;
+    margin-bottom: 16px;
 }
 
 /* EMPTY STATE */
 .empty-cars {
-    padding: 12px;
     text-align: center;
-    color: #777;
+    color: #555;
     font-size: 14px;
-    margin-bottom: 10px;
+    margin-bottom: 18px;
 }
 
 /* CAR ROW */
 .car-row {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
+    margin-bottom: 9px;
 }
 
 /* + BUTTON */
 .circle-btn {
-    width: 44px;
-    height: 44px;
-
-    display: inline-flex;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: black;
+    color: white;
+    border: none;
+    font-size: 25px;
+    display: flex;
     align-items: center;
     justify-content: center;
-
-    border-radius: 50%;
-    background: black;
-    color: white;
-
-    font-size: 34px;
-    line-height: 1;
-    font-weight: 400;
-    text-decoration: none;
-
-    border: none;
     cursor: pointer;
-    padding: 0;
-    flex-shrink: 0;
-}
-
-/* ADD CAR BUTTON */
-.car-card {
-    flex: 1;
-    padding: 10px 12px;
-    font-size: 14px;
-    background: #ecd5d5;
-    border: 2px dashed #8b6f6f;
-    text-align: left;
-    cursor: pointer;
+    transition: 0.2s;
 }
 
 /* REMINDERS */
 .reminder-buttons {
-    margin-top: 30px;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 14px;
     align-items: center;
+    margin-bottom: 20px;
 }
 
 .reminder-btn {
-    width: 180px;
-    padding: 14px;
+    width: 165px;
+    height: 44px;
+    background-color: #ddd;
+    color: black;
     border: none;
-    background: white;
+    text-decoration: none;
     font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
 }
 
@@ -179,25 +256,26 @@ body {
 .right-panel {
     flex: 1;
     display: flex;
-    gap: 24px;
-    align-items: flex-start;
+    gap: 16px;
+    background-color: #e5a83a;
+    padding: 16px;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
 /* EMPTY MAIN AREA */
 .empty-state-box {
-    width: 100%;
-    min-height: 520px;
-    border: 8px dashed black;
+    height: 270px;
+    border: 6px dashed black;
     display: flex;
     align-items: center;
     justify-content: center;
-    text-align: center;
-    padding: 20px;
 }
 
 .empty-state-box p {
     color: white;
-    font-size: 30px;
+    font-size: 24px;
+    text-align: center;
     line-height: 1.5;
 }
 
@@ -210,50 +288,70 @@ body {
 }
 
 .costs-title {
-    background: black;
+    width: 100%;
+    background-color: black;
     color: white;
-    padding: 10px 40px;
-    font-size: 20px;
-    margin-bottom: 18px;
+    text-align: center;
+    padding: 6px 0;
+    font-size: 18px;
+    margin-bottom: 14px;
+}
+
+.circle-btn:hover {
+    background-color: #333;
+    transform: scale(1.1);
+}
+
+.circle-btn:active {
+    transform: scale(0.9);
+    background-color: #555;
 }
 
 .big-plus {
-    width: 86px;
-    height: 86px;
-
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    background-color: black;
+    color: white;
+    font-size: 65px;
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
+    transition: 0.2s;
+}
 
-    background: black;
-    color: white;
+.big-plus:hover {
+    background-color: #222;
+    transform: scale(1.1);
+}
 
-    font-size: 58px;
-    line-height: 1;
-    text-decoration: none;
-    border-radius: 50%;
+.big-plus:active {
+    transform: scale(0.9);
+    background-color: #444;
 }
 
 .add-costs-text {
-    margin-top: 12px;
-    color: black;
     font-size: 16px;
-    text-align: center;
+    color: black;
+    margin-top: 8px;
+    margin-bottom: 55px;
 }
 
 .content-area {
-    flex: 1;
+    background: #c48787;
+    padding: 14px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    flex-shrink: 0;
 }
 
 .costs-side-actions {
-    width: 120px;
+    width: 95px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 18px;
+    flex-shrink: 0;
 }
 
 .modal{
@@ -363,6 +461,13 @@ body {
     height: 18px;
 }
 
+html, body {
+    margin: 0;
+    padding: 0;
+    background-color: #666;
+    font-family: Arial, sans-serif;
+}
+
 .reminder-actions {
     margin-top: 32px;
     display: flex;
@@ -389,13 +494,12 @@ body {
 
 /* Edit spending button */
 .edit-spending-btn {
-    margin-top: 24px;
     background-color: #111;
     color: white;
     border: 3px solid white;
-    border-radius: 14px;
-    padding: 12px 18px;
-    font-size: 16px;
+    border-radius: 12px;
+    padding: 10px 12px;
+    font-size: 15px;
     font-weight: bold;
     cursor: pointer;
     transition: 0.2s ease;
@@ -426,7 +530,6 @@ body {
 /* Edit spending button hover */
 .edit-spending-btn:hover {
     background-color: #2b2b2b;
-    box-shadow: 0 5px 14px rgba(0, 0, 0, 0.35);
     transform: scale(1.05);
 }
 
@@ -599,4 +702,123 @@ body {
 #reminderForm {
     width: 100%;
 }
+
+.add-car-page-modal {
+    width: 920px;
+    height: 520px;
+    background: #ed1f24;
+    border: 8px solid white;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.add-car-page {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.add-car-logo {
+    position: static;
+    width: 120px;
+    height: 50px;
+    background: #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: black;
+}
+
+.add-car-panel {
+    width: 700px;
+    height: 440px;
+    background: #ddd;
+    margin: 0 auto;
+    padding: 30px;
+    position: relative;
+}
+
+.add-car-panel h2 {
+    text-align: center;
+    font-size: 30px;
+    font-weight: normal;
+    margin-bottom: 4px;
+}
+
+.add-car-panel h3 {
+    font-size: 22px;
+    margin-bottom: 4px;
+}
+
+.add-car-panel p {
+    font-size: 18px;
+}
+
+.add-car-actions {
+    position: absolute;
+    left: 50%;
+    bottom: 70px;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 80px;
+}
+
+.add-car-cancel-btn,
+.add-car-submit-btn {
+    width: 220px;
+    height: 48px;
+    border: 2px solid #333;
+    color: black;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.add-car-cancel-btn {
+    background: #f36a21;
+}
+
+.add-car-submit-btn {
+    background: #98d875;
+}
+
+.car-row > div {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.car-card {
+    flex: 1;
+    height: 33px;
+    min-width: 0;
+    background-color: #ead0d0;
+    border: 2px dotted #7d5555;
+    text-align: left;
+    padding-left: 10px;
+    font-size: 14px;
+}
+
+.cars-box {
+    background-color: #ddd;
+    padding: 12px;
+    min-height: 300px;
+}
+
+.add-transaction-modal-content {
+    width: 620px;
+    height: 420px;
+    background-color: black;
+    color: white;
+    padding: 28px;
+    box-sizing: border-box;
+}
+
+.add-transaction-modal-content h2 {
+    font-size: 36px;
+    font-weight: normal;
+}
+
 
