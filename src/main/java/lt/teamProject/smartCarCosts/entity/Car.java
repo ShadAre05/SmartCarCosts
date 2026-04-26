@@ -54,10 +54,6 @@ public class Car {
         return generation;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public void setModelId(Long modelId) {
         this.modelId = modelId;
     }

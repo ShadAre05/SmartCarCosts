@@ -21,7 +21,7 @@ public class ExpenseCategory {
         return id;
     }
 
-    public String hetName(){
+    public String getName(){
         return name;
     }
 

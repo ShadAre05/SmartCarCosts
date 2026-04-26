@@ -263,7 +263,10 @@ public class AuthController {
         }
         model.addAttribute("userName", userName);
 
+
         Long userId = 1L; // temporary until real logged-in user is connected
+
+        //TEMP: replace with real DB data
         List<Car> cars = carService.getUserCars(userId);
         model.addAttribute("cars", cars);
 

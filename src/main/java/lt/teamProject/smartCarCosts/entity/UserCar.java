@@ -17,6 +17,10 @@ public class UserCar {
     @Column(name = "car_id")
     private Long carId;
 
+    public Long getId() {
+        return id;
+    }
+
     public Long getUserId(){
         return userId;
     }
