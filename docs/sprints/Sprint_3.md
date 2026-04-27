@@ -13,17 +13,17 @@ after merging branches into /develop (because we have some problems to start out
 | Implement DB into supabase.com and update it by adding columns for some tables |  Arseni  | Don't needed |
 | Update some small documentation about sprints and database |  Arseni  | Don't needed |
 | Fix github environment to continue work in it |  Arseni  | Don't needed |
-| Upgrade "Main interface(users)" by adding others button to reconnect to other pages |  Vladyslav  |  |
-| Upgrade "Reminder page" as I wrote in feedback and add "My reminders" window to view our reminders | Vladyslav |  |
-| Create "Edit spending" window and the first page(!!!) "Main page" | Vladyslav |  |
-| Fix bugs from previous sprint such write logic into controllers and service (not html) and carefull in "Add car" because wi will use some information from database and we must to make filters to take cars from DB |  Matsvei  |  |
-| Add "Settings window" for edit your profile to change name and password | Matsvei |  |
-| Add window to add costs to adding this costs into future DB | Matsvei |  |
+| Upgrade "Main interface(users)" by adding others button to reconnect to other pages |  Vladyslav  | + |
+| Upgrade "Reminder page" as I wrote in feedback and add "My reminders" window to view our reminders | Vladyslav | + |
+| Create "Edit spending" window and the first page(!!!) "Main page" | Vladyslav | + |
+| Fix bugs from previous sprint such write logic into controllers and service (not html) and carefull in "Add car" because wi will use some information from database and we must to make filters to take cars from DB |  Matsvei  | - |
+| Add "Settings window" for edit your profile to change name and password | Matsvei | - |
+| Add window to add costs to adding this costs into future DB | Matsvei | - |
 
 ### Metrics
 - **Planned tasks:** 11
-- **Complete:** 
-- **Velocity:** 11/ = 100%
+- **Complete:** 8
+- **Velocity:** 72%
 
 ---
 
