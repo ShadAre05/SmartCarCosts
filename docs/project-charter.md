@@ -6,7 +6,7 @@
 |------|------|--------|-------|
 | Team Lead + Frontend + Backend(PR) + PM  | Arseni Simanchuk | @ShadAre05| arseni.simanchuk@stud.esdc.lt |
 | Backend | Matsvei Nikalayeu | @Matvey-N | matsvei.nikalayeu@stud.esdc.lt |
-| Backend | Vladyslav Kosheliuk | @Vladkosheliuk | vladyslav.kosheliuk@stud.esdc.lt |
+| Backend + Frontend | Vladyslav Kosheliuk | @Vladkosheliuk | vladyslav.kosheliuk@stud.esdc.lt |
 
 **Repository:** https://github.com/ShadAre05/SmartCarCosts/
 
@@ -110,7 +110,7 @@ This dual-role system allows better transparency, structured data management, an
 | Backend | Java |
 | Frontend | Java Thymeleaf |
 | Data Base | PostgreSQL |
-| Хостинг | AWS |
+| Hosting | AWS/Supabase |
 | CI/CD | GitHub Actions |
 
 ---
@@ -132,7 +132,7 @@ This dual-role system allows better transparency, structured data management, an
 - **Daily standup:** 1 time per week, Monday 11.00 a.m.
 - **Main Channel:** MS Teams
 - **Code review:** GitHub Pull Requests
-- **Task-Tracker:** GitHub Projects
+- **Task-Tracker:** GitHub Projects (Folder /docks/sprints in repository)
 
 ---
 
