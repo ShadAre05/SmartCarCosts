@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New Transaction</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+
+<div class="split-card" style="filter: blur(5px); opacity: 0.5; position: absolute; z-index: -1;">
+    <div class="split-left"><h2 style="font-size: 36px;">Main Interface<br><span class="text-green">Background</span></h2></div>
+</div>
+
+
+<div class="modal-overlay">
+    <div class="modal-content" style="max-width: 500px; padding: 30px;">
+
+        <h2 style="margin-bottom: 5px; font-size: 28px;">New transaction</h2>
+        <p class="text-dim" style="margin-bottom: 15px;">BMW 3 series 2.0I · LOS062</p>
+
+        <div style="height: 1px; background-color: rgba(255,255,255,0.1); margin-bottom: 20px;"></div>
+
+        <form th:action="@{/add-cost}" method="POST">
+            <!-- Скрытое поле для передачи ID машины -->
+            <input type="hidden" name="carId" value="1">
+
+            <div class="form-group">
+                <label>Amount</label>
+                <div style="display: flex; gap: 15px;">
+                    <div class="currency-input-wrapper">
+                        <input type="number" id="amountInput" name="amount" value="0" style="background-color: #ffffff; color: #000; font-weight: bold; font-size: 18px;">
+                        <span class="currency-symbol">€</span>
+                    </div>
+                    <button type="button" class="btn btn-white" style="width: 100px;" onclick="document.getElementById('amountInput').value = 0">Clean</button>
+                </div>
+            </div>
+
+
+            <div class="quick-add-grid">
+                <button type="button" class="quick-add-btn" onclick="addAmount(1)">+1€</button>
+                <button type="button" class="quick-add-btn" onclick="addAmount(5)">+5€</button>
+                <button type="button" class="quick-add-btn" onclick="addAmount(10)">+10€</button>
+                <button type="button" class="quick-add-btn" onclick="addAmount(50)">+50€</button>
+                <button type="button" class="quick-add-btn" onclick="addAmount(100)">+100€</button>
+                <button type="button" class="quick-add-btn" onclick="addAmount(200)">+200€</button>
+            </div>
+
+            <div class="form-group">
+                <label>Type of transaction</label>
+                <select name="categoryId" style="background-color: #ffffff; color: #000;">
+                    <option value="" disabled selected>Select type of transaction</option>
+                    <option value="1">Fuel</option>
+                    <option value="2">Parking</option>
+                    <option value="3">Service station</option>
+                    <option value="4">Fines</option>
+                    <option value="5">Insurance</option>
+                    <option value="6">Other</option>
+                </select>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 30px;">
+                <label>Description (not required)</label>
+                <textarea name="description" rows="3" placeholder="Enter your description..." style="background-color: #ffffff; color: #000; resize: none;"></textarea>
+            </div>
+
+            <div style="display: flex; gap: 15px;">
+                <a th:href="@{/main.html}" class="btn btn-blue" style="text-align: center; text-decoration: none; display: block;">Cancel transaction</a>
+                <button type="submit" class="btn btn-blue">Add transaction</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    function addAmount(value) {
+        const input = document.getElementById('amountInput');
+        let currentVal = parseInt(input.value) || 0;
+        input.value = currentVal + value;
+    }
+</script>
+</body>
+</html>

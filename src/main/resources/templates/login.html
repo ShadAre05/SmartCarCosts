@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - Smart Car Costs</title>
+  <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+<div style="position: absolute; top: 40px; left: 40px;">
+  <a th:href="@{/main-interface}" class="logo-box">SmartCarCosts</a>
+</div>
+
+<div class="login-card">
+  <div style="text-align: center; margin-bottom: 30px;">
+    <h2>Welcome!</h2>
+    <p class="text-dim">Please enter your login details</p>
+  </div>
+
+  <form th:action="@{/login}" method="POST">
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" name="email" required>
+    </div>
+
+    <div class="form-group" style="position: relative;">
+      <label style="display: flex; justify-content: space-between;">
+        Password
+        <a th:href="@{/forget-password.html}" class="text-link" style="font-size: 12px;">Forget password?</a>
+      </label>
+      <input type="password" name="password" id="loginPassword" required style="padding-right: 60px;">
+      <span onclick="togglePassword()" style="position: absolute; right: 15px; top: 40px; cursor: pointer; color: black; font-size: 14px; font-weight: bold;">Hide</span>
+    </div>
+
+    <button type="submit" class="btn btn-grey" style="margin-top: 10px;">Sign In</button>
+  </form>
+
+  <div style="text-align: center; margin-top: 30px; font-size: 14px;">
+    <p>Don't have an account? <a th:href="@{/register}" class="text-link">Sign Up</a></p>
+  </div>
+</div>
+
+<script>
+  function togglePassword() {
+    var field = document.getElementById("loginPassword");
+    var btn = event.target;
+    if (field.type === "password") {
+      field.type = "text";
+      btn.innerText = "Show";
+    } else {
+      field.type = "password";
+      btn.innerText = "Hide";
+    }
+  }
+</script>
+</body>
+</html>

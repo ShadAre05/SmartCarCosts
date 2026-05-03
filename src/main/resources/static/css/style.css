@@ -1,0 +1,205 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #1e293b; /* Dark slate background */
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Logo */
+.logo-box {
+    background-color: #5ab2da; /* Light blue */
+    color: #0f172a;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+}
+
+/* Typography & Colors */
+.text-green { color: #00d084; }
+.text-dim { color: #9ca3af; font-size: 14px; }
+.text-link { color: #5c6bc0; text-decoration: none; }
+.text-link:hover { text-decoration: underline; }
+h2 { font-size: 28px; margin-bottom: 10px; }
+
+/* Forms */
+.form-group {
+    margin-bottom: 20px;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #cbd5e1;
+    font-size: 14px;
+}
+.form-group input, .form-group select, .form-group textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 8px;
+    border: none;
+    font-size: 16px;
+    color: #000;
+}
+
+/* Buttons */
+.btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+}
+.btn-grey { background-color: #d1d5db; color: #000; }
+.btn-grey:hover { background-color: #9ca3af; }
+.btn-blue { background-color: #5ab2da; color: #000; }
+.btn-blue:hover { background-color: #38bdf8; }
+
+/* Specific Layouts */
+.login-card {
+    background-color: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 40px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 400px;
+}
+
+.split-card {
+    display: flex;
+    background-color: #1e293b;
+    width: 100%;
+    max-width: 900px;
+    gap: 40px;
+}
+.split-left, .split-right {
+    flex: 1;
+    padding: 20px;
+}
+.split-left {
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+.feature-list {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.feature-item {
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+}
+.feature-icon {
+    background-color: rgba(255,255,255,0.1);
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 12px;
+}
+
+/* Section dividers for Add Car */
+.section-title {
+    display: flex;
+    align-items: center;
+    color: #cbd5e1;
+    margin: 25px 0 15px 0;
+}
+.section-title::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.2);
+    margin-left: 15px;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+    background-color: rgba(0, 0, 0, 0.6);
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    display: flex; justify-content: center; align-items: center;
+}
+.modal-content {
+    background-color: #2a3b4c;
+    padding: 40px;
+    border-radius: 12px;
+    max-width: 500px;
+    width: 100%;
+}
+
+/* sprint 4 */
+.btn-red { background-color: #ef4444; color: #fff; }
+.btn-red:hover { background-color: #dc2626; }
+.btn-orange { background-color: #d97757; color: #fff; }
+.btn-orange:hover { background-color: #c26547; }
+.btn-white { background-color: #ffffff; color: #000; }
+.btn-white:hover { background-color: #e5e7eb; }
+.btn-icon { background-color: rgba(255, 255, 255, 0.1); border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; color: white; border: none; cursor: pointer; }
+
+/* */
+.profile-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+.profile-row label {
+    width: 100px;
+    margin-bottom: 0;
+    color: #ffffff;
+}
+.profile-row input, .profile-row select {
+    flex: 1;
+    background-color: #4b6584;
+    color: white;
+}
+.profile-row input::placeholder { color: #cbd5e1; }
+
+/* */
+.quick-add-grid {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+.quick-add-btn {
+    flex: 1;
+    background-color: #ffffff;
+    color: #000;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 0;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+}
+.quick-add-btn:hover { background-color: #e5e7eb; }
+
+/* */
+.currency-input-wrapper {
+    position: relative;
+    flex: 1;
+}
+.currency-input-wrapper input {
+    width: 100%;
+    padding-right: 30px;
+}
+.currency-input-wrapper .currency-symbol {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9ca3af;
+}
