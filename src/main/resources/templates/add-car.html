@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add New Car - Smart Car Costs</title>
+    <link rel="stylesheet" th:href="@{/style.css}" href="style.css">
+</head>
+<body>
+<div class="login-card" style="max-width: 600px; background-color: #2a3b4c; border: none;">
+    <h2 style="font-size: 32px;">Add new car</h2>
+    <p class="text-dim" style="margin-bottom: 20px; font-size: 16px;">Fill in your car's parameters</p>
+
+    <form th:action="@{/add-car}" th:object="${car}" method="POST">
+
+        <div class="section-title">Basic parameters</div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div class="form-group" style="margin-bottom: 0;">
+                <label>Brand <span style="color: red;">*</span></label>
+                <select th:field="*{brandId}">
+                    <option value="" disabled selected>BMW</option>
+                    <option th:each="brand : ${brands}" th:value="${brand.id}" th:text="${brand.name}"></option>
+                </select>
+            </div>
+            <div class="form-group" style="margin-bottom: 0;">
+                <label>Year <span style="color: red;">*</span></label>
+                <input type="number" th:field="*{year}">
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0;">
+                <label>Model <span style="color: red;">*</span></label>
+                <select th:field="*{modelId}">
+                    <option value="" disabled selected>Select model</option>
+                    <option th:each="model : ${models}" th:value="${model.id}" th:text="${model.modelName}"></option>
+                </select>
+            </div>
+            <div class="form-group" style="margin-bottom: 0;">
+                <label>Engine capacity <span style="color: red;">*</span></label>
+                <input type="number" step="0.1" th:field="*{engineCapacity}">
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0;">
+                <label>Generation</label>
+                <input type="text" th:field="*{generation}">
+            </div>
+            <div class="form-group" style="margin-bottom: 0;">
+                <label>Type of fuel <span style="color: red;">*</span></label>
+                <select th:field="*{fuelType}">
+                    <option value="" disabled selected>Select type of fuel</option>
+                    <option value="Petrol">Petrol</option>
+                    <option value="Diesel">Diesel</option>
+                    <option value="Hybrid">Hybrid</option>
+                    <option value="EV">EV</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="section-title">Identification</div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div class="form-group">
+                <label>Licence plate</label>
+                <input type="text" th:field="*{licensePlate}">
+            </div>
+            <div class="form-group">
+                <label>VIN</label>
+                <input type="text" th:field="*{vin}">
+                <small class="text-dim" style="font-size: 12px; display: block; margin-top: 5px;">Unique vehicle identifier</small>
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
+            <a th:href="@{/main.html}" class="btn btn-blue" style="text-align: center; text-decoration: none; display: inline-block;">Cancel</a>
+            <button type="submit" class="btn btn-blue">Add car</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

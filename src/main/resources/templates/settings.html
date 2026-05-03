@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Profile Settings</title>
+  <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+
+<div class="split-card" style="filter: blur(5px); opacity: 0.5; position: absolute; z-index: -1;">
+  <div class="split-left"><h2 style="font-size: 36px;">Main Interface<br><span class="text-green">Background</span></h2></div>
+</div>
+
+<div class="modal-overlay">
+  <div class="modal-content" style="max-width: 500px; padding: 30px;">
+
+
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
+      <div style="display: flex; align-items: center; gap: 15px;">
+        <div style="width: 60px; height: 60px; border-radius: 50%; background-color: #5c5c5c; border: 2px solid #1e293b;"></div>
+        <h2 style="margin: 0; font-size: 24px;">Ivan Ivanov</h2>
+      </div>
+      <div style="display: flex; gap: 10px;">
+        <form th:action="@{/logout}" method="POST" style="margin: 0;">
+          <button type="submit" class="btn btn-red" style="padding: 8px 16px; width: auto;">Log Out</button>
+        </form>
+        <button class="btn-icon">⚙️</button>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-bottom: 20px;">Profile <span style="float: right; cursor: pointer; background: rgba(255,255,255,0.2); border-radius: 50%; width: 24px; height: 24px; text-align: center; line-height: 24px; font-size: 12px;">✖</span></div>
+
+
+    <form th:action="@{/settings/update}" method="POST">
+      <div class="profile-row">
+        <label>Name</label>
+        <input type="text" name="name" value="Ivan Ivanov">
+      </div>
+      <div class="profile-row">
+        <label>Email</label>
+        <input type="email" name="email" value="some.email@gmail.com">
+      </div>
+      <div class="profile-row">
+        <label>Password</label>
+        <input type="password" name="password" value="**********">
+      </div>
+
+      <div class="profile-row" style="margin-top: 30px; margin-bottom: 40px;">
+        <label>Currency</label>
+        <div style="display: flex; gap: 15px; flex: 1; justify-content: space-between; align-items: center;">
+          <select name="currency" style="width: auto; background-color: #4b6584; color: white; padding: 8px 15px;">
+            <option value="EUR">€</option>
+            <option value="USD">$</option>
+          </select>
+          <button type="submit" class="btn btn-blue" style="width: 100px;">Edit</button>
+        </div>
+      </div>
+    </form>
+
+    <div style="text-align: right;">
+      <button type="button" class="btn btn-orange" style="width: auto; padding: 10px 20px;">Delete account</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>

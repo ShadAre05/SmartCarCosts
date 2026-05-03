@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Check Email</title>
+  <link rel="stylesheet" th:href="@{/style.css}" href="style.css">
+</head>
+<body>
+<!-- Optional: A blurred background to make the modal pop, just like the Figma file -->
+<div class="split-card" style="filter: blur(4px); opacity: 0.3; position: absolute; z-index: -1;">
+  <div class="split-left"><h2 style="font-size: 36px;">Restore access to your<br><span class="text-green">account</span></h2></div>
+</div>
+
+<!-- The Actual Modal -->
+<div class="modal-overlay">
+  <div class="modal-content" style="max-width: 550px;">
+    <h2 style="margin-bottom: 20px;">Check your email</h2>
+
+    <p style="margin-bottom: 20px; line-height: 1.5;">
+      If <strong th:text="${email}">*entered_email@gmail.com*</strong> matches an email address we have on our database, we've sent you an email with a link to reset your password.
+    </p>
+
+    <p style="margin-bottom: 20px; line-height: 1.5;">
+      If you haven't received the email in 1 minutes, check your spam folder, resend, or try a different email address.
+    </p>
+
+    <p style="margin-bottom: 40px; line-height: 1.5;">
+      Attention! The link is valid for 15 minutes.
+    </p>
+
+    <!-- Bottom Buttons separated by a subtle line -->
+    <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+      <span id="resendText" class="text-dim" style="cursor: not-allowed;">Resend (60s)</span>
+      <a th:href="@{/login.html}" href="login.html" class="text-link" style="font-size: 16px;">Return to Sign In</a>
+    </div>
+  </div>
+</div>
+
+<!-- The 60-second Timer Script -->
+<script>
+  let timeLeft = 60;
+  const resendText = document.getElementById('resendText');
+
+  const timer = setInterval(() => {
+    timeLeft--;
+    resendText.innerText = `Resend (${timeLeft}s)`;
+
+    if (timeLeft <= 0) {
+      clearInterval(timer);
+      resendText.innerText = "Resend link";
+      resendText.style.cursor = "pointer";
+      resendText.classList.remove('text-dim');
+      resendText.style.color = "#ffffff";
+    }
+  }, 1000);
+</script>
+</body>
+</html>
