@@ -1,4 +1,4 @@
-# Sprint 3: 2026.04.27 — 2026.05.03
+# Sprint 4: 2026.04.27 — 2026.05.03
 
 ## Goal of Sprint
 Update "test interface" into modern one, create other page to continue development(like settings and add costs), start to implement JWT authentication, start to create Service role, implement filters by dates and categories of expenses
