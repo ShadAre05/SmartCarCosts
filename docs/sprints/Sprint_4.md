@@ -9,25 +9,25 @@ Update "test interface" into modern one, create other page to continue developme
 |  Task  | Executor | PR |
 |--------|----------|-----|
 | Update front into modern web-design in Figma |  Arseni  | Don't needed |
-| Update Service station logic | Arseni |  |
-| Start to update front in html/css |  Arseni  |  |
-| Update DataBase for separating User and Service, and for JWT | Arseni |  |
-| Start developing Service station (after Arseni make changes into logic) |  Vladyslav  |  |
-| Fix bugs like: delete "back" in edit spendings, delete closing window after click outsite of it, add a date range(05.10 - 07. 21), hide password under "*" |  Vladyslav  |  |
-| Add commits from previous sprint (!!!) | Matsvei | |
-| Fix all bugs wich was from previous sprints and follow instruction for developing pages by Arseni (like add connection to DB) | Matsvei | |
+| Update Service station logic | Arseni | + |
+| Start to update front in html/css |  Arseni  | - |
+| Update DataBase for separating User and Service, and for JWT | Arseni | + |
+| Start developing Service station (after Arseni make changes into logic) |  Vladyslav  | - |
+| Fix bugs like: delete "back" in edit spendings, delete closing window after click outsite of it, add a date range(05.10 - 07. 21), hide password under "*" |  Vladyslav  | - |
+| Add commits from previous sprint (!!!) | Matsvei | + |
+| Fix all bugs wich was from previous sprints and follow instruction for developing pages by Arseni (like add connection to DB) | Matsvei | - |
 
 ### Metrics
 - **Planned tasks:** 7
-- **Complete:** 0
-- **Velocity:** --%
+- **Complete:** 4
+- **Velocity:** 57%
 
 ---
 
 ## Demo
 
 ### What was shown
-- Features by Arseni: [Screencast], [Figma], [Commited Code]
+- Features by Arseni: [Screencast], [Figma]
 - Features by Vladyslav: [Commited Code], [Screencast]
 - Features by Matsvei: [Commited code], [Screencast]
 
@@ -54,7 +54,7 @@ _Comments from mentor_
 1. Fix all bugs with that we encountered from previous sprints
 2. Update JWT and access to pages by login (if didn't pass from the current sprint)
 4. Make a "ala" final version of the project
-5. Start to make out project unified
+5. Start to make our project unified
 
 ---
 
@@ -62,10 +62,10 @@ _Comments from mentor_
 
 | Space | Status | Comment |
 |---------|--------|-------------|
-| Backend | 🟡 | We start to create backend clear solution |
-| Frontend | 🟡 | We must do develop our test version into modern |
+| Backend | 🟡 | We are on the way to finalizing the project because there are some pages and click-through rate on the site |
+| Frontend | 🟢 | The design in Figma represents the final version of our application. |
 | CI/CD | 🔴 | In future |
-| Documentation | 🟢 | Done |
+| Documentation | 🟢 | Done! |
 
 
 🟢 / 🟡 / 🔴
