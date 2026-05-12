@@ -139,7 +139,7 @@ h2 { font-size: 28px; margin-bottom: 10px; }
     max-width: 500px;
     width: 100%;
 }
-/* Layout для модалки Add Car */
+/* Layout for modal Add Car */
 .add-car-modal { width: 550px !important; }
 .form-section-title {
     color: #888;
@@ -187,7 +187,7 @@ h2 { font-size: 28px; margin-bottom: 10px; }
     font-weight: bold;
 }
 
-/* Layout для модалки Profile */
+/* Layout for modal Profile */
 .profile-modal { width: 450px !important; }
 .profile-header {
     display: flex;
