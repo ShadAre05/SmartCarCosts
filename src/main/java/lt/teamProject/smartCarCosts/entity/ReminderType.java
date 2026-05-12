@@ -9,7 +9,7 @@ public class ReminderType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "reminder_name", nullable = false)
     private String name;
 
     public ReminderType(){
