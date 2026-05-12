@@ -14,16 +14,19 @@ public class Car {
     @Column(name = "model_id")
     private Long modelId;
 
+    @Column(name = "year")
     private Integer year;
 
     @Column(name = "engine_capacity")
     private Double engineCapacity;
 
-    @Column(name = "licence_plate")
+    @Column(name = "license_plate")
     private String licencePlate;
 
+    @Column(name = "vin")
     private String vin;
 
+    @Column(name = "generation")
     private String generation;
 
     public Long getId(){

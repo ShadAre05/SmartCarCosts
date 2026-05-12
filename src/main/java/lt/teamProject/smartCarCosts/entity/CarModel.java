@@ -16,7 +16,15 @@ public class CarModel {
     @Column(name = "model_name")
     private String modelName;
 
-    public Long getId() { return id; }
-    public Long getBrandId() { return brandId; }
-    public String getModelName() { return modelName; }
+    public Long getId() {
+        return id;
+    }
+
+    public Long getBrandId() {
+        return brandId;
+    }
+
+    public String getModelName() {
+        return modelName;
+    }
 }

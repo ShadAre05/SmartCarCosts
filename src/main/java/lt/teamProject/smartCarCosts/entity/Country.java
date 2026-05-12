@@ -3,7 +3,7 @@ package lt.teamProject.smartCarCosts.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "country")
+@Table(name = "countries")
 public class Country {
 
     @Id
@@ -22,9 +22,5 @@ public class Country {
 
     public String getCountryName(){
         return countryName;
-    }
-
-    public void setCountryName(String countryName) {
-        this.countryName = countryName;
     }
 }

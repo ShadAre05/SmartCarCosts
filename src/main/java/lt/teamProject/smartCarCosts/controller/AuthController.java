@@ -149,28 +149,30 @@ public class AuthController {
         }
 
         // Get end date from form
-        var endDate = reminderRequest.getReminderDate();
+        LocalDate endDate = reminderRequest.getReminderDate();
 
         // Temporary list for calculated reminder dates
         List<String> calculatedReminders = new ArrayList<>();
 
+        ///Delete
         if (reminderRequest.isMonthBefore()) {
             // Subtract 1 calendar month
-            var date = endDate.minusMonths(1);
+            LocalDate date = endDate.minusMonths(1);
             calculatedReminders.add("1 month before: " + date);
         }
 
         if (reminderRequest.isWeekBefore()) {
             // Subtract 7 days
-            var date = endDate.minusDays(7);
+            LocalDate date = endDate.minusDays(7);
             calculatedReminders.add("1 week before: " + date);
         }
 
         if (reminderRequest.isDayBefore()) {
             // Subtract 1 day
-            var date = endDate.minusDays(1);
+            LocalDate date = endDate.minusDays(1);
             calculatedReminders.add("1 day before: " + date);
         }
+        ////////
 
         calculatedReminders.forEach(System.out::println);
 
@@ -219,7 +221,7 @@ public class AuthController {
 
         // Generate new token
         String token = UUID.randomUUID().toString();
-        String link = "http://localhost:8080/confirm-email?token=" + token;
+        String link = "http://localhost:8080/confirm-email?token=" + token;  ////Localhost?????? (hide this link and set in variable)
 
         confirmationTokenService.saveToken(token, email);
         emailService.sendConfirmationEmail(email, link);
@@ -230,6 +232,7 @@ public class AuthController {
         return "redirect:/confirm-email-notice";
     }
 
+    ////Dublicate code with CarController
     @PostMapping("/add-car")
     public String addCar(@ModelAttribute Car car){
         Long userId = 1L;
@@ -246,6 +249,7 @@ public class AuthController {
 
         return "redirect:/main-interface";
     }
+    //////
 
     // Main interface page
     @GetMapping("/main-interface")

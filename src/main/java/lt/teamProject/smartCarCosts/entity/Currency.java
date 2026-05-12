@@ -16,7 +16,15 @@ public class Currency {
     @Column(name = "currency_symbol")
     private String currencySymbol;
 
-    public Long getId() { return id; }
-    public String getCurrencyCode() { return currencyCode; }
-    public String getCurrencySymbol() { return currencySymbol; }
+    public Long getId() {
+        return id;
+    }
+
+    public String getCurrencyCode() {
+        return currencyCode;
+    }
+
+    public String getCurrencySymbol() {
+        return currencySymbol;
+    }
 }

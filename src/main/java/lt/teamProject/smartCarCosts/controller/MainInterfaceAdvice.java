@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 // This class works only for an AuthController
+
+//For what we need this class??????
 @ControllerAdvice(assignableTypes = AuthController.class)
 public class MainInterfaceAdvice {
 

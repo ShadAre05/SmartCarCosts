@@ -15,9 +15,11 @@ public class ReminderRequest {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate reminderDate;
 
+    ///Dont need it
     private boolean monthBefore;
     private boolean weekBefore;
     private boolean dayBefore;
+    ////
 
     public ReminderRequest(){
     }
@@ -38,6 +40,7 @@ public class ReminderRequest {
         this.reminderDate = reminderDate;
     }
 
+    ////////////////////////////////////////// Delete
     public boolean isMonthBefore(){
         return monthBefore;
     }
@@ -61,4 +64,5 @@ public class ReminderRequest {
     public void setDayBefore(boolean dayBefore){
         this.dayBefore = dayBefore;
     }
+    ///////////////////////////////////////////////
 }

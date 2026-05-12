@@ -37,7 +37,7 @@
 
         <!-- Countdown timer -->
         <script th:inline="javascript">
-            let remainingSeconds = [[${remainingSeconds}]];
+            let remainingSeconds = [[${remainingSeconds}]]; ///smth wrong with it
             const resendBtn = document.getElementById('resendBtn');
             const timerText = document.getElementById('timerText');
 
@@ -49,6 +49,7 @@
                 } else {
                     resendBtn.disabled = false;
                     timerText.textContent = "(you can resend now)";
+                    /// AI say that it should be here - clearInterval(interval);
                 }
             }
 

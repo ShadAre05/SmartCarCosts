@@ -34,9 +34,11 @@ public class CarService {
     public void addCar(Car car, Long userId) {
         long count = userCarRepository.countByUserId(userId);
 
+        ////Do we need this part of code???
         if (count >= 3){
             throw new RuntimeException("MAX 3 CARS");
         }
+        //////////
 
         // save car
         Car savedCar = carRepository.save(car);

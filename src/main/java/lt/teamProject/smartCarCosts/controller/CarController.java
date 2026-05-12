@@ -17,6 +17,7 @@ public class CarController {
         this.carService = carService;
     }
 
+    ////Wrong methods, didn't see in web
     @PostMapping("/my-cars/add")
     public String addCar(@ModelAttribute AddCarRequest addCarRequest) {
         Car car = new Car();
@@ -33,6 +34,7 @@ public class CarController {
         return "redirect:/main-interface";
     }
 
+    ////I cant even delete, because add-car incorrect
     @PostMapping("/my-cars/delete")
     public String deleteCar(@RequestParam Long carId) {
         Long userId = 1L;

@@ -13,6 +13,11 @@ public class FuelType {
     @Column(name = "fuel_type_name")
     private String fuelTypeName;
 
-    public Long getId() { return id; }
-    public String getFuelTypeName() { return fuelTypeName; }
+    public Long getId() {
+        return id;
+    }
+
+    public String getFuelTypeName() {
+        return fuelTypeName;
+    }
 }

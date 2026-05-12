@@ -3,7 +3,7 @@ package lt.teamProject.smartCarCosts.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "role")
+@Table(name = "roles")
 public class Role {
 
     @Id
@@ -22,9 +22,5 @@ public class Role {
 
     public String getRole() {
         return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
     }
 }
