@@ -200,33 +200,81 @@
 
 <!-- Add car modal -->
 <div id="addCarModal" class="modal">
-    <div class="add-car-page-modal">
+    <div class="modal-content dark-modal add-car-modal">
+        <h2>Add new car</h2>
+        <p class="text-dim">Fill in your car's parameters</p>
 
-        <div class="add-car-page">
+        <form th:action="@{/my-cars/add}" method="POST" class="dark-form">
+            <div class="form-section-title">Basic parameters</div>
 
-            <div class="add-car-panel">
-                <h2>Add new car</h2>
+            <div class="two-columns">
+                <div class="column">
+                    <div class="form-group">
+                        <label>Brand <span class="required-star">*</span></label>
+                        <select name="brandId" required>
+                            <option value="">Select brand</option>
+                            <option th:each="brand : ${brands}" th:value="${brand.id}" th:text="${brand.name}"></option>
+                        </select>
+                    </div>
 
-                <div class="add-car-layout">
-                    <div>
-                        <h3>By parameters</h3>
-                        <p>Fill in the parameters below</p>
+                    <div class="form-group">
+                        <label>Model <span class="required-star">*</span></label>
+                        <select name="modelId" required>
+                            <option value="">Select model</option>
+                            <option th:each="model : ${models}" th:value="${model.id}" th:text="${model.modelName}"></option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Generation</label>
+                        <input type="text" name="generation">
                     </div>
                 </div>
 
-                <div class="add-car-actions">
-                    <button type="button" class="add-car-cancel-btn" onclick="closeAddCarModal()">
-                        Cancel
-                    </button>
+                <div class="column">
+                    <div class="form-group">
+                        <label>Year <span class="required-star">*</span></label>
+                        <input type="number" name="year" required>
+                    </div>
 
-                    <button type="button" class="add-car-submit-btn">
-                        Add
-                    </button>
+                    <div class="form-group">
+                        <label>Engine capacity <span class="required-star">*</span></label>
+                        <input type="number" step="0.1" name="engineCapacity" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Type of fuel <span class="required-star">*</span></label>
+                        <select name="fuelTypeId" required>
+                            <option value="">Select type of fuel</option>
+                            <option th:each="fuel : ${fuelTypes}" th:value="${fuel.id}" th:text="${fuel.fuelTypeName}"></option>
+                        </select>
+                    </div>
                 </div>
             </div>
 
-        </div>
+            <div class="form-section-title">Identification</div>
 
+            <div class="two-columns">
+                <div class="column">
+                    <div class="form-group">
+                        <label>Licence plate</label>
+                        <input type="text" name="licencePlate">
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="form-group">
+                        <label>VIN</label>
+                        <input type="text" name="vin">
+                        <span class="input-hint">Unique vehicle identifier</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-actions-centered">
+                <button type="button" class="btn-blue-outline" onclick="closeAddCarModal()">Cancel</button>
+                <button type="submit" class="btn-blue-solid">Add car</button>
+            </div>
+        </form>
     </div>
 </div>
 
@@ -390,16 +438,49 @@
 </div>
 
 
-<!-- Profile modal -->
+<!-- Profile/Settings modal -->
 <div id="modal" class="modal">
-    <div class="modal-content">
+    <div class="modal-content dark-modal profile-modal">
+
+        <div class="profile-header">
+            <div class="profile-avatar-circle"></div>
+            <span class="profile-name-large" th:text="${userName}">Ivan Ivanov</span>
+            <a th:href="@{/logout}" class="btn-logout-red">Log Out</a>
+            <button class="btn-icon-gear">⚙️</button>
+        </div>
 
         <button class="close-btn" onclick="closeModal()">×</button>
+        <h2 class="text-center">Profile</h2>
 
-        <h2>Profile</h2>
+        <form th:action="@{/settings/update}" method="POST" class="dark-form profile-form">
+            <div class="form-group-horizontal">
+                <label>Name</label>
+                <input type="text" name="full_name" th:value="${userName}">
+            </div>
 
-        <!--SETTINGS EDIT PROFILE--->
+            <div class="form-group-horizontal">
+                <label>Email</label>
+                <input type="email" name="email" value="some.email@gmail.com">
+            </div>
 
+            <div class="form-group-horizontal">
+                <label>Password</label>
+                <input type="password" name="password" value="********">
+            </div>
+
+            <div class="form-group-horizontal currency-row">
+                <label>Currency</label>
+                <select name="currencyId" class="currency-select">
+                    <option th:each="curr : ${currencies}" th:value="${curr.id}" th:text="${curr.currencySymbol}"></option>
+                </select>
+
+                <button type="submit" class="btn-edit-blue">Edit</button>
+            </div>
+
+            <div class="profile-danger-zone">
+                <a th:href="@{/settings/delete-account}" class="btn-delete-account">Delete account</a>
+            </div>
+        </form>
     </div>
 </div>
 
