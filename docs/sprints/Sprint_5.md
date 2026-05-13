@@ -9,27 +9,25 @@ implement filters by dates and categories of expenses, fix bugs from previous sp
 ### Complete
 |  Task  | Executor | PR |
 |--------|----------|-----|
-| Look for a solution for JWT | Arseni |  |
-| Start developing Service station (from previous sprint) | Vladyslav  |  |
-| Fix bugs like: delete "back" in edit spendings, delete closing window after click outsite of it, add a date range(05.10 - 07. 21), hide password under "*" |  Vladyslav  |  |
-| Update frontend from Figma design | Vladyslav |  |
-| Fix PR wich has a lot of bugs and incorrect logic | Matsvei |  |
-| Continue to implement "login" from 2 sprints ago | Matsvei |  |
-| Update frontend from Figma design | Matsvei |  |
+| Look for a solution for JWT | Arseni | Don't need |
+| Start developing Service station (from previous sprint) | Vladyslav  | - |
+| Fix bugs like: delete "back" in edit spendings, delete closing window after click outsite of it, add a date range (05.10 - 07. 21), hide password under "*" |  Vladyslav  | - |
+| Update frontend from Figma design | Vladyslav | - |
+| Fix PR wich has a lot of bugs and incorrect logic | Matsvei | - |
+| Continue to implement "login" from 2 sprints ago | Matsvei | + |
+| Update frontend from Figma design | Matsvei | + |
 
 
 ### Metrics
 - **Planned tasks:** 7
-- **Complete:** 0
-- **Velocity:** --%
+- **Complete:** 2
+- **Velocity:** 28%
 
 ---
 
 ## Demo
 
 ### What was shown
-- Features by Arseni: [Screencast], [Figma]
-- Features by Vladyslav: [Commited Code], [Screencast]
 - Features by Matsvei: [Commited code], [Screencast]
 
 ### Feedback
