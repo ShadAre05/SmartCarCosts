@@ -7,6 +7,9 @@ import lt.teamProject.smartCarCosts.validation.ValidPassword;
 
 public class RegisterRequest {
 
+    @NotBlank(message = "Country is required")
+    private String country;
+
     // User full name (2-30 characters)
     @ValidFullName
     private String fullName;
@@ -20,8 +23,6 @@ public class RegisterRequest {
     @ValidPassword
     private String password;
 
-    // Optional user country
-    private String country;
 
     public RegisterRequest() {
     }

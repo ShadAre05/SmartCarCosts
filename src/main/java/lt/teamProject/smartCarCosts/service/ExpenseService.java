@@ -1,6 +1,5 @@
 package lt.teamProject.smartCarCosts.service;
 
-
 import lt.teamProject.smartCarCosts.entity.ExpenseCategory;
 import lt.teamProject.smartCarCosts.repository.ExpenseCategoryRepository;
 import lt.teamProject.smartCarCosts.repository.ExpenseRepository;
@@ -22,28 +21,31 @@ public class ExpenseService {
         this.expenseCategoryRepository = expenseCategoryRepository;
     }
 
-    public BigDecimal getAllTimeTotal(){
+    public BigDecimal getAllTimeTotal() {
         return expenseRepository.getAllTimeTotal();
     }
 
-    // Get total amount for selected date period
     public BigDecimal getTotalByPeriod(LocalDate startDate, LocalDate endDate) {
-        if (startDate == null || endDate == null){
+        if (startDate == null || endDate == null) {
             return BigDecimal.ZERO;
         }
+
         return expenseRepository.getTotalByPeriod(startDate, endDate);
     }
 
-    // Format selected period for UI
     public String formatSelectedPeriod(LocalDate startDate, LocalDate endDate) {
         if (startDate == null || endDate == null) {
-            return "select date";
+            return "XXXX-XX-XX - XXXX-XX-XX";
         }
+
         return startDate + " - " + endDate;
     }
 
-    public List<ExpenseCategory> getExpenseCategories(){
-        return expenseCategoryRepository.findAll();
+    public List<ExpenseCategory> getExpenseCategories() {
+        return expenseCategoryRepository.findAll()
+                .stream()
+                .filter(category -> category != null)
+                .filter(category -> category.getName() != null)
+                .toList();
     }
-
 }

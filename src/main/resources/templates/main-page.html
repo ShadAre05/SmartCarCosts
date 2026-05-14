@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>SmartCarCosts</title>
@@ -7,33 +7,74 @@
 </head>
 <body>
 
-<div class="page-wrapper">
-
-    <header class="header">
-        <form th:action="@{/}" method="get">
+<div class="main-page">
+    <header class="main-header">
+        <form th:action="@{/main-page}" method="get">
             <button type="submit" class="logo-btn">SmartCarCosts</button>
         </form>
 
-        <div class="auth-block">
-            <span>Already have an account?</span>
-            <form th:action="@{/login}" method="get">
-                <button type="submit" class="sign-in-btn">Sign In</button>
-            </form>
-        </div>
+        <form th:action="@{/login}" method="get">
+            <button type="submit" class="get-started-btn">Get started</button>
+        </form>
     </header>
 
-    <main class="hero">
-        <section class="hero-content">
-            <p>
-                You tired to spend a lot of money for your car and want to
-                calculate your amount? Let's start to make more objective spending
-            </p>
+    <main class="main-content">
+        <section class="intro-block">
+            <h1>Take control of your car expenses.</h1>
 
-            <form th:action="@{/register}" method="get">
-                <button type="submit" class="get-started-btn">Get started</button>
-            </form>
+            <h2>Track. Analyze. Save.</h2>
+
+            <p>
+                <span>SmartCarCosts</span> helps you understand where<br>
+                your money goes — and how to spend it<br>
+                smarter.
+            </p>
+        </section>
+
+        <section class="expenses-card">
+            <h3>Expenses per month</h3>
+
+            <div class="expense-row">
+                <span>Fuel</span>
+                <span>€67</span>
+            </div>
+
+            <div class="expense-row">
+                <span>Insurance</span>
+                <span>€31</span>
+            </div>
+
+            <div class="expense-row">
+                <span>Service station</span>
+                <span>€189</span>
+            </div>
+
+            <div class="expense-divider"></div>
+
+            <div class="expense-row total-row">
+                <span>Total</span>
+                <span>€287</span>
+            </div>
         </section>
     </main>
+
+    <footer class="stats-block">
+        <div class="stat-item">
+            <strong>12000+</strong>
+            <span>Active users</span>
+        </div>
+
+        <div class="stat-item">
+            <strong>€ 3.2M</strong>
+            <span>Expenses tracked</span>
+        </div>
+
+        <div class="stat-item">
+            <strong>4.9 ★</strong>
+            <span>Rating</span>
+        </div>
+    </footer>
 </div>
+
 </body>
 </html>

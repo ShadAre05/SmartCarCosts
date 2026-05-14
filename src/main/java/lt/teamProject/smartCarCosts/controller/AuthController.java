@@ -80,6 +80,8 @@ public class AuthController {
 
         userService.registerUser(registerRequest);
         // Save user data in session
+        Long userId = userService.getUserIdByEmail(registerRequest.getEmail());
+        session.setAttribute("userId", userId);
         session.setAttribute("userName", registerRequest.getFullName());
         session.setAttribute("userEmail", registerRequest.getEmail());
         // Create confirmation token
@@ -99,6 +101,7 @@ public class AuthController {
     @GetMapping("/confirm-email-notice")
     public String showConfirmEmailNoticePage(Model model, HttpSession session) {
         Long resendAvailableAt = (Long) session.getAttribute("resendAvailableAt");
+        String userEmail = (String) session.getAttribute("userEmail");
 
         long remainingSeconds = 0;
 
@@ -109,6 +112,7 @@ public class AuthController {
             }
         }
         model.addAttribute("remainingSeconds", remainingSeconds);
+        model.addAttribute("userEmail", userEmail);
         return "confirm-email-notice";
     }
 
@@ -172,7 +176,7 @@ public class AuthController {
             LocalDate date = endDate.minusDays(1);
             calculatedReminders.add("1 day before: " + date);
         }
-        ////////
+
 
         calculatedReminders.forEach(System.out::println);
 
@@ -232,24 +236,6 @@ public class AuthController {
         return "redirect:/confirm-email-notice";
     }
 
-    ////Dublicate code with CarController
-    @PostMapping("/add-car")
-    public String addCar(@ModelAttribute Car car){
-        Long userId = 1L;
-        carService.addCar(car, userId);
-
-        return "redirect:/main-interface";
-    }
-
-    @PostMapping("/delete-car")
-    public String deleteCar(@RequestParam Long carId) {
-        Long userId = 1L;
-
-        carService.deleteCar(carId, userId);
-
-        return "redirect:/main-interface";
-    }
-    //////
 
     // Main interface page
     @GetMapping("/main-interface")
@@ -267,8 +253,7 @@ public class AuthController {
         }
         model.addAttribute("userName", userName);
 
-
-        Long userId = 1L; // temporary until real logged-in user is connected
+        Long userId = 1L;
 
         //TEMP: replace with real DB data
         List<Car> cars = carService.getUserCars(userId);
@@ -289,7 +274,4 @@ public class AuthController {
 
         return "main-interface";
     }
-
-
-
 }

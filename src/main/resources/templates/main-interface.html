@@ -32,11 +32,6 @@
 
                 <div class="cars-title">Your Cars</div>
 
-                <!-- Show when no cars exist-->
-                <div class="empty-cars" th:if="${#lists.isEmpty(cars)}">
-                    No cars yet
-                </div>
-
                 <div class="cars-fixed">
 
                     <!-- Slot 1 -->
@@ -47,7 +42,8 @@
                                 <button class="circle-btn">-</button>
                             </form>
 
-                            <button class="car-card" th:text="${cars[0].name}"></button>
+                            <button class="car-card" th:text="${cars[0].licencePlate}"></button>
+
                         </div>
 
                         <div th:if="${cars.size() == 0}">
@@ -64,7 +60,8 @@
                                 <button class="circle-btn">-</button>
                             </form>
 
-                            <button class="car-card" th:text="${cars[1].name}"></button>
+                            <button class="car-card" th:text="${cars[1].licencePlate}"></button>
+
                         </div>
 
                         <div th:if="${cars.size() <= 1}">
@@ -81,7 +78,8 @@
                                 <button class="circle-btn">-</button>
                             </form>
 
-                            <button class="car-card" th:text="${cars[2].name}"></button>
+                            <button class="car-card" th:text="${cars[2].licencePlate}"></button>
+
                         </div>
 
                         <div th:if="${cars.size() <= 2}">
@@ -94,15 +92,15 @@
             </div>
 
             <!-- Reminder buttons -->
-            <div class="reminder-buttons">
-                <button type="button" class="reminder-btn" onclick="openReminderModal()">
-                    Reminders
-                </button>
+                <div class="reminder-buttons">
+                    <button type="button" class="reminder-btn" onclick="openReminderModal()">
+                        Add new reminder
+                    </button>
 
-                <button type="button" class="reminder-btn" onclick="openMyRemindersModal()">
-                    My reminders
-                </button>
-            </div>
+                    <button type="button" class="reminder-btn" onclick="openMyRemindersModal()">
+                        My reminders
+                    </button>
+                </div>
 
         </section>
 
@@ -112,13 +110,27 @@
             <div class="costs-main-block">
 
                 <div class="content-area">
-                    <div class="costs-title">Costs</div>
+                    <div class="costs-header">
+                        <h2>Costs</h2>
 
-                    <div class="empty-state-box">
-                        <p>
-                            Select the car whose statistics<br>
-                            you want to view
-                        </p>
+                        <div class="costs-header-actions">
+                            <button type="button" class="cost-manage-btn" onclick="openEditSpendingModal()">
+                                Manage
+                            </button>
+
+                            <button type="button" class="cost-add-btn" onclick="openAddTransactionModal()">
+                                + Add costs
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="costs-list">
+                        <div class="cost-row" th:each="category : ${expenseCategories}">
+                            <div class="cost-category">
+                                <span class="cost-icon"></span>
+                                <span th:text="${category.name}">Fuel</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -145,7 +157,7 @@
 
                     <span class="selected-cost-period"
                           th:text="${selectedPeriod}">
-                        select date
+                        XXXX-XX-XX - XXXX-XX-XX
                     </span>
 
                     <!-- Reset selected period -->
@@ -170,17 +182,6 @@
                         0€
                     </div>
                 </div>
-            </div>
-
-            <!-- Add costs button -->
-            <div class="costs-side-actions">
-                <button type="button" class="big-plus" onclick="openAddTransactionModal()">+</button>
-                <span class="add-costs-text">Add costs</span>
-
-                <!-- Opens edit spending modal -->
-                <button type="button" class="edit-spending-btn" onclick="openEditSpendingModal()">
-                    ✎ Edit spending
-                </button>
             </div>
 
         </section>
@@ -282,7 +283,6 @@
 <div id="reminderModal" class="modal">
     <div class="reminder-modal-content">
 
-        <button class="close-btn" onclick="closeReminderModal()">×</button>
 
         <h2>Remind page</h2>
 
@@ -378,30 +378,8 @@
 <!--Edit spending modal -->
 <div id="editSpendingModal" class="modal">
     <div class="edit-spending-modal-content">
-
-        <!-- Close modal  -->
         <button class="close-btn" onclick="closeEditSpendingModal()">×</button>
-
         <h2>History of spending</h2>
-
-        <!-- Date filter -->
-        <div class="edit-spending-date-row">
-            <label class="edit-date-label" onclick="openEditDatePicker()">Select date:</label>
-
-            <!-- Hidden date input -->
-            <input type="date"
-                   id="editSpendingDate"
-                   class="edit-spending-date-hidden"
-                   onchange="showSelectedEditDate()">
-
-            <!-- Shows selected date -->
-            <span id="selectedEditDate" class="selected-edit-date">select date</span>
-        </div>
-
-        <!-- Close button -->
-        <button type="button" class="edit-spending-done-btn" onclick="closeEditSpendingModal()">
-            Done
-        </button>
     </div>
 </div>
 
@@ -561,10 +539,21 @@
         selectedDateText.textContent = selectedDate ? selectedDate : "select date";
     }
 
-    const shouldOpenReminderModal = [[${openReminderModal}]];
+    const shouldOpenReminderModal = /*[[${openReminderModal}]]*/ false;
 
     if (shouldOpenReminderModal){
         openReminderModal();
+    }
+
+    function openHistoryEndDatePicker() {
+        document.getElementById("historyEndDate").showPicker();
+    }
+
+    const shouldOpenHistoryModal =
+        /*[[${openHistoryModal}]]*/ false;
+
+    if (shouldOpenHistoryModal) {
+        openEditSpendingModal();
     }
 
     document.addEventListener("DOMContentLoaded", function () {
@@ -573,36 +562,6 @@
         const myRemindersModal = document.getElementById("myRemindersModal");
         const addCarModal = document.getElementById("addCarModal")
         const addTransactionModal = document.getElementById("addTransactionModal");
-
-        reminderModal?.addEventListener("click", function (event) {
-            if (event.target === reminderModal) {
-                closeReminderModal();
-            }
-        });
-
-        editSpendingModal?.addEventListener("click", function (event) {
-            if (event.target === editSpendingModal){
-                closeEditSpendingModal();
-            }
-        });
-
-        myRemindersModal?.addEventListener("click", function (event){
-            if (event.target === myRemindersModal) {
-                closeMyRemindersModal();
-            }
-        });
-
-        addCarModal?.addEventListener("click", function (event) {
-            if (event.target === addCarModal) {
-                closeAddCarModal();
-            }
-        })
-
-        addTransactionModal?.addEventListener("click", function (event) {
-            if (event.target === addTransactionModal) {
-                closeAddTransactionModal();
-            }
-        });
     });
 
 
