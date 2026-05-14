@@ -210,36 +210,36 @@
             <div class="two-columns">
                 <div class="column">
                     <div class="form-group">
-                        <label>Brand <span class="required-star">*</span></label>
-                        <select name="brandId" required>
+                        <label>Brand <span style="color: red;">*</span></label>
+                        <select name="brandId" id="brandSelect" required onchange="filterModels()">
                             <option value="">Select brand</option>
                             <option th:each="brand : ${brands}" th:value="${brand.id}" th:text="${brand.name}"></option>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label>Model <span class="required-star">*</span></label>
-                        <select name="modelId" required>
+                        <label>Model <span style="color: red;">*</span></label>
+                        <select name="modelId" id="modelSelect" required disabled>
                             <option value="">Select model</option>
-                            <option th:each="model : ${models}" th:value="${model.id}" th:text="${model.modelName}"></option>
+                            <option th:each="model : ${models}" th:value="${model.id}" th:data-brand="${model.brand.id}" th:text="${model.modelName}"></option>
                         </select>
                     </div>
 
                     <div class="form-group">
                         <label>Generation</label>
-                        <input type="text" name="generation">
+                        <input type="text" name="generation" maxlength="20">
                     </div>
                 </div>
 
                 <div class="column">
                     <div class="form-group">
                         <label>Year <span class="required-star">*</span></label>
-                        <input type="number" name="year" required>
+                        <input type="number" name="year" min="1970" max="2026" required>
                     </div>
 
                     <div class="form-group">
                         <label>Engine capacity <span class="required-star">*</span></label>
-                        <input type="number" step="0.1" name="engineCapacity" required>
+                        <input type="number" step="0.1" name="engineCapacity" min="0.5" max="10.0" required>
                     </div>
 
                     <div class="form-group">
@@ -264,7 +264,7 @@
                 <div class="column">
                     <div class="form-group">
                         <label>VIN</label>
-                        <input type="text" name="vin">
+                        <input type="text" name="vin" minlength="17" maxlength="17" pattern="[a-zA-Z0-9]{17}" title="Must be exactly 17 characters">
                         <span class="input-hint">Unique vehicle identifier</span>
                     </div>
                 </div>
@@ -452,35 +452,40 @@
         <button class="close-btn" onclick="closeModal()">×</button>
         <h2 class="text-center">Profile</h2>
 
-        <form th:action="@{/settings/update}" method="POST" class="dark-form profile-form">
+        <form th:action="@{/settings/update}" method="POST" id="settingsForm" class="dark-form profile-form">
             <div class="form-group-horizontal">
                 <label>Name</label>
-                <input type="text" name="full_name" th:value="${userName}">
+                <input type="text" name="full_name" th:value="${userName}" class="settings-input" disabled>
             </div>
 
-            <div class="form-group-horizontal">
-                <label>Email</label>
-                <input type="email" name="email" value="some.email@gmail.com">
-            </div>
 
             <div class="form-group-horizontal">
                 <label>Password</label>
-                <input type="password" name="password" value="********">
+                <input type="password" name="password" minlength="8" placeholder="New password" class="settings-input" disabled>
             </div>
 
             <div class="form-group-horizontal currency-row">
                 <label>Currency</label>
-                <select name="currencyId" class="currency-select">
+                <select name="currencyId" class="settings-input" disabled>
                     <option th:each="curr : ${currencies}" th:value="${curr.id}" th:text="${curr.currencySymbol}"></option>
                 </select>
 
-                <button type="submit" class="btn-edit-blue">Edit</button>
+                <button type="button" class="btn-edit-blue" onclick="enableEdit()">Edit</button>
             </div>
+
+            <button type="submit" id="saveSettingsBtn" class="btn-blue-solid" style="display: none; width: 100%; margin-top: 20px;">Save changes</button>
 
             <div class="profile-danger-zone">
                 <a th:href="@{/settings/delete-account}" class="btn-delete-account">Delete account</a>
             </div>
         </form>
+        <script>
+
+            function enableEdit() {
+                document.querySelectorAll('.settings-input').forEach(input => input.disabled = false);
+                document.getElementById('saveSettingsBtn').style.display = 'block';
+            }
+        </script>
     </div>
 </div>
 
@@ -561,7 +566,7 @@
         selectedDateText.textContent = selectedDate ? selectedDate : "select date";
     }
 
-    const shouldOpenReminderModal = [[${openReminderModal}]];
+    const shouldOpenReminderModal = [[$,{openReminderModal}]];
 
     if (shouldOpenReminderModal){
         openReminderModal();
@@ -606,6 +611,25 @@
     });
 
 
+</script>
+<script>
+    function filterModels() {
+        const brandId = document.getElementById('brandSelect').value;
+        const modelSelect = document.getElementById('modelSelect');
+
+        modelSelect.value = "";
+
+        if (!brandId) {
+            modelSelect.disabled = true;
+            return;
+        }
+
+        modelSelect.disabled = false;
+        Array.from(modelSelect.options).forEach(opt => {
+            if (opt.value === "") return;
+            opt.style.display = (opt.getAttribute('data-brand') === brandId) ? 'block' : 'none';
+        });
+    }
 </script>
 </body>
 </html>

@@ -19,19 +19,25 @@ public class CarController {
 
     ////Wrong methods, didn't see in web
     @PostMapping("/my-cars/add")
-    public String addCar(@ModelAttribute AddCarRequest addCarRequest) {
-        Car car = new Car();
-        car.setModelId(addCarRequest.getModelId());
-        car.setYear(addCarRequest.getYear());
-        car.setEngineCapacity(addCarRequest.getEngineCapacity());
-        car.setLicencePlate(addCarRequest.getLicencePlate());
-        car.setVin(addCarRequest.getVin());
-        car.setGeneration(addCarRequest.getGeneration());
+    public String addCar(@ModelAttribute AddCarRequest request) {
+        try {
+            Car car = new Car();
+            car.setModelId(request.getModelId());
+            car.setYear(request.getYear());
+            car.setEngineCapacity(request.getEngineCapacity());
+            car.setFuelTypeId(request.getFuelTypeId());
+            car.setLicencePlate(request.getLicencePlate());
+            car.setVin(request.getVin());
+            car.setGeneration(request.getGeneration());
 
-        Long userId = 1L;
-        carService.addCar(car, userId);
+            Long userId = 1L;
+            carService.addCar(car, userId);
 
-        return "redirect:/main-interface";
+            return "redirect:/main-interface?success";
+        } catch (Exception e) {
+            System.out.println("Add Car Error: " + e.getMessage());
+            return "redirect:/main-interface?error=db_error";
+        }
     }
 
     ////I cant even delete, because add-car incorrect

@@ -265,3 +265,38 @@ h2 { font-size: 28px; margin-bottom: 10px; }
 .outline-submit {
     background-color: #cbd5e1 !important; color: black !important; font-weight: bold; width: 100%; margin-top: 20px;
 }
+/* Убираем стрелочки у инпутов года и объема двигателя */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+.auth-large-container {
+    /* --- НАСТРОЙКИ ШИРИНЫ --- */
+    width: 80vw !important; /* Увеличили до 80% от ширины экрана */
+    max-width: 1200px !important; /* Разрешили растягиваться до 1200 пикселей */
+
+    /* --- НАСТРОЙКИ ВЫСОТЫ --- */
+    height: auto !important;
+    min-height: 70vh !important; /* ДОБАВИЛИ: Минимальная высота 70% от экрана */
+    padding: 60px !important; /* Увеличили отступы внутри, чтобы окно стало "пухлее" */
+
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: stretch;
+}
+
+/* Эти классы не трогаем, они и так занимают по 50% от нового большого окна */
+.auth-large-container .left-side,
+.auth-large-container .right-side {
+    width: 50% !important;
+    box-sizing: border-box;
+}
+
+.auth-large-container .right-side {
+    padding: 40px !important;
+}
