@@ -33,6 +33,18 @@ public class User {
     @Column(name = "reset_token")
     private String resetToken;
 
+    @ManyToOne
+    @JoinColumn(name = "currency_id")
+    private Currency currency;
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
+    }
+
     public String getResetToken() {
         return resetToken;
     }

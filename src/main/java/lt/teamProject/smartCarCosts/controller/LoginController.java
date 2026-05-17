@@ -29,7 +29,7 @@ public class LoginController {
         this.tokenRepository = tokenRepository;
     }
 
-    // --- 1. ЛОГИН ---
+    // --- 1. LOGIN ---
     @GetMapping("/login")
     public String showLoginPage() {
         return "login";
@@ -38,21 +38,30 @@ public class LoginController {
     @PostMapping("/login")
     public String processLogin(@RequestParam("email") String email,
                                @RequestParam("password") String password,
-                               HttpSession session) {
-        // Ищем пользователя в базе
+                               jakarta.servlet.http.HttpServletResponse response) {
+
         Optional<User> userOpt = userRepository.findByEmail(email);
 
-        // Проверяем, существует ли он и совпадает ли пароль
         if (userOpt.isPresent() && userOpt.get().getPassword().equals(password)) {
-            // Если совпадает - сохраняем его ID в сессию (он теперь залогинен)
-            session.setAttribute("userId", userOpt.get().getId());
+            User user = userOpt.get();
+
+            String jwtToken = lt.teamProject.smartCarCosts.util.JwtUtil.generateToken(
+                    user.getId(), user.getFullName(), user.getEmail()
+            );
+
+            jakarta.servlet.http.Cookie jwtCookie = new jakarta.servlet.http.Cookie("jwt", jwtToken);
+            jwtCookie.setHttpOnly(true);
+            jwtCookie.setPath("/");
+            jwtCookie.setMaxAge(86400);
+
+            response.addCookie(jwtCookie);
+
             return "redirect:/main-interface";
         }
-        // Если ошибка - возвращаем на логин с пометкой
         return "redirect:/login?error=true";
     }
 
-    // --- 2. ЗАПРОС НА СБРОС ПАРОЛЯ ---
+    // --- 2. PASSWORD RESET REQUEST ---
     @GetMapping("/forget-password")
     public String showForgetPasswordPage() {
         return "forget-password";
@@ -60,49 +69,49 @@ public class LoginController {
 
     @PostMapping("/forget-password")
     public String processForgetPassword(@RequestParam("email") String email) {
-        // Проверяем, есть ли такая почта в БД
+        // Check if the email exists in the database
         if (userRepository.existsByEmail(email)) {
 
-            // 1. Генерируем уникальный токен
+            // 1. Generate a unique token
             String tokenValue = java.util.UUID.randomUUID().toString();
 
-            // 2. Сохраняем токен в базу на 15 минут
+            // 2. Save the token for 15 minutes
             ConfirmationToken token = new ConfirmationToken(
                     tokenValue, email, java.time.LocalDateTime.now(), java.time.LocalDateTime.now().plusMinutes(15)
             );
             tokenRepository.save(token);
 
-            // 3. ВОТ ГЛАВНАЯ СТРОЧКА: Приклеиваем токен к ссылке!
+            // 3. Attach the token to the reset link
             String resetLink = "http://localhost:8080/reset-password?token=" + tokenValue;
 
-            // 4. Отправляем письмо с правильной ссылкой
+            // 4. Send the password reset email
             emailService.sendPasswordResetEmail(email, resetLink);
         }
 
         return "redirect:/forget-password?success&email=" + email;
     }
 
-    // --- 3. СТРАНИЦА ВВОДА НОВОГО ПАРОЛЯ ---
+    // --- 3. NEW PASSWORD PAGE ---
     @GetMapping("/reset-password")
     public String showResetPasswordPage(@RequestParam(value = "token", required = false) String token, Model model) {
         if (token == null || token.isEmpty()) {
-            return "redirect:/login"; // Если зашли без токена
+            return "redirect:/login"; // Redirect if the token is missing
         }
 
-        // Проверяем, существует ли токен в базе
+        // Check whether the token exists in the database
         Optional<ConfirmationToken> tokenOpt = tokenRepository.findByToken(token);
 
-        // Если токена нет или его время вышло (прошло > 15 минут)
+        // Redirect if the token is invalid or expired
         if (tokenOpt.isEmpty() || tokenOpt.get().getExpiresAt().isBefore(LocalDateTime.now())) {
             return "redirect:/login?error=invalid_token";
         }
 
-        // Передаем токен в HTML
+        // Pass the token to the HTML page
         model.addAttribute("token", token);
         return "reset-password";
     }
 
-    // --- 4. СОХРАНЕНИЕ НОВОГО ПАРОЛЯ ---
+    // --- 4. SAVE NEW PASSWORD ---
     @PostMapping("/reset-password")
     public String saveNewPassword(@RequestParam("token") String token,
                                   @RequestParam("password") String newPassword) {
@@ -112,12 +121,11 @@ public class LoginController {
         if (tokenOpt.isPresent() && tokenOpt.get().getExpiresAt().isAfter(LocalDateTime.now())) {
             String email = tokenOpt.get().getEmail();
 
-            // Находим юзера и меняем пароль
+            // Find the user and update the password
             User user = userRepository.findByEmail(email).orElseThrow();
-            user.setPassword(newPassword); // Сохраняем новый пароль
+            user.setPassword(newPassword);
             userRepository.save(user);
 
-            // Удаляем токен, чтобы его нельзя было использовать дважды
             tokenRepository.delete(tokenOpt.get());
 
             return "redirect:/login?resetSuccess=true";
@@ -126,22 +134,17 @@ public class LoginController {
         return "redirect:/login?error=invalid_token";
     }
 
-    @GetMapping("/main-interface")
-    public String showMainInterface(HttpSession session, Model model) {
+    @GetMapping("/logout")
+    public String logout(jakarta.servlet.http.HttpServletResponse response, jakarta.servlet.http.HttpSession session) {
+        session.invalidate();
 
-        // 1. ПРОВЕРКА БЕЗОПАСНОСТИ: Если в сессии нет userId, значит человек не залогинен!
-        if (session.getAttribute("userId") == null) {
-            // Выкидываем его на страницу логина
-            return "redirect:/login";
-        }
 
-        // 2. Если залогинен - достаем его ID из сессии
-        Long userId = (Long) session.getAttribute("userId");
+        jakarta.servlet.http.Cookie jwtCookie = new jakarta.servlet.http.Cookie("jwt", null);
+        jwtCookie.setPath("/");
+        jwtCookie.setMaxAge(0);
+        response.addCookie(jwtCookie);
 
-        // ... здесь ты можешь достать пользователя из БД по ID и передать его имя в HTML ...
-        // User user = userRepository.findById(userId).orElseThrow();
-        // model.addAttribute("userName", user.getFullName());
-
-        return "main-interface";
+        return "redirect:/login";
     }
+
 }

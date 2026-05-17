@@ -244,18 +244,27 @@ public class AuthController {
                            @RequestParam(required = false) LocalDate startDate,
                            @RequestParam(required = false) LocalDate endDate
     ) {
+        // 1. Retrieve the actual user ID from the session
+        Long userId = (Long) session.getAttribute("userId");
 
+
+        // If the user ID is missing (user is not logged in),
+        // redirect them to the login page
+        if (userId == null) {
+            return "redirect:/login";
+        }
+
+        // 2. Retrieve the actual user name from the session
         String userName = (String) session.getAttribute("userName");
-
-        // Fallback name if session is empty
         if (userName == null){
             userName = "User";
         }
         model.addAttribute("userName", userName);
 
-        Long userId = 1L;
+        String userEmail = (String) session.getAttribute("userEmail");
+        model.addAttribute("userEmail", userEmail != null ? userEmail : "no-email@example.com");
 
-        //TEMP: replace with real DB data
+        // 3. Load cars that belong ONLY to the current user
         List<Car> cars = carService.getUserCars(userId);
         model.addAttribute("cars", cars);
 

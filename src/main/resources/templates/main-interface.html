@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Main Interface</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="stylesheet" th:href="@{/css/main-interface.css}">
 </head>
 <body>
@@ -42,12 +43,12 @@
                     <!-- Slot 1 -->
                     <div class="car-row">
                         <div th:if="${cars.size() > 0}">
-                            <form th:action="@{/delete-car}" method="post">
+                            <form th:action="@{/my-cars/delete}" method="post">
                                 <input type="hidden" name="carId" th:value="${cars[0].id}">
                                 <button class="circle-btn">-</button>
                             </form>
 
-                            <button class="car-card" th:text="${cars[0].name}"></button>
+                            <button class="car-card" th:text="${cars[0].year + ' - ' + (cars[0].licencePlate != null ? cars[0].licencePlate : 'No plate')}"></button>
                         </div>
 
                         <div th:if="${cars.size() == 0}">
@@ -59,12 +60,12 @@
                     <!-- Slot 2 -->
                     <div class="car-row">
                         <div th:if="${cars.size() > 1}">
-                            <form th:action="@{/delete-car}" method="post">
+                            <form th:action="@{/my-cars/delete}" method="post">
                                 <input type="hidden" name="carId" th:value="${cars[1].id}">
                                 <button class="circle-btn">-</button>
                             </form>
 
-                            <button class="car-card" th:text="${cars[1].name}"></button>
+                            <button class="car-card" th:text="${cars[1].year + ' - ' + (cars[1].licencePlate != null ? cars[0].licencePlate : 'No plate')}"></button>
                         </div>
 
                         <div th:if="${cars.size() <= 1}">
@@ -76,12 +77,12 @@
                     <!-- Slot 3 -->
                     <div class="car-row">
                         <div th:if="${cars.size() > 2}">
-                            <form th:action="@{/delete-car}" method="post">
+                            <form th:action="@{/my-cars/delete}" method="post">
                                 <input type="hidden" name="carId" th:value="${cars[2].id}">
                                 <button class="circle-btn">-</button>
                             </form>
 
-                            <button class="car-card" th:text="${cars[2].name}"></button>
+                            <button class="car-card" th:text="${cars[2].year + ' - ' + (cars[2].licencePlate != null ? cars[0].licencePlate : 'No plate')}"></button>
                         </div>
 
                         <div th:if="${cars.size() <= 2}">
@@ -453,31 +454,50 @@
         <h2 class="text-center">Profile</h2>
 
         <form th:action="@{/settings/update}" method="POST" class="dark-form profile-form">
+
             <div class="form-group-horizontal">
                 <label>Name</label>
-                <input type="text" name="full_name" th:value="${userName}">
+                <input type="text" name="full_name" th:value="${userName}" id="profileName" readonly>
             </div>
 
             <div class="form-group-horizontal">
                 <label>Email</label>
-                <input type="email" name="email" value="some.email@gmail.com">
+                <input type="email" name="email" th:value="${userEmail}" id="profileEmail" readonly>
             </div>
 
-            <div class="form-group-horizontal">
+            <div class="form-group-horizontal" id="viewPasswordGroup">
                 <label>Password</label>
-                <input type="password" name="password" value="********">
+                <input type="password" value="********" readonly style="pointer-events: none;">
+            </div>
+
+            <div id="editPasswordGroup" style="display: none; width: 100%;">
+                <div class="form-group-horizontal">
+                    <label>Password</label>
+                    <input type="password" name="oldPassword" placeholder="Enter old password">
+                </div>
+                <div class="form-group-horizontal">
+                    <label></label>
+                    <input type="password" name="newPassword" placeholder="Enter new password">
+                </div>
             </div>
 
             <div class="form-group-horizontal currency-row">
                 <label>Currency</label>
-                <select name="currencyId" class="currency-select">
+                <select name="currencyId" class="currency-select" id="profileCurrency">
                     <option th:each="curr : ${currencies}" th:value="${curr.id}" th:text="${curr.currencySymbol}"></option>
                 </select>
 
-                <button type="submit" class="btn-edit-blue">Edit</button>
+                <div id="viewButtons" style="margin-left: auto;">
+                    <button type="button" class="btn-edit-blue" onclick="toggleEditProfile(true)">Edit</button>
+                </div>
+
+                <div id="editButtons" style="display: none; margin-left: auto; gap: 10px;">
+                    <button type="button" style="background-color: #f97316; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: bold;" onclick="toggleEditProfile(false)">Cancel</button>
+                    <button type="submit" class="btn-edit-blue">Save</button>
+                </div>
             </div>
 
-            <div class="profile-danger-zone">
+            <div class="profile-danger-zone" id="deleteAccountZone">
                 <a th:href="@{/settings/delete-account}" class="btn-delete-account">Delete account</a>
             </div>
         </form>
@@ -561,6 +581,26 @@
         selectedDateText.textContent = selectedDate ? selectedDate : "select date";
     }
 
+    // Moved to the global scope so it can be accessed by onclick
+    function toggleEditProfile(isEditing) {
+        document.getElementById('profileName').readOnly = !isEditing;
+        document.getElementById('profileEmail').readOnly = !isEditing;
+
+        const select = document.getElementById('profileCurrency');
+        if (isEditing) {
+            select.classList.add('editable');
+        } else {
+            select.classList.remove('editable');
+        }
+
+        document.getElementById('viewPasswordGroup').style.display = isEditing ? 'none' : 'flex';
+        document.getElementById('editPasswordGroup').style.display = isEditing ? 'block' : 'none';
+
+        document.getElementById('viewButtons').style.display = isEditing ? 'none' : 'block';
+        document.getElementById('editButtons').style.display = isEditing ? 'flex' : 'none';
+        document.getElementById('deleteAccountZone').style.display = isEditing ? 'none' : 'block';
+    }
+
     const shouldOpenReminderModal = [[${openReminderModal}]];
 
     if (shouldOpenReminderModal){
@@ -573,6 +613,7 @@
         const myRemindersModal = document.getElementById("myRemindersModal");
         const addCarModal = document.getElementById("addCarModal")
         const addTransactionModal = document.getElementById("addTransactionModal");
+        const profileModal = document.getElementById("modal"); // <-- Добавили переменную окна профиля
 
         reminderModal?.addEventListener("click", function (event) {
             if (event.target === reminderModal) {
@@ -603,6 +644,13 @@
                 closeAddTransactionModal();
             }
         });
+
+        profileModal?.addEventListener("click", function (event) {
+            if (event.target === profileModal) {
+                closeModal();
+            }
+        });
+
     });
 
 
