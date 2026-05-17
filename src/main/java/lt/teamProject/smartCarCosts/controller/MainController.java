@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class MainController {
 
     // First page of the application
-    @GetMapping("/")
+    @GetMapping("/main-page")
     public String showMainPage() {
         return "main-page";
     }

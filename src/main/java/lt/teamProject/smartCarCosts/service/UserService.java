@@ -59,6 +59,12 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public Long getUserIdByEmail(String email){
+        return userRepository.findByEmail(email)
+                .orElseThrow()
+                .getId();
+    }
+
     // Enable user account after confirmation
     @Transactional
     public void enableUser(String email) {

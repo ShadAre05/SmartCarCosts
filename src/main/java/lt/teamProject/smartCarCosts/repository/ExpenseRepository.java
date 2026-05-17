@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 public interface ExpenseRepository extends JpaRepository<Expense, Long > {
 
@@ -18,4 +19,6 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long > {
            WHERE e.expenseDate BETWEEN :startDate AND :endDate
            """)
     BigDecimal getTotalByPeriod(LocalDate startDate, LocalDate endDate);
+
+    List<Expense> findAllByOrderByExpenseDateDesc();
 }

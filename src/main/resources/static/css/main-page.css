@@ -2,106 +2,156 @@
     box-sizing: border-box;
 }
 
+html,
 body {
+    width: 100%;
+    height: 100%;
     margin: 0;
     font-family: Arial, sans-serif;
-    background-color: #666;
+    background-color: #1d2a38;
 }
 
-.page-wrapper {
-    margin: 50px auto;
-    width: 92%;
-    min-height: 620px;
-    background-color: #96dfea;
-    border: 10px solid white;
-    padding: 25px;
+.main-page {
+    width: 100vw;
+    min-height: 100vh;
+    background-color: #1d2a38;
+    padding: 28px 40px 24px;
+    color: white;
 }
 
-.header {
+.main-header {
     display: flex;
+    align-items: center;
     justify-content: space-between;
-    align-items: center;
-}
-
-.logo-btn {
-    background-color: #e0e0e0;
-    padding: 14px 28px;
-    color: #000;
-    font-size: 18px;
-    font-weight: 600;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
-.auth-block {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    color: white;
-    font-size: 20px;
-}
-
-.sign-in-btn{
-    background-color: #eee;
-    color: #000;
-    text-decoration: none;
-    padding: 14px 30px;
-    font-size: 20px;
-    cursor: pointer;
-}
-
-.hero {
-    display: flex;
-    justify-content: center;
-    margin-top: 35px;
-}
-
-.hero-content {
-    width: 85%;
-    min-height: 390px;
-    background-color: #ddd;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 35px;
-    padding: 40px;
-}
-
-.hero-content p{
-    max-width: 650px;
-    font-size: 20px;
-    line-height: 1.45;
-    color: #000;
-}
-
-.get-started-btn {
-    background-color: #cf3d3d;
-    color: white;
-    text-decoration: none;
-    padding: 18px 60px;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
+    margin-bottom: 42px;
 }
 
 .logo-btn,
-.sign-in-btn,
-.get-started-btn{
-    transition: all 0.2s ease;
+.get-started-btn {
+    border: none;
+    background-color: #55b6e8;
+    color: #111;
     cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.logo-btn {
+    width: 140px;
+    height: 70px;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+.get-started-btn {
+    width: 160px;
+    height: 52px;
+    border-radius: 6px;
+    font-size: 18px;
+    font-weight: 600;
 }
 
 .logo-btn:hover,
-.sign-in-btn:hover,
-.get-started-btn:hover{
-    filter: brightness(1.15);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+.get-started-btn:hover {
+    filter: brightness(1.12);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
 }
 
 .logo-btn:active,
-.sign-in-btn:active
-.get-started-btn:active{
+.get-started-btn:active {
     transform: scale(0.96);
+}
+
+.main-content {
+    display: flex;
+    justify-content: space-between;
+    gap: 60px;
+}
+
+.intro-block h1 {
+    font-size: 36px;
+    font-weight: 500;
+    margin-bottom: 42px;
+}
+
+.intro-block h2 {
+    font-size: 26px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.intro-block p {
+    font-size: 26px;
+    line-height: 1.35;
+    font-weight: 500;
+}
+
+.intro-block p span {
+    color: #00c9a7;
+    font-weight: 800;
+}
+
+.expenses-card {
+    width: 320px;
+    min-width: 320px;
+    border: 1px solid #90a0b2;
+    background-color: #34495f;
+    padding: 10px 22px 16px;
+    margin-top: 18px;
+}
+
+.expenses-card h3 {
+    text-align: center;
+    color: #b8c0ca;
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 22px;
+}
+
+.expense-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 22px;
+    margin-bottom: 28px;
+}
+
+.expense-row span:last-child {
+    color: #d8d8d8;
+}
+
+.expense-divider {
+    height: 1px;
+    background-color: #90a0b2;
+    margin: 8px 0 14px;
+}
+
+.total-row {
+    margin-bottom: 0;
+    font-weight: 600;
+}
+
+.stats-block {
+    border-top: 1px solid #91a0af;
+    margin-top: 30px;
+    padding-top: 30px;
+    display: flex;
+}
+
+.stat-item {
+    width: 220px;
+    padding-left: 35px;
+    border-right: 1px solid #91a0af;
+}
+
+.stat-item:last-child {
+    border-right: none;
+}
+
+.stat-item strong {
+    display: block;
+    font-size: 22px;
+    margin-bottom: 4px;
+}
+
+.stat-item span {
+    font-size: 16px;
 }

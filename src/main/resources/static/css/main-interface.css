@@ -1,824 +1,642 @@
-/* RESET */
+/* =========================
+   RESET
+========================= */
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* BODY */
+/* =========================
+   BODY
+========================= */
+
+html,
 body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
     font-family: Arial, sans-serif;
-    background: #5a5a5a;
+    background: #172636;
+    color: white;
 }
 
-/* PAGE */
+/* =========================
+   PAGE
+========================= */
+
 .page {
-    width: 92vw;
-    height: 86vh;
-    margin: 20px auto;
-    background-color: #ed1f24;
-    border: 8px solid white;
-    padding: 14px;
-    box-sizing: border-box;
+    width: 100vw;
+    height: 100vh;
+    padding: 34px 46px;
+    background: #172636;
 }
 
-/* TOP BAR */
+/* =========================
+   HEADER
+========================= */
+
 .top-bar {
-    height: 55px;
+    height: 72px;
     display: flex;
     align-items: center;
-    background-color: #ed1f24;
-    margin-bottom: 18px;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255,255,255,0.25);
+    padding-bottom: 18px;
+    margin-bottom: 28px;
 }
 
-/* LOGO */
-.logo-link {
-    text-decoration: none;
-    color: black;
-    display: inline-block;
-}
+/* =========================
+   LOGO
+========================= */
 
 .logo {
-    width: 120px;
-    height: 45px;
-    background-color: #ddd;
+    width: 150px;
+    height: 62px;
+    background: #59b5e8;
+    border-radius: 8px;
     color: black;
     text-decoration: none;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 13px;
+    font-size: 16px;
+    cursor: pointer;
 }
 
-/* SPACE */
-.top-empty {
-    flex: 1;
-    height: 48px;
-    background: #eeeeee;
-}
+/* =========================
+   PROFILE
+========================= */
 
-/* PROFILE */
 .profile-box {
-    margin-left: auto;
-    width: 175px;
-    height: 45px;
-    background-color: #ddd;
+    width: 220px;
+    height: 58px;
+    border-radius: 30px;
+    background: #6ea0d5;
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: 10px;
-    padding: 0 12px;
+    gap: 16px;
+    padding: 0 16px;
     cursor: pointer;
 }
 
 .user-name {
-    font-size: 14px;
     color: black;
+    font-size: 18px;
 }
 
 .avatar {
-    width: 34px;
-    height: 34px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
-    background-color: #2c2c46;
+    background: #273050;
 }
 
-.hidden-date-input {
-    position: fixed;
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    width: 1px;
-    height: 1px;
-}
+/* =========================
+   MAIN CONTENT
+========================= */
 
-.costs-filter-form {
+.main-content {
     display: grid;
-    grid-template-columns: 120px 1fr 70px 95px;
+    grid-template-columns: 380px 1fr;
+    gap: 42px;
+    height: calc(100vh - 140px);
+}
+
+/* =========================
+   LEFT PANEL
+========================= */
+
+.left-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* =========================
+   CARS BOX
+========================= */
+
+.cars-box {
+    background: #395272;
+    border-radius: 26px;
+    padding: 22px;
+}
+
+.cars-title {
+    font-size: 24px;
+    margin-bottom: 16px;
+}
+
+.empty-cars {
+    color: #dce6f4;
+    font-size: 18px;
+    margin-bottom: 16px;
+}
+
+.car-row {
+    margin-bottom: 14px;
+}
+
+.car-row > div {
+    display: flex;
     align-items: center;
-    gap: 10px;
-    margin-top: 10px;
-    width: 100%;
-    margin-bottom: 2px;
+    gap: 12px;
 }
 
-.select-date-btn {
-    background: none;
+/* =========================
+   BUTTONS
+========================= */
+
+.circle-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
     border: none;
-    color: #1a73e8;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    text-align: left;
-    padding: 0;
-    text-decoration: underline;
-    transition: 0.2s;
-}
-
-.select-date-btn:hover {
-    color: #4ea1ff;
-    text-decoration: none;
-}
-
-.selected-cost-period {
-    color: #9b7a36;
-    font-size: 16px;
-}
-
-.clean-date-btn {
-    background-color: #d9d9d9;
-    color: #2884ff;
-    text-decoration: none;
-    padding: 4px 8px;
-    text-align: center;
-    font-size: 14px;
-    height: 28px;
-}
-
-.cost-total-box {
-    background-color: #e6e6e6;
+    background: #7267ff;
     color: black;
-    text-align: right;
-    padding: 4px 8px;
-    font-size: 16px;
-    font-weight: normal;
-    width: 95px;
-    height: 28px;
-    box-sizing: border-box;
+    font-size: 28px;
+    cursor: pointer;
+    flex-shrink: 0;
 }
 
-/* Main costs block */
+.car-card {
+    flex: 1;
+    height: 44px;
+    border: none;
+    border-radius: 10px;
+    background: #6fa0d6;
+    color: black;
+    text-align: left;
+    padding-left: 18px;
+    font-size: 17px;
+    cursor: pointer;
+}
+
+/* =========================
+   REMINDERS
+========================= */
+
+.reminder-buttons {
+    background: #395272;
+    border-radius: 26px;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.reminder-buttons::before {
+    content: "Reminders";
+    font-size: 24px;
+}
+
+.reminder-btn {
+    width: 100%;
+    height: 48px;
+    border: none;
+    border-radius: 10px;
+    background: #6fa0d6;
+    color: black;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+/* =========================
+   RIGHT PANEL
+========================= */
+
+.right-panel {
+    background: #395272;
+    border-radius: 28px;
+    padding: 28px;
+    display: flex;
+    gap: 26px;
+    position: relative;
+}
+
+/* =========================
+   COSTS BLOCK
+========================= */
+
 .costs-main-block {
     flex: 1;
     display: flex;
     flex-direction: column;
-    min-width: 0;
 }
 
+.content-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* =========================
+   EMPTY STATE
+========================= */
+
+.empty-state-box {
+    flex: 1;
+    border-top: 1px solid rgba(255,255,255,0.25);
+    border-bottom: 1px solid rgba(255,255,255,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 30px;
+}
+
+.empty-state-box p {
+    font-size: 28px;
+    line-height: 1.6;
+}
+
+/* =========================
+   COSTS HEADER BUTTONS
+========================= */
+.costs-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.costs-header h2 {
+    color: white;
+    font-size: 36px;
+    font-weight: normal;
+    margin: 0;
+}
+
+.costs-header-actions {
+    display: flex;
+    gap: 30px;
+}
+
+.cost-manage-btn,
+.cost-add-btn{
+    min-width: 150px;
+    height: 48px;
+    border: none;
+    border-radius: 10px;
+    background: #6fa0d6;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    transition: 0.16s ease;
+    transform: none !important;
+}
+
+.cost-manage-btn:hover,
+.cost-add-btn:hover {
+    transform: translateY(-1px) !important;
+    filter: brightness(1.08);
+    box-shadow: 0 10px 18px rgba(0,0,0,0.25);
+}
+
+.cost-manage-btn:active,
+.cost-add-btn:active {
+    font-size: 36px;
+    margin-bottom: 24px;
+    transform: scale(0.98) !important;
+}
+
+
+
+/* =========================
+   DATE FILTER
+========================= */
+
+.costs-filter-form,
 .costs-total-row {
     display: grid;
-    grid-template-columns: 120px 1fr 70px 95px;
+    grid-template-columns: 140px 1fr 90px 110px;
     align-items: center;
-    gap: 10px;
-    margin-top: 4px;
-    width: 100%;
+    gap: 14px;
+    margin-top: 18px;
 }
 
 .select-date-btn,
 .total-label {
     background: none;
     border: none;
-    font-size: 16px;
-    font-weight: bold;
+    color: white;
+    font-size: 20px;
     text-align: left;
-    padding: 0;
 }
 
-/* MAIN CONTENT */
-.main-content {
-    display: flex;
-    gap: 18px;
-    height: calc(100% - 73px);
-}
-
-/* LEFT PANEL */
-.left-panel {
-    width: 280px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.cars-title {
-    background-color: #111;
+.selected-cost-period {
+    font-size: 20px;
     color: white;
-    padding: 9px 12px;
-    font-size: 17px;
-    margin-bottom: 16px;
 }
 
-/* EMPTY STATE */
-.empty-cars {
-    text-align: center;
-    color: #555;
-    font-size: 14px;
-    margin-bottom: 18px;
-}
-
-/* CAR ROW */
-.car-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 9px;
-}
-
-/* + BUTTON */
-.circle-btn {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background-color: black;
+.clean-date-btn {
+    height: 38px;
+    background: #6fa0d6;
+    border-radius: 8px;
     color: white;
-    border: none;
-    font-size: 25px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-/* REMINDERS */
-.reminder-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.reminder-btn {
-    width: 165px;
-    height: 44px;
-    background-color: #ddd;
-    color: black;
-    border: none;
     text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 18px;
+}
+
+.cost-total-box {
+    height: 38px;
+    background: #6fa0d6;
+    border-radius: 8px;
     display: flex;
     align-items: center;
-    justify-content: center;
-    cursor: pointer;
-}
-
-/* RIGHT PANEL */
-.right-panel {
-    flex: 1;
-    display: flex;
-    gap: 16px;
-    background-color: #e5a83a;
-    padding: 16px;
-    box-sizing: border-box;
-    overflow: hidden;
-}
-
-/* EMPTY MAIN AREA */
-.empty-state-box {
-    height: 270px;
-    border: 6px dashed black;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.empty-state-box p {
+    justify-content: flex-end;
+    padding-right: 14px;
+    font-size: 20px;
     color: white;
-    font-size: 24px;
-    text-align: center;
-    line-height: 1.5;
 }
 
-/* HOVER EFFECTS */
-.circle-btn:hover,
-.car-card:hover,
-.reminder-btn:hover,
-.logo-link:hover {
-    opacity: 0.9;
+.hidden-date-input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
 }
 
-.costs-title {
-    width: 100%;
-    background-color: black;
-    color: white;
-    text-align: center;
-    padding: 6px 0;
-    font-size: 18px;
-    margin-bottom: 14px;
-}
+/* =========================
+   MODALS
+========================= */
 
-.circle-btn:hover {
-    background-color: #333;
-    transform: scale(1.1);
-}
-
-.circle-btn:active {
-    transform: scale(0.9);
-    background-color: #555;
-}
-
-.big-plus {
-    width: 75px;
-    height: 75px;
-    border-radius: 50%;
-    background-color: black;
-    color: white;
-    font-size: 65px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.big-plus:hover {
-    background-color: #222;
-    transform: scale(1.1);
-}
-
-.big-plus:active {
-    transform: scale(0.9);
-    background-color: #444;
-}
-
-.add-costs-text {
-    font-size: 16px;
-    color: black;
-    margin-top: 8px;
-    margin-bottom: 55px;
-}
-
-.content-area {
-    background: #c48787;
-    padding: 14px;
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0;
-}
-
-.costs-side-actions {
-    width: 95px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex-shrink: 0;
-}
-
-.modal{
+.modal {
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.4);
+    background: rgba(0,0,0,0.55);
     justify-content: center;
     align-items: center;
+    z-index: 999;
 }
 
-.modal-content{
-    width: 500px;
-    height: 300px;
-    background: #6b6464;
-    color: white;
-    padding: 20px;
-    position: relative;
+.modal-content,
+.reminder-modal-content,
+.edit-spending-modal-content,
+.my-reminders-modal-content,
+.add-transaction-modal-content,
+.add-car-page-modal {
+    border-radius: 18px;
+    overflow: hidden;
 }
 
-.close-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    border: none;
-    background: black;
-    color: white;
-    width: 30px;
-    height: 30px;
-    cursor: pointer;
+/* =========================
+   EFFECTS
+========================= */
+
+button,
+.logo,
+.profile-box,
+.car-card,
+.reminder-btn,
+.clean-date-btn {
+    transition:
+            transform 0.16s ease,
+            filter 0.16s ease,
+            box-shadow 0.16s ease;
 }
+
+button:hover,
+.logo:hover,
+.profile-box:hover,
+.car-card:hover,
+.reminder-btn:hover,
+.clean-date-btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.08);
+    box-shadow: 0 10px 18px rgba(0,0,0,0.25);
+}
+
+button:active,
+.logo:active,
+.profile-box:active,
+.car-card:active,
+.reminder-btn:active,
+.clean-date-btn:active {
+    transform: scale(0.96);
+}
+
+/* =========================
+   SCROLLBAR
+========================= */
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #4e6b8c;
+    border-radius: 10px;
+}
+/* Cost list */
+.costs-list {
+    border-top: 1px solid rgba(255,255,255,0.35);
+    border-bottom: 1px solid rgba(255,255,255,0.35);
+    padding: 18px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.cost-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 38px;
+    border-bottom: 1px solid rgba(255,255,255,0.35);
+    font-size: 22px;
+}
+
+.cost-row:last-child {
+    border-bottom: none;
+}
+
+.cost-category {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.cost-icon {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #7db7ff;
+    display: inline-block;
+    box-shadow:
+            0 0 6px rgba(125, 183, 255, 0.9),
+            0 0 12px rgba(125, 183, 255, 0.6);
+    margin-right: 14px;
+}
+
+/* REMINDER MODAL FIX */
 
 .reminder-modal-content {
-    width: 760px;
-    max-width: 92%;
-    background: #e5e5e5;
-    color: #1a1a1a;
-    padding: 30px 40px 24px;
+    width: 560px;
+    background: #395272;
+    color: white;
+    padding: 24px;
+    border-radius: 0;
     position: relative;
 }
 
 .reminder-modal-content h2 {
-    text-align: center;
-    font-size: 18px;
-    font-weight: normal;
-    margin-bottom: 10px;
-}
-
-.reminder-subtitle {
-    text-align: center;
-    font-size: 18px;
-    margin-bottom: 24px;
-}
-
-.reminder-text {
-    font-size: 18px;
-    margin-bottom: 18px;
-}
-
-.reminder-row {
-    display: flex;
-    align-items: flex-start;
-    gap: 20px;
-    margin-bottom: 26px;
-}
-
-.reminder-row label,
-.reminder-row span {
-    min-width: 300px;
-    font-size: 18px;
-}
-
-.reminder-row select,
-.reminder-row input[type="date"] {
-    height: 40px;
-    min-width: 220px;
-    padding: 0 10px;
-    font-size: 16px;
-    border: 1px solid #777;
-    background: #d3d3d3;
-}
-
-.reminder-checkbox-row{
-    align-items: flex-start;
-}
-
-.reminder-check-group {
-    border: 2px solid #9a9a9a;
-    padding: 12px 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    background: #efefef;
-    width: 330px;
-}
-
-.reminder-check-group label{
-    min-width: auto;
-    font-size: 18px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.reminder-check-group input[type="checkbox"]{
-    width: 18px;
-    height: 18px;
-}
-
-html, body {
-    margin: 0;
-    padding: 0;
-    background-color: #666;
-    font-family: Arial, sans-serif;
-}
-
-.reminder-actions {
-    margin-top: 32px;
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-}
-
-.cancel-btn,
-.create-btn {
-    width: 220px;
-    height: 48px;
-    border: 2px solid #3f3f3f;
-    background: #8fd0ad;
-    color: black;
-    font-size: 18px;
-    cursor: pointer;
-}
-
-.cancel-btn:hover,
-.create-btn:hover{
-    opacity: 0.92;
-    background: #5ac488;
-}
-
-/* Edit spending button */
-.edit-spending-btn {
-    background-color: #111;
-    color: white;
-    border: 3px solid white;
-    border-radius: 12px;
-    padding: 10px 12px;
-    font-size: 15px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.2s ease;
-}
-
-/* Clickable date label */
-.edit-date-label {
-    color: #00a6ff;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.2s ease;
-}
-
-.edit-date-label:hover {
-    color: #6bd2ff;
-    text-shadow: 0 0 8px rgba(0, 166, 255, 0.8);
-}
-
-/* Hidden date input */
-.edit-spending-date-hidden {
-    position: absolute;
-    opacity: 0;
-    pointer-events: none;
-    width: 1px;
-    height: 1px;
-}
-
-/* Edit spending button hover */
-.edit-spending-btn:hover {
-    background-color: #2b2b2b;
-    transform: scale(1.05);
-}
-
-/* Edit spending modal content */
-.edit-spending-modal-content {
-    position: relative;
-    width: 860px;
-    min-height: 520px;
-    background-color: #646451;
-    color: white;
-    padding: 28px;
-}
-
-/* Edit spending modal title */
-.edit-spending-modal-content h2{
-    margin: 0 0 35px 0;
-    font-size: 28px;
-}
-
-/* Date row */
-.edit-spending-date-row{
-    display: flex;
-    align-items: center;
-    gap: 80px;
-    font-size: 22px;
-    margin-top: 10px;
-}
-
-/* Date label */
-.edit-spending-date-row label{
-    color: #00a6ff;
-    font-weight: bold;
-}
-
-/* Date input */
-.edit-spending-date-input {
-    padding: 9px 12px;
-    font-size: 18px;
-}
-
-/* Selected date text */
-.selected-edit-date{
-    color: #d4d4c4;
-    font-size: 22px;
-}
-
-/* Done button */
-.edit-spending-done-btn{
-    position: absolute;
-    bottom: 25px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #ff9fa3;
-    color: black;
-    border: none;
-    padding: 14px 90px;
-    font-size: 26px;
-    cursor: pointer;
-}
-
-/* My reminders modal content */
-.my-reminders-modal-content{
-    position: relative;
-    width: 820px;
-    min-height: 430px;
-    background-color: #808080;
-    color: white;
-    padding: 28px;
-}
-
-/* My reminders title */
-.my-reminders-modal-content h2 {
-    margin: 0 0 18px 0;
-    text-align: center;
-    font-size: 30px;
-}
-
-/* Scroll wrapper */
-.my-reminders-table-wrapper {
-    max-height: 230px;
-    overflow-y: auto;
-    padding-right: 8px;
-}
-
-/* Reminders table */
-.my-reminders-table {
-    width: 100%;
-    table-layout: fixed;
-    border-collapse: collapse;
-    background-color: #d9d9d9;
-    color: black;
-}
-
-/* Table cells */
-.my-reminders-table th,
-.my-reminders-table td {
-    border: 2px solid #333;
-    padding: 8px;
-    text-align: center;
-}
-
-.my-reminders-table tbody tr{
-    height: 45px;
-}
-
-/* Table header */
-.my-reminders-table th{
-    background-color: #f5f5b8;
-    font-weight: normal;
-}
-
-/* Empty rows height */
-.my-reminders-table tbody{
-    height: 150px;
-}
-
-/* Custom checkbox */
-.my-reminders-table input[type="checkbox"]{
-    width: 16px;
-    height: 16px;
-    cursor: pointer;
-}
-
-/* Delete button */
-.delete-reminder-btn {
-    background-color: #000;
-    color: white;
-    border: none;
-    padding: 6px 9px;
-    cursor: pointer;
-}
-
-/* Delete column wider */
-.del-column {
-    width: 80px;
-}
-
-.my_reminders-table td:last-child
-.my-reminders-table th:last-child{
-    width: 85px;
-    min-width: 85px;
-}
-
-/* Done button */
-.my-reminders-done-btn{
-    position: absolute;
-    bottom: 22px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #35c85a;
-    color: black;
-    border: none;
-    padding: 12px 85px;
-    font-size: 22px;
-    cursor: pointer;
-    transition: 0.2s ease;
-}
-
-/* Done button hover */
-.my-reminders-done-btn:hover{
-    background-color: #4be06f;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
-}
-
-/* Done button click */
-.my-reminders-done-btn:active{
-    transform: translateX(-50%) scale(0.96);
+    text-align: left;
+    font-size: 32px;
+    margin-bottom: 14px;
 }
 
 #reminderForm {
     width: 100%;
 }
 
-.add-car-page-modal {
-    width: 920px;
-    height: 520px;
-    background: #ed1f24;
-    border: 8px solid white;
-    padding: 20px;
-    box-sizing: border-box;
+#reminderForm .reminder-row:nth-of-type(1),
+#reminderForm .reminder-row:nth-of-type(2) {
+    display: inline-block;
+    vertical-align: top;
+    width: 48%;
+    margin-bottom: 14px;
 }
 
-.add-car-page {
+#reminderForm .reminder-row:nth-of-type(1) {
+    margin-right: 3%;
+}
+
+#reminderForm .reminder-row select,
+#reminderForm .reminder-row input[type="date"] {
     width: 100%;
-    height: 100%;
+}
+
+.reminder-subtitle {
+    font-size: 20px;
+    margin-bottom: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.35);
+}
+
+.reminder-text {
+    display: none;
+}
+
+.reminder-row {
+    display: block;
+    margin-bottom: 14px;
+}
+
+.reminder-row label,
+.reminder-row span {
+    display: block;
+    color: #c7c7c7;
+    font-size: 17px;
+    margin-bottom: 6px;
+}
+
+.reminder-row select,
+.reminder-row input[type="date"] {
+    width: 265px;
+    height: 40px;
+    border: none;
+    border-radius: 6px;
+    padding: 0 12px;
+    font-size: 16px;
+}
+
+.reminder-checkbox-row {
+    margin-top: 10px;
+    display: block;
+    width: 100%;
+    clear: both;
+}
+
+.reminder-check-group {
+    width: 100%;
+    border: none;
+    background: transparent;
+    padding: 0;
     display: flex;
     flex-direction: column;
+    gap: 10px;
 }
 
-.add-car-logo {
-    position: static;
-    width: 120px;
-    height: 50px;
-    background: #ddd;
+.reminder-check-group label {
+    width: 100%;
+    height: 34px;
+    border-radius: 8px;
+    background: #6fa0d6;
+    color: white;
     display: flex;
     align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    color: black;
+    gap: 18px;
+    padding: 0 12px;
+    font-size: 16px;
 }
 
-.add-car-panel {
-    width: 700px;
-    height: 440px;
-    background: #ddd;
-    margin: 0 auto;
-    padding: 30px;
-    position: relative;
+.reminder-check-group input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
 }
 
-.add-car-panel h2 {
-    text-align: center;
-    font-size: 30px;
-    font-weight: normal;
-    margin-bottom: 4px;
+.reminder-check-group label:nth-child(1)::after {
+    content: "-30 days";
+    margin-left: auto;
+    background: #ae4cff;
+    color: white;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 11px;
 }
 
-.add-car-panel h3 {
-    font-size: 22px;
-    margin-bottom: 4px;
+.reminder-check-group label:nth-child(2)::after {
+    content: "-7 days";
+    margin-left: auto;
+    background: #d6bd33;
+    color: white;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 11px;
 }
 
-.add-car-panel p {
-    font-size: 18px;
+.reminder-check-group label:nth-child(3)::after {
+    content: "-1 day";
+    margin-left: auto;
+    background: #3d4cff;
+    color: white;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 11px;
 }
 
-.add-car-actions {
-    position: absolute;
-    left: 50%;
-    bottom: 70px;
-    transform: translateX(-50%);
+.reminder-actions {
+    margin-top: 16px;
     display: flex;
-    gap: 80px;
+    justify-content: center;
+    gap: 70px;
 }
 
-.add-car-cancel-btn,
-.add-car-submit-btn {
-    width: 220px;
-    height: 48px;
-    border: 2px solid #333;
+.cancel-btn,
+.create-btn {
+    width: 205px;
+    height: 44px;
+    border: none;
+    border-radius: 6px;
+    background: #55b5e6;
     color: black;
-    font-size: 24px;
+    font-size: 18px;
     cursor: pointer;
 }
 
-.add-car-cancel-btn {
-    background: #f36a21;
-}
-
-.add-car-submit-btn {
-    background: #98d875;
-}
-
-.car-row > div {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.car-card {
-    flex: 1;
-    height: 33px;
-    min-width: 0;
-    background-color: #ead0d0;
-    border: 2px dotted #7d5555;
-    text-align: left;
-    padding-left: 10px;
-    font-size: 14px;
-}
-
-.cars-box {
-    background-color: #ddd;
-    padding: 12px;
-    min-height: 300px;
-}
-
-.add-transaction-modal-content {
-    width: 620px;
-    height: 420px;
-    background-color: black;
+.close-btn {
+    top: 10px;
+    right: 10px;
+    background: black;
     color: white;
-    padding: 28px;
-    box-sizing: border-box;
+    border-radius: 4px;
 }
-
-.add-transaction-modal-content h2 {
-    font-size: 36px;
-    font-weight: normal;
-}
-
 

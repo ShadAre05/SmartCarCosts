@@ -7,13 +7,18 @@
 </head>
 <body>
 <div style="position: absolute; top: 40px; left: 40px;">
-  <a th:href="@{/}" class="logo-box">SmartCarCosts</a>
+  <a th:href="@{/main-page}" class="logo-box">SmartCarCosts</a>
 </div>
 
 <div class="login-card">
   <div style="text-align: center; margin-bottom: 30px;">
     <h2>Welcome!</h2>
     <p class="text-dim">Please enter your login details</p>
+  </div>
+
+  <div th:if="${param.error}"
+       style="background-color: rgba(239, 68, 68, 0.1); color: #ef4444; padding: 15px; border-radius: 4px; border: 1px solid #ef4444; margin-bottom: 20px; font-size: 14px; text-align: center;">
+    Invalid email or password. Please try again.
   </div>
 
   <form th:action="@{/login}" method="POST">

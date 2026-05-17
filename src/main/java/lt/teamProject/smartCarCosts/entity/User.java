@@ -30,6 +30,17 @@ public class User {
     @Column(nullable = false)
     private boolean enabled;
 
+    @Column(name = "reset_token")
+    private String resetToken;
+
+    public String getResetToken() {
+        return resetToken;
+    }
+
+    public void setResetToken(String resetToken) {
+        this.resetToken = resetToken;
+    }
+
     public User(){
     }
 
@@ -93,5 +104,7 @@ public class User {
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
+
+
 }
 
