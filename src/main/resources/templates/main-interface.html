@@ -154,7 +154,7 @@
 
                     <!-- Shows total for selected period -->
                     <div class="cost-total-box"
-                         th:text="${periodTotal + '€'}">
+                         th:text="${periodTotal + currencySymbol}">
                         0€
                     </div>
                 </form>
@@ -167,7 +167,7 @@
                     <span></span>
 
                     <div class="cost-total-box"
-                         th:text="${allTimeTotal + '€'}">
+                         th:text="${allTimeTotal + currencySymbol}">
                         0€
                     </div>
                 </div>
@@ -406,6 +406,75 @@
     </div>
 </div>
 
+<!-- Edit profile modal -->
+<div id="editProfileModal" class="modal">
+    <div class="edit-profile-modal-content">
+
+        <button type="button"
+                class="edit-profile-close-btn"
+                onclick="closeEditProfileModal()">
+            ×
+        </button>
+
+        <h2>Profile</h2>
+
+        <form th:action="@{/settings/update-profile}"
+              method="post"
+              class="edit-profile-form">
+
+            <div class="edit-profile-row">
+                <label>Name</label>
+                <input type="text"
+                       name="fullName"
+                       th:value="${profileUser.fullName}"
+                       required>
+            </div>
+
+            <div class="edit-profile-row">
+                <label>Email</label>
+                <input type="email"
+                       name="email"
+                       th:value="${profileUser.email}"
+                       required>
+            </div>
+
+            <div class="edit-profile-row">
+                <label>Password</label>
+                <input type="password"
+                       name="oldPassword"
+                       placeholder="Enter old password">
+            </div>
+
+            <div class="profile-password-error"
+                 th:if="${profileError}"
+                 th:text="${profileError}">
+            </div>
+
+            <div class="edit-profile-row">
+                <label></label>
+                <input type="password"
+                       name="newPassword"
+                       placeholder="Enter new password">
+            </div>
+
+            <div class="edit-profile-actions">
+                <button type="button"
+                        class="edit-profile-cancel-btn"
+                        onclick="closeEditProfileModal()">
+                    Cancel
+                </button>
+
+                <button type="submit"
+                        class="edit-profile-save-btn">
+                    Save
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
 <!-- My reminders modal -->
 <div id="myRemindersModal" class="modal">
     <div class="my-reminders-modal-content">
@@ -445,29 +514,49 @@
 
         <div class="profile-header">
             <div class="profile-avatar-circle"></div>
-            <span class="profile-name-large" th:text="${userName}">Ivan Ivanov</span>
+
+            <span class="profile-name-large"
+                  th:text="${profileUser.fullName}">
+                Ivan Ivanov
+            </span>
+
             <a th:href="@{/logout}" class="btn-logout-red">Log Out</a>
-            <button class="btn-icon-gear">⚙️</button>
         </div>
 
-        <button class="close-btn" onclick="closeModal()">×</button>
+        <button type="button" class="close-btn" onclick="closeModal()">×</button>
+
         <h2 class="text-center">Profile</h2>
 
-        <form th:action="@{/settings/update}" method="POST" class="dark-form profile-form">
+
+        <form th:action="@{/settings/update-profile}" method="POST" class="dark-form profile-form">
 
             <div class="form-group-horizontal">
                 <label>Name</label>
-                <input type="text" name="full_name" th:value="${userName}" id="profileName" readonly>
+                <input type="text" 
+                       name="fullName" 
+                       id="profileName" 
+                       th:value="${profileUser.fullName}" 
+                       readonly>
+
             </div>
 
             <div class="form-group-horizontal">
                 <label>Email</label>
-                <input type="email" name="email" th:value="${userEmail}" id="profileEmail" readonly>
+
+              <input type="email" 
+                       name="email" 
+                       id="profileEmail" 
+                       th:value="${profileUser.email}" 
+                       readonly>
             </div>
 
             <div class="form-group-horizontal" id="viewPasswordGroup">
                 <label>Password</label>
-                <input type="password" value="********" readonly style="pointer-events: none;">
+
+              <input type="password" 
+                       value="********" 
+                       readonly 
+                       style="pointer-events: none;">
             </div>
 
             <div id="editPasswordGroup" style="display: none; width: 100%;">
@@ -482,9 +571,15 @@
             </div>
 
             <div class="form-group-horizontal currency-row">
+
                 <label>Currency</label>
-                <select name="currencyId" class="currency-select" id="profileCurrency">
-                    <option th:each="curr : ${currencies}" th:value="${curr.id}" th:text="${curr.currencySymbol}"></option>
+
+              <select name="currencyId" class="currency-select" id="profileCurrency">
+                    <option th:each="curr : ${currencies}" 
+                            th:value="${curr.id}" 
+                            th:text="${curr.currencySymbol}"
+                            th:selected="${profileUser.currency != null && profileUser.currency.id == curr.id}">
+                    </option>
                 </select>
 
                 <div id="viewButtons" style="margin-left: auto;">
@@ -500,6 +595,7 @@
             <div class="profile-danger-zone" id="deleteAccountZone">
                 <a th:href="@{/settings/delete-account}" class="btn-delete-account">Delete account</a>
             </div>
+
         </form>
     </div>
 </div>
@@ -516,6 +612,15 @@
     }
     function closeReminderModal() {
         document.getElementById("reminderModal").style.display = "none";
+    }
+
+    function openEditProfileModal() {
+        closeModal();
+        document.getElementById("editProfileModal").style.display = "flex";
+    }
+
+    function closeEditProfileModal() {
+        document.getElementById("editProfileModal").style.display = "none";
     }
 
     // Open add transaction modal
@@ -579,6 +684,20 @@
         const selectedDateText = document.getElementById("selectedEditDate");
 
         selectedDateText.textContent = selectedDate ? selectedDate : "select date";
+    }
+
+
+  const shouldOpenEditProfileModal = /*[[${openEditProfileModal}]]*/ false;
+    const shouldOpenReminderModal = /*[[${openReminderModal}]]*/ false;
+
+    if (shouldOpenEditProfileModal) {
+        // Если сервер вернул ошибку профиля, автоматически включаем ваш режим редактирования.
+        // Используем DOMContentLoaded, чтобы функция точно сработала после отрисовки полей.
+        document.addEventListener("DOMContentLoaded", () => {
+            if (typeof toggleEditProfile === 'function') {
+                toggleEditProfile(true);
+            }
+        });
     }
 
     // Moved to the global scope so it can be accessed by onclick
