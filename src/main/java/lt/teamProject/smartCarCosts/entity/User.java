@@ -30,6 +30,18 @@ public class User {
     @Column(nullable = false)
     private boolean enabled;
 
+    @ManyToOne
+    @JoinColumn(name = "currency_id")
+    private Currency currency;
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
+    }
+
     public User(){
     }
 

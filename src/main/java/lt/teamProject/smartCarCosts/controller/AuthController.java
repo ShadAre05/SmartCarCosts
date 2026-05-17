@@ -4,7 +4,10 @@ import jakarta.validation.Valid;
 import lt.teamProject.smartCarCosts.dto.RegisterRequest;
 import lt.teamProject.smartCarCosts.dto.ReminderRequest;
 import lt.teamProject.smartCarCosts.entity.Car;
+import lt.teamProject.smartCarCosts.entity.User;
+import lt.teamProject.smartCarCosts.repository.CurrencyRepository;
 import lt.teamProject.smartCarCosts.service.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,6 +28,9 @@ import java.util.UUID;
 @Controller
 public class AuthController {
 
+    @Value("${app.base-url}")
+    private String baseUrl;
+
     private final CountryRepository countryRepository;
     private final EmailService emailService;
     private final ConfirmationTokenService confirmationTokenService;
@@ -32,6 +38,7 @@ public class AuthController {
     private final ReminderTypeRepository reminderTypeRepository;
     private final ExpenseService expenseService;
     private final CarService carService;
+    private final CurrencyRepository currencyRepository;
 
     public AuthController(EmailService emailService,
                           ConfirmationTokenService confirmationTokenService,
@@ -39,7 +46,8 @@ public class AuthController {
                           UserService userService,
                           ReminderTypeRepository reminderTypeRepository,
                           ExpenseService expenseService,
-                          CarService carService) {
+                          CarService carService,
+                          CurrencyRepository currencyRepository) {
         this.emailService = emailService;
         this.confirmationTokenService = confirmationTokenService;
         this.countryRepository = countryRepository;
@@ -47,6 +55,7 @@ public class AuthController {
         this.reminderTypeRepository = reminderTypeRepository;
         this.expenseService = expenseService;
         this.carService = carService;
+        this.currencyRepository = currencyRepository;
     }
     // Show registration page
     @GetMapping("/register")
@@ -86,7 +95,7 @@ public class AuthController {
         session.setAttribute("userEmail", registerRequest.getEmail());
         // Create confirmation token
         String token = UUID.randomUUID().toString();
-        String link = "http://localhost:8080/confirm-email?token=" + token;
+        String link = baseUrl + "/confirm-email?token=" + token;
 
         confirmationTokenService.saveToken(token, registerRequest.getEmail());
         emailService.sendConfirmationEmail(registerRequest.getEmail(), link);
@@ -124,7 +133,7 @@ public class AuthController {
             BindingResult bindingResult,
             Model model,
             HttpSession session
-    ){
+    ) {
         String userName = (String) session.getAttribute("userName");
 
         if (userName == null) {
@@ -225,7 +234,7 @@ public class AuthController {
 
         // Generate new token
         String token = UUID.randomUUID().toString();
-        String link = "http://localhost:8080/confirm-email?token=" + token;  ////Localhost?????? (hide this link and set in variable)
+        String link = baseUrl + "/confirm-email?token=" + token;
 
         confirmationTokenService.saveToken(token, email);
         emailService.sendConfirmationEmail(email, link);
@@ -242,26 +251,32 @@ public class AuthController {
     public String mainPage(Model model,
                            HttpSession session,
                            @RequestParam(required = false) LocalDate startDate,
-                           @RequestParam(required = false) LocalDate endDate
-    ) {
+                           @RequestParam(required = false) LocalDate endDate) {
 
-        String userName = (String) session.getAttribute("userName");
+        Long userId = (Long) session.getAttribute("userId");
 
-        // Fallback name if session is empty
-        if (userName == null){
-            userName = "User";
+        if (userId == null) {
+            return "redirect:/login";
         }
-        model.addAttribute("userName", userName);
 
-        Long userId = 1L;
+        User currentUser = userService.getUserById(userId);
 
-        //TEMP: replace with real DB data
+        String currencySymbol = currentUser.getCurrency() != null
+                ? currentUser.getCurrency().getCurrencySymbol()
+                : "€";
+
+        model.addAttribute("currencySymbol", currencySymbol);
+
+        model.addAttribute("userName", currentUser.getFullName());
+        model.addAttribute("profileUser", currentUser);
+
         List<Car> cars = carService.getUserCars(userId);
         model.addAttribute("cars", cars);
 
         model.addAttribute("reminderRequest", new ReminderRequest());
         model.addAttribute("openReminderModal", false);
         model.addAttribute("reminderTypes", reminderTypeRepository.findAll());
+        model.addAttribute("currencies", currencyRepository.findAll());
 
         BigDecimal allTimeTotal = expenseService.getAllTimeTotal();
         BigDecimal periodTotal = expenseService.getTotalByPeriod(startDate, endDate);
@@ -271,6 +286,11 @@ public class AuthController {
         model.addAttribute("periodTotal", periodTotal);
         model.addAttribute("selectedPeriod", selectedPeriod);
         model.addAttribute("expenseCategories", expenseService.getExpenseCategories());
+        model.addAttribute("profileError", session.getAttribute("profileError"));
+        model.addAttribute("openEditProfileModal", session.getAttribute("openEditProfileModal"));
+
+        session.removeAttribute("profileError");
+        session.removeAttribute("openEditProfileModal");
 
         return "main-interface";
     }
