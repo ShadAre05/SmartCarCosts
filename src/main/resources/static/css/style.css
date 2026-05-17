@@ -265,3 +265,47 @@ h2 { font-size: 28px; margin-bottom: 10px; }
 .outline-submit {
     background-color: #cbd5e1 !important; color: black !important; font-weight: bold; width: 100%; margin-top: 20px;
 }
+/* Remove spinner arrows from year and engine volume inputs */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+.auth-large-container {
+    /* --- WIDTH SETTINGS --- */
+    width: 80vw !important;
+    max-width: 1200px !important;
+
+    /* --- HEIGHT SETTINGS --- */
+    height: auto !important;
+    min-height: 70vh !important;
+    padding: 60px !important;
+
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: stretch;
+}
+
+.auth-large-container .left-side,
+.auth-large-container .right-side {
+    width: 50% !important;
+    box-sizing: border-box;
+}
+
+.auth-large-container .right-side {
+    padding: 40px !important;
+}
+
+.currency-select {
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+.currency-select.editable {
+    pointer-events: auto;
+    opacity: 1;
+}

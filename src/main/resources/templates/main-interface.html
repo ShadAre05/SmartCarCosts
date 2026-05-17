@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Main Interface</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="stylesheet" th:href="@{/css/main-interface.css}">
 </head>
 <body>
@@ -32,18 +33,22 @@
 
                 <div class="cars-title">Your Cars</div>
 
+                <!-- Show when no cars exist-->
+                <div class="empty-cars" th:if="${#lists.isEmpty(cars)}">
+                    No cars yet
+                </div>
+
                 <div class="cars-fixed">
 
                     <!-- Slot 1 -->
                     <div class="car-row">
                         <div th:if="${cars.size() > 0}">
-                            <form th:action="@{/delete-car}" method="post">
+                            <form th:action="@{/my-cars/delete}" method="post">
                                 <input type="hidden" name="carId" th:value="${cars[0].id}">
                                 <button class="circle-btn">-</button>
                             </form>
 
-                            <button class="car-card" th:text="${cars[0].licencePlate}"></button>
-
+                            <button class="car-card" th:text="${cars[0].year + ' - ' + (cars[0].licencePlate != null ? cars[0].licencePlate : 'No plate')}"></button>
                         </div>
 
                         <div th:if="${cars.size() == 0}">
@@ -55,13 +60,12 @@
                     <!-- Slot 2 -->
                     <div class="car-row">
                         <div th:if="${cars.size() > 1}">
-                            <form th:action="@{/delete-car}" method="post">
+                            <form th:action="@{/my-cars/delete}" method="post">
                                 <input type="hidden" name="carId" th:value="${cars[1].id}">
                                 <button class="circle-btn">-</button>
                             </form>
 
-                            <button class="car-card" th:text="${cars[1].licencePlate}"></button>
-
+                            <button class="car-card" th:text="${cars[1].year + ' - ' + (cars[1].licencePlate != null ? cars[0].licencePlate : 'No plate')}"></button>
                         </div>
 
                         <div th:if="${cars.size() <= 1}">
@@ -73,13 +77,12 @@
                     <!-- Slot 3 -->
                     <div class="car-row">
                         <div th:if="${cars.size() > 2}">
-                            <form th:action="@{/delete-car}" method="post">
+                            <form th:action="@{/my-cars/delete}" method="post">
                                 <input type="hidden" name="carId" th:value="${cars[2].id}">
                                 <button class="circle-btn">-</button>
                             </form>
 
-                            <button class="car-card" th:text="${cars[2].licencePlate}"></button>
-
+                            <button class="car-card" th:text="${cars[2].year + ' - ' + (cars[2].licencePlate != null ? cars[0].licencePlate : 'No plate')}"></button>
                         </div>
 
                         <div th:if="${cars.size() <= 2}">
@@ -92,15 +95,15 @@
             </div>
 
             <!-- Reminder buttons -->
-                <div class="reminder-buttons">
-                    <button type="button" class="reminder-btn" onclick="openReminderModal()">
-                        Add new reminder
-                    </button>
+            <div class="reminder-buttons">
+                <button type="button" class="reminder-btn" onclick="openReminderModal()">
+                    Reminders
+                </button>
 
-                    <button type="button" class="reminder-btn" onclick="openMyRemindersModal()">
-                        My reminders
-                    </button>
-                </div>
+                <button type="button" class="reminder-btn" onclick="openMyRemindersModal()">
+                    My reminders
+                </button>
+            </div>
 
         </section>
 
@@ -110,27 +113,13 @@
             <div class="costs-main-block">
 
                 <div class="content-area">
-                    <div class="costs-header">
-                        <h2>Costs</h2>
+                    <div class="costs-title">Costs</div>
 
-                        <div class="costs-header-actions">
-                            <button type="button" class="cost-manage-btn" onclick="openEditSpendingModal()">
-                                Manage
-                            </button>
-
-                            <button type="button" class="cost-add-btn" onclick="openAddTransactionModal()">
-                                + Add costs
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="costs-list">
-                        <div class="cost-row" th:each="category : ${expenseCategories}">
-                            <div class="cost-category">
-                                <span class="cost-icon"></span>
-                                <span th:text="${category.name}">Fuel</span>
-                            </div>
-                        </div>
+                    <div class="empty-state-box">
+                        <p>
+                            Select the car whose statistics<br>
+                            you want to view
+                        </p>
                     </div>
                 </div>
 
@@ -157,7 +146,7 @@
 
                     <span class="selected-cost-period"
                           th:text="${selectedPeriod}">
-                        XXXX-XX-XX - XXXX-XX-XX
+                        select date
                     </span>
 
                     <!-- Reset selected period -->
@@ -182,6 +171,17 @@
                         0€
                     </div>
                 </div>
+            </div>
+
+            <!-- Add costs button -->
+            <div class="costs-side-actions">
+                <button type="button" class="big-plus" onclick="openAddTransactionModal()">+</button>
+                <span class="add-costs-text">Add costs</span>
+
+                <!-- Opens edit spending modal -->
+                <button type="button" class="edit-spending-btn" onclick="openEditSpendingModal()">
+                    ✎ Edit spending
+                </button>
             </div>
 
         </section>
@@ -283,6 +283,7 @@
 <div id="reminderModal" class="modal">
     <div class="reminder-modal-content">
 
+        <button class="close-btn" onclick="closeReminderModal()">×</button>
 
         <h2>Remind page</h2>
 
@@ -378,8 +379,30 @@
 <!--Edit spending modal -->
 <div id="editSpendingModal" class="modal">
     <div class="edit-spending-modal-content">
+
+        <!-- Close modal  -->
         <button class="close-btn" onclick="closeEditSpendingModal()">×</button>
+
         <h2>History of spending</h2>
+
+        <!-- Date filter -->
+        <div class="edit-spending-date-row">
+            <label class="edit-date-label" onclick="openEditDatePicker()">Select date:</label>
+
+            <!-- Hidden date input -->
+            <input type="date"
+                   id="editSpendingDate"
+                   class="edit-spending-date-hidden"
+                   onchange="showSelectedEditDate()">
+
+            <!-- Shows selected date -->
+            <span id="selectedEditDate" class="selected-edit-date">select date</span>
+        </div>
+
+        <!-- Close button -->
+        <button type="button" class="edit-spending-done-btn" onclick="closeEditSpendingModal()">
+            Done
+        </button>
     </div>
 </div>
 
@@ -504,56 +527,73 @@
 
         <h2 class="text-center">Profile</h2>
 
-        <form th:action="@{/settings/update-currency}" method="POST" class="dark-form profile-form">
+
+        <form th:action="@{/settings/update-profile}" method="POST" class="dark-form profile-form">
 
             <div class="form-group-horizontal">
                 <label>Name</label>
-                <input type="text"
-                       th:value="${profileUser.fullName}"
+                <input type="text" 
+                       name="fullName" 
+                       id="profileName" 
+                       th:value="${profileUser.fullName}" 
                        readonly>
+
             </div>
 
             <div class="form-group-horizontal">
                 <label>Email</label>
-                <input type="email"
-                       th:value="${profileUser.email}"
+
+              <input type="email" 
+                       name="email" 
+                       id="profileEmail" 
+                       th:value="${profileUser.email}" 
                        readonly>
             </div>
 
-            <div class="form-group-horizontal">
+            <div class="form-group-horizontal" id="viewPasswordGroup">
                 <label>Password</label>
-                <input type="password"
-                       value="********"
-                       readonly>
+
+              <input type="password" 
+                       value="********" 
+                       readonly 
+                       style="pointer-events: none;">
+            </div>
+
+            <div id="editPasswordGroup" style="display: none; width: 100%;">
+                <div class="form-group-horizontal">
+                    <label>Password</label>
+                    <input type="password" name="oldPassword" placeholder="Enter old password">
+                </div>
+                <div class="form-group-horizontal">
+                    <label></label>
+                    <input type="password" name="newPassword" placeholder="Enter new password">
+                </div>
             </div>
 
             <div class="form-group-horizontal currency-row">
 
                 <label>Currency</label>
 
-                <form th:action="@{/settings/update-currency}" method="post">
+              <select name="currencyId" class="currency-select" id="profileCurrency">
+                    <option th:each="curr : ${currencies}" 
+                            th:value="${curr.id}" 
+                            th:text="${curr.currencySymbol}"
+                            th:selected="${profileUser.currency != null && profileUser.currency.id == curr.id}">
+                    </option>
+                </select>
 
-                    <select name="currencyId"
-                            class="currency-select"
-                            onchange="this.form.submit()">
+                <div id="viewButtons" style="margin-left: auto;">
+                    <button type="button" class="btn-edit-blue" onclick="toggleEditProfile(true)">Edit</button>
+                </div>
 
-                        <option th:each="curr : ${currencies}"
-                                th:value="${curr.id}"
-                                th:text="${curr.currencySymbol}"
-                                th:selected="${profileUser.currency != null && profileUser.currency.id == curr.id}">
-                        </option>
-                    </select>
-                </form>
-
-                <button type="button" class="btn-edit-blue" onclick="openEditProfileModal()">
-                    Edit
-                </button>
+                <div id="editButtons" style="display: none; margin-left: auto; gap: 10px;">
+                    <button type="button" style="background-color: #f97316; color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: bold;" onclick="toggleEditProfile(false)">Cancel</button>
+                    <button type="submit" class="btn-edit-blue">Save</button>
+                </div>
             </div>
 
-            <div class="profile-danger-zone">
-                <a th:href="@{/settings/delete-account}" class="btn-delete-account">
-                    Delete account
-                </a>
+            <div class="profile-danger-zone" id="deleteAccountZone">
+                <a th:href="@{/settings/delete-account}" class="btn-delete-account">Delete account</a>
             </div>
 
         </form>
@@ -646,27 +686,44 @@
         selectedDateText.textContent = selectedDate ? selectedDate : "select date";
     }
 
-    const shouldOpenEditProfileModal = /*[[${openEditProfileModal}]]*/ false;
+
+  const shouldOpenEditProfileModal = /*[[${openEditProfileModal}]]*/ false;
+    const shouldOpenReminderModal = /*[[${openReminderModal}]]*/ false;
 
     if (shouldOpenEditProfileModal) {
-        openEditProfileModal();
+        // Если сервер вернул ошибку профиля, автоматически включаем ваш режим редактирования.
+        // Используем DOMContentLoaded, чтобы функция точно сработала после отрисовки полей.
+        document.addEventListener("DOMContentLoaded", () => {
+            if (typeof toggleEditProfile === 'function') {
+                toggleEditProfile(true);
+            }
+        });
     }
 
-    const shouldOpenReminderModal = /*[[${openReminderModal}]]*/ false;
+    // Moved to the global scope so it can be accessed by onclick
+    function toggleEditProfile(isEditing) {
+        document.getElementById('profileName').readOnly = !isEditing;
+        document.getElementById('profileEmail').readOnly = !isEditing;
+
+        const select = document.getElementById('profileCurrency');
+        if (isEditing) {
+            select.classList.add('editable');
+        } else {
+            select.classList.remove('editable');
+        }
+
+        document.getElementById('viewPasswordGroup').style.display = isEditing ? 'none' : 'flex';
+        document.getElementById('editPasswordGroup').style.display = isEditing ? 'block' : 'none';
+
+        document.getElementById('viewButtons').style.display = isEditing ? 'none' : 'block';
+        document.getElementById('editButtons').style.display = isEditing ? 'flex' : 'none';
+        document.getElementById('deleteAccountZone').style.display = isEditing ? 'none' : 'block';
+    }
+
+    const shouldOpenReminderModal = [[${openReminderModal}]];
 
     if (shouldOpenReminderModal){
         openReminderModal();
-    }
-
-    function openHistoryEndDatePicker() {
-        document.getElementById("historyEndDate").showPicker();
-    }
-
-    const shouldOpenHistoryModal =
-        /*[[${openHistoryModal}]]*/ false;
-
-    if (shouldOpenHistoryModal) {
-        openEditSpendingModal();
     }
 
     document.addEventListener("DOMContentLoaded", function () {
@@ -675,6 +732,44 @@
         const myRemindersModal = document.getElementById("myRemindersModal");
         const addCarModal = document.getElementById("addCarModal")
         const addTransactionModal = document.getElementById("addTransactionModal");
+        const profileModal = document.getElementById("modal"); // <-- Добавили переменную окна профиля
+
+        reminderModal?.addEventListener("click", function (event) {
+            if (event.target === reminderModal) {
+                closeReminderModal();
+            }
+        });
+
+        editSpendingModal?.addEventListener("click", function (event) {
+            if (event.target === editSpendingModal){
+                closeEditSpendingModal();
+            }
+        });
+
+        myRemindersModal?.addEventListener("click", function (event){
+            if (event.target === myRemindersModal) {
+                closeMyRemindersModal();
+            }
+        });
+
+        addCarModal?.addEventListener("click", function (event) {
+            if (event.target === addCarModal) {
+                closeAddCarModal();
+            }
+        })
+
+        addTransactionModal?.addEventListener("click", function (event) {
+            if (event.target === addTransactionModal) {
+                closeAddTransactionModal();
+            }
+        });
+
+        profileModal?.addEventListener("click", function (event) {
+            if (event.target === profileModal) {
+                closeModal();
+            }
+        });
+
     });
 
 

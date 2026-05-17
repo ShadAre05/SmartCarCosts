@@ -30,6 +30,9 @@ public class User {
     @Column(nullable = false)
     private boolean enabled;
 
+    @Column(name = "reset_token")
+    private String resetToken;
+
     @ManyToOne
     @JoinColumn(name = "currency_id")
     private Currency currency;
@@ -40,6 +43,14 @@ public class User {
 
     public void setCurrency(Currency currency) {
         this.currency = currency;
+    }
+
+    public String getResetToken() {
+        return resetToken;
+    }
+
+    public void setResetToken(String resetToken) {
+        this.resetToken = resetToken;
     }
 
     public User(){
@@ -105,5 +116,7 @@ public class User {
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
+
+
 }
 

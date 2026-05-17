@@ -41,4 +41,31 @@ public class EmailService {
             throw new RuntimeException("Failed to send confirmation email", e);
         }
     }
+
+    // Метод для отправки ссылки на сброс пароля
+    public void sendPasswordResetEmail(String toEmail, String resetLink) {
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+            String htmlContent = """
+                    <p>Hello!</p>
+                    <p>You requested a password reset for your SmartCarCosts account.</p>
+                    <p>Click the link below to set a new password:</p>
+                    <p>
+                        <a href="%s" style="display:inline-block; padding:10px 20px; background-color:#5ab2da; color:#000; font-weight:bold; text-decoration:none; border-radius:4px;">
+                            Reset Password
+                        </a>
+                    </p>
+                    <p>This link is valid for 15 minutes. If you did not request this, please ignore this email.</p>
+                    """.formatted(resetLink);
+            helper.setTo(toEmail);
+            helper.setSubject("Reset your SmartCarCosts password");
+            helper.setText(htmlContent, true);
+
+            mailSender.send(message);
+        } catch (MessagingException e) {
+            throw new RuntimeException("Failed to send password reset email", e);
+        }
+    }
 }

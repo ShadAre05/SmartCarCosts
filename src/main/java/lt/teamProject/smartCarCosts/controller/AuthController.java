@@ -251,14 +251,28 @@ public class AuthController {
     public String mainPage(Model model,
                            HttpSession session,
                            @RequestParam(required = false) LocalDate startDate,
-                           @RequestParam(required = false) LocalDate endDate) {
-
+                           @RequestParam(required = false) LocalDate endDate
+    ) {
+        // 1. Retrieve the actual user ID from the session
         Long userId = (Long) session.getAttribute("userId");
 
+
+        // If the user ID is missing (user is not logged in),
+        // redirect them to the login page
         if (userId == null) {
             return "redirect:/login";
         }
 
+        // 2. Retrieve the actual user name from the session
+        String userName = (String) session.getAttribute("userName");
+        if (userName == null){
+            userName = "User";
+        }
+
+        String userEmail = (String) session.getAttribute("userEmail");
+        model.addAttribute("userEmail", userEmail != null ? userEmail : "no-email@example.com");
+
+        // 3. Load cars that belong ONLY to the current user
         User currentUser = userService.getUserById(userId);
 
         String currencySymbol = currentUser.getCurrency() != null

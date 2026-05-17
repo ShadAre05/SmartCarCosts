@@ -29,6 +29,9 @@ public class Car {
     @Column(name = "generation")
     private String generation;
 
+    @Column(name = "fuel_type_id")
+    private Long fuelTypeId;
+
     public Long getId(){
         return id;
     }
@@ -79,5 +82,13 @@ public class Car {
 
     public void setGeneration(String generation) {
         this.generation = generation;
+    }
+
+    public Long getFuelTypeId() {
+        return fuelTypeId;
+    }
+
+    public void setFuelTypeId(Long fuelTypeId) {
+        this.fuelTypeId = fuelTypeId;
     }
 }
