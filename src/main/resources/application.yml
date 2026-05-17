@@ -22,3 +22,6 @@ spring:
           auth: true
           starttls:
             enable: true
+
+app:
+    base-url: http://localhost:8080
