@@ -1,7 +1,7 @@
 spring:
   datasource:
-    url: jdbc:postgresql://aws-1-eu-central-1.pooler.supabase.com:5432/postgres
-    username: postgres.clobleulphasflvdrzxk
+    url: ${DB_URL:jdbc:postgresql://aws-1-eu-central-1.pooler.supabase.com:5432/postgres}
+    username: ${DB_USER:postgres.clobleulphasflvdrzxk}
     password: ${DB_PASSWORD}
 
   jpa:
@@ -14,8 +14,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: smartcarcosts.app@gmail.com
-    password: mucf bcll lkce gigz
+    username: ${MAIL_USER:smartcarcosts.app@gmail.com}
+    password: ${EMAIL_PASSWORD}
     properties:
       mail:
         smtp:
@@ -24,4 +24,4 @@ spring:
             enable: true
 
 app:
-    base-url: http://localhost:8080
+    base-url: ${APP_BASE_URL:http://localhost:8080}
