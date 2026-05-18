@@ -39,6 +39,7 @@ public class AuthController {
     private final ExpenseService expenseService;
     private final CarService carService;
     private final CurrencyRepository currencyRepository;
+    private final ReminderService reminderService;
 
     public AuthController(EmailService emailService,
                           ConfirmationTokenService confirmationTokenService,
@@ -47,7 +48,8 @@ public class AuthController {
                           ReminderTypeRepository reminderTypeRepository,
                           ExpenseService expenseService,
                           CarService carService,
-                          CurrencyRepository currencyRepository) {
+                          CurrencyRepository currencyRepository,
+                          ReminderService reminderService) {
         this.emailService = emailService;
         this.confirmationTokenService = confirmationTokenService;
         this.countryRepository = countryRepository;
@@ -56,6 +58,7 @@ public class AuthController {
         this.expenseService = expenseService;
         this.carService = carService;
         this.currencyRepository = currencyRepository;
+        this.reminderService = reminderService;
     }
     // Show registration page
     @GetMapping("/register")
@@ -131,48 +134,47 @@ public class AuthController {
     public String createReminder(
             @Valid @ModelAttribute("reminderRequest") ReminderRequest reminderRequest,
             BindingResult bindingResult,
-            Model model,
             HttpSession session
     ) {
-        String userName = (String) session.getAttribute("userName");
+        Long userId = (Long) session.getAttribute("userId");
 
-        if (userName == null) {
-            userName = "User";
+        if (userId == null) {
+            return "redirect:/login";
         }
 
-        model.addAttribute("userName", userName);
-
-        List<String> cars = new ArrayList<>();
-        model.addAttribute("cars", cars);
-        model.addAttribute("reminderTypes", reminderTypeRepository.findAll());
-
-        // Custom validation: at least one checkbox must be selected
         boolean noReminderOptionSelected =
                 !reminderRequest.isMonthBefore()
                         && !reminderRequest.isWeekBefore()
                         && !reminderRequest.isDayBefore();
 
-        if (noReminderOptionSelected) {
-            model.addAttribute("reminderOptionError", "Select at least one reminder option");
-        }
-        // Reopen modal if validation fails
         if (bindingResult.hasErrors() || noReminderOptionSelected) {
-            model.addAttribute("openReminderModal", true);
-            return "main-interface";
+            session.setAttribute("openReminderModal", true);
+
+            if (reminderRequest.getCarId() == null) {
+                session.setAttribute("carError", "Please select a car");
+            }
+
+            if (reminderRequest.getReminderTypeId() == null) {
+                session.setAttribute("reminderTypeError", "Please select a reminder type");
+            }
+
+            if (reminderRequest.getReminderDate() == null) {
+                session.setAttribute("reminderDateError", "Please select an end date");
+            }
+
+            if (noReminderOptionSelected) {
+                session.setAttribute("reminderOptionError", "Please select at least one reminder option");
+            }
+
+            return "redirect:/main-interface";
         }
 
-        // Get end date from form
-        LocalDate endDate = reminderRequest.getReminderDate();
+        reminderService.createReminder(userId, reminderRequest);
 
-        // Temporary list for calculated reminder dates
-        List<String> calculatedReminders = new ArrayList<>();
+        session.setAttribute("openReminderModal", true);
+        session.setAttribute("successMessage", "Notification created successfully");
 
-        // Temporary success message
-        model.addAttribute("successMessage", "Notification created successfully");
-        model.addAttribute("openReminderModal", true);
-        model.addAttribute("reminderRequest", new ReminderRequest());
-
-        return "main-interface";
+        return "redirect:/main-interface";
     }
 
     // Handle email confirmation via token
@@ -266,7 +268,7 @@ public class AuthController {
         model.addAttribute("cars", cars);
 
         model.addAttribute("reminderRequest", new ReminderRequest());
-        model.addAttribute("openReminderModal", false);
+        model.addAttribute("openReminderModal", session.getAttribute("openReminderModal"));
         model.addAttribute("reminderTypes", reminderTypeRepository.findAll());
         model.addAttribute("currencies", currencyRepository.findAll());
 
@@ -283,6 +285,19 @@ public class AuthController {
 
         session.removeAttribute("profileError");
         session.removeAttribute("openEditProfileModal");
+        model.addAttribute("successMessage", session.getAttribute("successMessage"));
+        model.addAttribute("reminderOptionError", session.getAttribute("reminderOptionError"));
+
+        session.removeAttribute("successMessage");
+        model.addAttribute("carError", session.getAttribute("carError"));
+        model.addAttribute("reminderTypeError", session.getAttribute("reminderTypeError"));
+        model.addAttribute("reminderDateError", session.getAttribute("reminderDateError"));
+        model.addAttribute("reminderOptionError", session.getAttribute("reminderOptionError"));
+
+        session.removeAttribute("carError");
+        session.removeAttribute("reminderTypeError");
+        session.removeAttribute("reminderDateError");
+        session.removeAttribute("reminderOptionError");
 
         return "main-interface";
     }
