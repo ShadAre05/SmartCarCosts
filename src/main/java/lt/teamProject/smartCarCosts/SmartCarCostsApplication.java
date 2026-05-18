@@ -5,10 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableScheduling
-@SpringBootApplication(scanBasePackages = {
-		"lt.teamProject.SmartCarCosts",
-		"lt.teamProject.smartCarCosts"
-})
+@SpringBootApplication
 public class SmartCarCostsApplication {
 
 	public static void main(String[] args) {
