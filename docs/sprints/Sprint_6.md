@@ -8,26 +8,25 @@ Start to implement JWT authentication, make our project more unified, fix bugs f
 ### Tasks
 |  Task  | Executor | Complete |
 |--------|----------|-----|
-| Create unit tests for current code |  Arseni  |  | 
-| Start to create presentation about project | Arseni |  |
-| Update interface from Figma for your developed pages (Main page, Main interface, Create account, Current/add reminder, History of spending) |  Vladyslav  |  |
-| Srart make our project unified by connecting current parts of code | Vladyslav |  |
-| Implement JWT into logic | Vladyslav |  |
-| Fix bugs wich connected with you area of responsibility (read document fron Teams chat) | Matsvei |  |
-| Make unified your part of code (like page /peset-password doesn't work at all, same with /add-car (didn't add car into DB and wrong logic), /settings (wrong logic), /forget-password (didn't sent message on email)) | Matsvei |  |
-| Implement JWT into logic | Matsvei |  |
+| Create unit tests for current code |  Arseni  | In progress | 
+| Start to create presentation about project | Arseni | + |
+| Update interface from Figma for your developed pages (Main page, Main interface, Create account, Current/add reminder, History of spending) |  Vladyslav  | + |
+| Srart make our project unified by connecting current parts of code | Vladyslav | + |
+| Implement JWT into logic | Vladyslav | +- |
+| Fix bugs wich connected with you area of responsibility (read document fron Teams chat) | Matsvei | +- |
+| Make unified your part of code (like page /peset-password doesn't work at all, same with /add-car (didn't add car into DB and wrong logic), /settings (wrong logic), /forget-password (didn't sent message on email)) | Matsvei | + |
+| Implement JWT into logic | Matsvei | + |
 
 ### Metrics
 - **Planned tasks:** 9
-- **Complete:** 
-- **Velocity:** --%
+- **Complete:** 7
+- **Velocity:** 77.8%
 
 ---
 
 ## Demo
 
 ### What was shown
-- Features by Arseni: [Screencast], [Figma]
 - Features by Vladyslav: [Commited Code], [Screencast]
 - Features by Matsvei: [Commited code], [Screencast]
 
@@ -62,7 +61,7 @@ _Comments from mentor_
 
 | Space | Status | Comment |
 |---------|--------|-------------|
-| Backend | 🟡 | A lot of bugs, app doesn't work correct |
+| Backend | 🟡 | We solved some problems, next step is to unofifed it |
 | Frontend | 🟢 | The design in Figma represents the final version of our application. |
 | CI/CD | 🔴 | In future |
 | Documentation | 🟢 | Done! |
