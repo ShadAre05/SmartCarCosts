@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface UserCarRepository extends JpaRepository<UserCar, Long> {
     List<UserCar> findByUserId(Long userId);
+    void deleteByUserId(Long userId);
 
     long countByUserId(Long userId);
 }

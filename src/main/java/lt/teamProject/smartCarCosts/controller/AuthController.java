@@ -167,28 +167,6 @@ public class AuthController {
         // Temporary list for calculated reminder dates
         List<String> calculatedReminders = new ArrayList<>();
 
-        ///Delete
-        if (reminderRequest.isMonthBefore()) {
-            // Subtract 1 calendar month
-            LocalDate date = endDate.minusMonths(1);
-            calculatedReminders.add("1 month before: " + date);
-        }
-
-        if (reminderRequest.isWeekBefore()) {
-            // Subtract 7 days
-            LocalDate date = endDate.minusDays(7);
-            calculatedReminders.add("1 week before: " + date);
-        }
-
-        if (reminderRequest.isDayBefore()) {
-            // Subtract 1 day
-            LocalDate date = endDate.minusDays(1);
-            calculatedReminders.add("1 day before: " + date);
-        }
-
-
-        calculatedReminders.forEach(System.out::println);
-
         // Temporary success message
         model.addAttribute("successMessage", "Notification created successfully");
         model.addAttribute("openReminderModal", true);

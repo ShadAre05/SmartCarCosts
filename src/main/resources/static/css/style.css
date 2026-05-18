@@ -3,7 +3,7 @@
     margin: 0;
     padding: 0;
 }
-
+html,
 body {
     background-color: #1e293b; /* Dark slate background */
     color: #ffffff;
