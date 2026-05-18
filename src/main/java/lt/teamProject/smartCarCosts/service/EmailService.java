@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 
+import java.time.LocalDate;
+
 @Service
 public class EmailService {
 
@@ -66,6 +68,49 @@ public class EmailService {
             mailSender.send(message);
         } catch (MessagingException e) {
             throw new RuntimeException("Failed to send password reset email", e);
+        }
+    }
+
+    public void sendReminderCreatedEmail(String to, String reminderType, LocalDate endDate) {
+        String subject = "SmartCarCosts reminder created";
+
+        String body = """
+                <h2>Reminder created successfully</h2>
+                <p>Your reminder has been created.</p>
+                <p><b>Type:</b> %s</p>
+                <p><b>End date:</b> %s</p>
+                <p>We will notify you according to your selected options.</p>
+                """.formatted(reminderType, endDate);
+
+        sendHtmlEmail(to, subject, body);
+    }
+
+    public void sendReminderNotificationEmail(String to, String reminderType, Integer daysBefore, LocalDate remindAt) {
+        String subject = "SmartCarCosts reminder";
+
+        String body = """
+                <h2>Reminder from SmartCarCosts</h2>
+                <p>This is your reminder.</p>
+                <p><b>Type:</b> %s</p>
+                <p><b>Notify before:</b> %s days</p>
+                <p><b>Reminder date:</b> %s</p>
+                """.formatted(reminderType, daysBefore, remindAt);
+
+        sendHtmlEmail(to, subject, body);
+    }
+
+    private void sendHtmlEmail(String toEmail, String subject, String htmlContent) {
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+            helper.setTo(toEmail);
+            helper.setSubject(subject);
+            helper.setText(htmlContent, true);
+
+            mailSender.send(message);
+        } catch (MessagingException e) {
+            throw new RuntimeException("Failed to send email", e);
         }
     }
 }

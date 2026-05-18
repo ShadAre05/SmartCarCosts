@@ -476,7 +476,7 @@ button:active,
     margin-right: 14px;
 }
 
-/* REMINDER MODAL FIX */
+/* REMINDER MODAL */
 
 .reminder-modal-content {
     width: 560px;
@@ -495,6 +495,22 @@ button:active,
 
 #reminderForm {
     width: 100%;
+}
+
+.success-text {
+    color: #4dff88;
+    font-weight: bold;
+    margin-top: 8px;
+    margin-left: 0;
+    font-size: 18px;
+}
+
+.reminder-error {
+    color: #ff3b3b;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 6px;
+    text-shadow: 0 0 6px rgba(255, 0, 0, 0.35);
 }
 
 #reminderForm .reminder-row:nth-of-type(1),

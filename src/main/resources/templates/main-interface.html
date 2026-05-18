@@ -65,7 +65,7 @@
                                 <button class="circle-btn">-</button>
                             </form>
 
-                            <button class="car-card" th:text="${cars[1].year + ' - ' + (cars[1].licencePlate != null ? cars[0].licencePlate : 'No plate')}"></button>
+                            <button class="car-card" th:text="${cars[1].year + ' - ' + (cars[1].licencePlate != null ? cars[1].licencePlate : 'No plate')}"></button>
                         </div>
 
                         <div th:if="${cars.size() <= 1}">
@@ -82,7 +82,7 @@
                                 <button class="circle-btn">-</button>
                             </form>
 
-                            <button class="car-card" th:text="${cars[2].year + ' - ' + (cars[2].licencePlate != null ? cars[0].licencePlate : 'No plate')}"></button>
+                            <button class="car-card" th:text="${cars[2].year + ' - ' + (cars[2].licencePlate != null ? cars[2].licencePlate : 'No plate')}"></button>
                         </div>
 
                         <div th:if="${cars.size() <= 2}">
@@ -149,6 +149,7 @@
                            id="costStartDate"
                            name="startDate"
                            class="hidden-date-input"
+                           th:min="${#temporals.format(#temporals.createNow(), 'yyyy-MM-dd')}"
                            onchange="openEndDatePicker()">
 
                     <!-- Hidden end date -->
@@ -156,6 +157,7 @@
                            id="costEndDate"
                            name="endDate"
                            class="hidden-date-input"
+                           th:min="${#temporals.format(#temporals.createNow(), 'yyyy-MM-dd')}"
                            onchange="this.form.submit()">
 
                     <span class="selected-cost-period"
@@ -300,21 +302,41 @@
               method="post">
 
             <div class="reminder-row">
+                <label for="reminderCar">Car:</label>
+
+                <div>
+                    <select id="reminderCar" th:field="*{carId}">
+                        <option value="">Select car</option>
+
+                        <option th:each="car : ${cars}"
+                                th:value="${car.id}"
+                                th:text="${car.year + ' - ' + (car.licencePlate != null ? car.licencePlate : 'No plate')}">
+                        </option>
+                    </select>
+
+                    <div class="reminder-error"
+                         th:if="${carError}"
+                         th:text="${carError}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="reminder-row">
                 <label for="reminderType">Type of reminder:</label>
 
                 <div>
-                    <select id="reminderType" th:field="*{reminderType}">
+                    <select id="reminderType" th:field="*{reminderTypeId}">
                         <option value="">Select a reminder</option>
                         <option th:each="type : ${reminderTypes}"
-                                th:value="${type.name}"
+                                th:value="${type.id}"
                                 th:text="${type.name}">
                         </option>
                     </select>
 
 
-                    <div class="error"
-                         th:if="${#fields.hasErrors('reminderType')}"
-                         th:errors="*{reminderType}">
+                    <div class="reminder-error"
+                         th:if="${reminderTypeError}"
+                         th:text="${reminderTypeError}">
                     </div>
                 </div>
             </div>
@@ -323,11 +345,14 @@
                 <label for="reminderDate">Select end date:</label>
 
                 <div>
-                    <input type="date" id="reminderDate" th:field="*{reminderDate}">
+                    <input type="date"
+                           id="reminderDate"
+                           th:field="*{reminderDate}"
+                           th:min="${#temporals.format(#temporals.createNow(), 'yyyy-MM-dd')}">
 
-                    <div class="error"
-                         th:if="${#fields.hasErrors('reminderDate')}"
-                         th:errors="*{reminderDate}">
+                    <div class="reminder-error"
+                         th:if="${reminderDateError}"
+                         th:text="${reminderDateError}">
                     </div>
                 </div>
             </div>
@@ -353,7 +378,7 @@
                         </label>
                     </div>
 
-                    <div class="error"
+                    <div class="reminder-error"
                          th:if="${reminderOptionError}"
                          th:text="${reminderOptionError}">
                     </div>
@@ -675,8 +700,10 @@
         });
     }
 
-    if (shouldOpenReminderModal){
-        openReminderModal();
+    if (shouldOpenReminderModal) {
+        document.addEventListener("DOMContentLoaded", function () {
+            openReminderModal();
+        });
     }
 
     document.addEventListener("DOMContentLoaded", function () {

@@ -1,6 +1,5 @@
 package lt.teamProject.smartCarCosts.dto;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -8,28 +7,37 @@ import java.time.LocalDate;
 
 public class ReminderRequest {
 
-    @NotBlank(message = "Reminder type is required")
-    private String reminderType;
+    @NotNull(message = "Reminder type is required")
+    private Long reminderTypeId;
 
     @NotNull(message = "End date is required")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate reminderDate;
 
-    ///Dont need it
+    @NotNull(message = "Car is required")
+    private Long carId;
+
     private boolean monthBefore;
     private boolean weekBefore;
     private boolean dayBefore;
-    ////
 
-    public ReminderRequest(){
+    public Long getCarId() {
+        return carId;
     }
 
-    public String getReminderType(){
-        return reminderType;
+    public ReminderRequest() {
     }
 
-    public void setReminderType(String reminderType){
-        this.reminderType = reminderType;
+    public Long getReminderTypeId() {
+        return reminderTypeId;
+    }
+
+    public void setReminderTypeId(Long reminderTypeId) {
+        this.reminderTypeId = reminderTypeId;
+    }
+
+    public void setCarId(Long carId){
+        this.carId = carId;
     }
 
     public LocalDate getReminderDate() {
@@ -40,20 +48,19 @@ public class ReminderRequest {
         this.reminderDate = reminderDate;
     }
 
-    ////////////////////////////////////////// Delete
-    public boolean isMonthBefore(){
+    public boolean isMonthBefore() {
         return monthBefore;
     }
 
-    public void setMonthBefore(boolean monthBefore){
+    public void setMonthBefore(boolean monthBefore) {
         this.monthBefore = monthBefore;
     }
 
-    public boolean isWeekBefore(){
+    public boolean isWeekBefore() {
         return weekBefore;
     }
 
-    public void setWeekBefore(boolean weekBefore){
+    public void setWeekBefore(boolean weekBefore) {
         this.weekBefore = weekBefore;
     }
 
@@ -61,8 +68,7 @@ public class ReminderRequest {
         return dayBefore;
     }
 
-    public void setDayBefore(boolean dayBefore){
+    public void setDayBefore(boolean dayBefore) {
         this.dayBefore = dayBefore;
     }
-    ///////////////////////////////////////////////
 }
