@@ -1,9 +1,6 @@
 package lt.teamProject.smartCarCosts.controller;
 
 import jakarta.servlet.http.HttpSession;
-import lt.teamProject.smartCarCosts.entity.User;
-import lt.teamProject.smartCarCosts.repository.CurrencyRepository;
-import lt.teamProject.smartCarCosts.repository.UserRepository;
 import lt.teamProject.smartCarCosts.dto.UpdateProfileRequest;
 import lt.teamProject.smartCarCosts.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -11,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import lt.teamProject.smartCarCosts.entity.Currency;
 
 @Controller
 public class SettingsController {
@@ -43,6 +39,10 @@ public class SettingsController {
 
         Long userId = (Long) session.getAttribute("userId");
 
+        if (userId == null) {
+            return "redirect:/login";
+        }
+
         String error = userService.updateProfile(userId, request);
 
         if (error != null) {
@@ -57,7 +57,7 @@ public class SettingsController {
         return "redirect:/main-interface";
     }
 
-    @GetMapping("/settings/delete-account")
+    @PostMapping("/settings/delete-account")
     public String deleteAccount(HttpSession session) {
 
         Long userId = (Long) session.getAttribute("userId");

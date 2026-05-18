@@ -12,6 +12,7 @@ import lt.teamProject.smartCarCosts.repository.RoleRepository;
 import lt.teamProject.smartCarCosts.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import lt.teamProject.smartCarCosts.entity.User;
+import lt.teamProject.smartCarCosts.repository.UserCarRepository;
 
 
 @Service
@@ -21,12 +22,14 @@ public class UserService {
     private final CountryRepository countryRepository;
     private final RoleRepository roleRepository;
     private final CurrencyRepository currencyRepository;
+    private final UserCarRepository userCarRepository;
 
-    public UserService(UserRepository userRepository, CountryRepository countryRepository, RoleRepository roleRepository, CurrencyRepository currencyRepository) {
+    public UserService(UserRepository userRepository, CountryRepository countryRepository, RoleRepository roleRepository, CurrencyRepository currencyRepository, UserCarRepository userCarRepository) {
         this.userRepository = userRepository;
         this.countryRepository = countryRepository;
         this.roleRepository = roleRepository;
         this.currencyRepository = currencyRepository;
+        this.userCarRepository = userCarRepository;
     }
 
     // Check if user already exists by email
@@ -103,6 +106,9 @@ public class UserService {
 
     @Transactional
     public void deleteUser(Long userId) {
+
+        userCarRepository.deleteByUserId(userId);
+
         userRepository.deleteById(userId);
     }
 
