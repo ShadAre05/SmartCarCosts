@@ -3,6 +3,8 @@ spring:
     url: ${DB_URL:jdbc:postgresql://aws-1-eu-central-1.pooler.supabase.com:5432/postgres}
     username: ${DB_USER:postgres.clobleulphasflvdrzxk}
     password: ${DB_PASSWORD}
+    hikari:
+      maximum-pool-size: ${HIKARI_MAX_POOL:3}
 
   jpa:
     hibernate:
