@@ -15,8 +15,9 @@
 html,
 body {
     width: 100%;
-    height: 100%;
-    overflow: hidden;
+    min-height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
     font-family: Arial, sans-serif;
     background: #172636;
     color: white;
@@ -28,7 +29,7 @@ body {
 
 .page {
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
     padding: 34px 46px;
     background: #172636;
 }
@@ -45,24 +46,6 @@ body {
     border-bottom: 1px solid rgba(255,255,255,0.25);
     padding-bottom: 18px;
     margin-bottom: 28px;
-}
-
-/* =========================
-   LOGO
-========================= */
-
-.logo {
-    width: 150px;
-    height: 62px;
-    background: #59b5e8;
-    border-radius: 8px;
-    color: black;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    cursor: pointer;
 }
 
 /* =========================
@@ -102,7 +85,7 @@ body {
     display: grid;
     grid-template-columns: 380px 1fr;
     gap: 42px;
-    height: calc(100vh - 140px);
+    min-height: calc(100vh - 140px);
 }
 
 /* =========================
@@ -378,7 +361,6 @@ body {
 }
 
 .modal-content,
-.reminder-modal-content,
 .edit-spending-modal-content,
 .my-reminders-modal-content,
 .add-transaction-modal-content,
@@ -392,7 +374,6 @@ body {
 ========================= */
 
 button,
-.logo,
 .profile-box,
 .car-card,
 .reminder-btn,
@@ -404,7 +385,6 @@ button,
 }
 
 button:hover,
-.logo:hover,
 .profile-box:hover,
 .car-card:hover,
 .reminder-btn:hover,
@@ -415,7 +395,6 @@ button:hover,
 }
 
 button:active,
-.logo:active,
 .profile-box:active,
 .car-card:active,
 .reminder-btn:active,
@@ -668,6 +647,29 @@ button:active,
     border-radius: 0;
     margin-left: auto;
     margin-right: 0;
+    overflow: visible !important;
+}
+
+.currency-form {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.currency-select {
+    width: 90px !important;
+    height: 42px !important;
+    pointer-events: auto !important;
+    cursor: pointer !important;
+    opacity: 1 !important;
+    z-index: 9999 !important;
+    background: white;
+    color: black;
+}
+
+.btn-edit-blue {
+    position: relative;
+    z-index: 5;
 }
 
 #modal,
@@ -717,6 +719,7 @@ button:active,
     display: flex;
     flex-direction: column;
     gap: 22px;
+    overflow: visible !important;
 }
 
 .form-group-horizontal {
@@ -918,4 +921,140 @@ button:active,
     color: #ff4d4d;
     font-size: 15px;
     font-weight: bold;
+}
+
+.my-reminders-modal-content {
+    width: 980px;
+    min-height: 360px;
+    max-height: 560px;
+    background: #395272;
+    padding: 22px 34px;
+    color: white;
+    border-radius: 0;
+    overflow-x: hidden;
+}
+
+.my-reminders-modal-content h2 {
+    text-align: center;
+    font-size: 22px;
+    margin-bottom: 14px;
+}
+
+.my-reminders-list {
+    max-height: 390px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 8px;
+}
+
+.my-reminder-row {
+    display: grid;
+    grid-template-columns: 260px 280px 75px 75px 75px 50px;
+    align-items: center;
+    gap: 8px;
+    background: #2f3f50;
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 10px;
+    overflow: visible;
+}
+
+.my-reminder-type {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.my-reminder-date {
+    background: #57548a;
+    padding: 6px;
+    font-size: 12px;
+}
+
+.my-reminder-date span {
+    display: block;
+    font-size: 11px;
+}
+
+.my-reminder-date strong {
+    font-size: 12px;
+}
+
+.my-reminder-toggle {
+    text-align: center;
+    font-size: 9px;
+}
+
+.toggle-pill {
+    width: 34px;
+    height: 16px;
+    border-radius: 20px;
+    margin: 4px auto 0;
+    position: relative;
+    background: #1c2b38;
+}
+
+.toggle-pill::after {
+    content: "";
+    width: 14px;
+    height: 14px;
+    background: #222;
+    border-radius: 50%;
+    position: absolute;
+    top: 1px;
+    left: 1px;
+}
+
+.toggle-on {
+    background: #1da1ff;
+}
+
+.toggle-on::after {
+    left: 19px;
+    background: white;
+}
+
+.toggle-off {
+    background: #20313f;
+}
+
+.my-reminder-delete-btn {
+    width: 46px;
+    height: 46px;
+    min-width: 46px;
+    border: none;
+    border-radius: 6px;
+    background: white;
+    color: black;
+    cursor: pointer;
+    font-size: 25px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.my-reminder-delete-btn:hover {
+    background: #eeeeee;
+    transform: scale(1.04);
+}
+
+.my-reminders-empty {
+    text-align: center;
+    padding: 35px;
+    font-size: 22px;
+    color: #dce6f4;
+}
+
+.my-reminders-done-btn {
+    display: block;
+    width: 210px;
+    height: 42px;
+    margin: 14px auto 0;
+    border: none;
+    border-radius: 0;
+    background: #55b5e6;
+    color: black;
+    font-size: 18px;
+    cursor: pointer;
 }

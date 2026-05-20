@@ -2,6 +2,7 @@ package lt.teamProject.smartCarCosts.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lt.teamProject.smartCarCosts.validation.ValidFullName;
 import lt.teamProject.smartCarCosts.validation.ValidPassword;
 
@@ -16,7 +17,11 @@ public class RegisterRequest {
 
     // User email (must be valid format)
     @NotBlank(message = "Email is required")
-    @Email(message = "Email must be valid")
+    @Email(message = "Invalid email")
+    @Pattern(
+            regexp = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$",
+            message = "Email must contain only English letters"
+    )
     private String email;
 
     // User password (minimum 8 characters)

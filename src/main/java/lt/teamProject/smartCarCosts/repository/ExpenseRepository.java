@@ -8,17 +8,28 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
-public interface ExpenseRepository extends JpaRepository<Expense, Long > {
+public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 
-    @Query("SELECT COALESCE(SUM(e.amount), 0) FROM Expense e")
-    BigDecimal getAllTimeTotal();
+    void deleteByUserCarIdIn(List<Long> userCarIds);
 
     @Query("""
            SELECT COALESCE(SUM(e.amount), 0)
            FROM Expense e
-           WHERE e.expenseDate BETWEEN :startDate AND :endDate
+           WHERE e.userCarId IN :userCarIds
            """)
-    BigDecimal getTotalByPeriod(LocalDate startDate, LocalDate endDate);
+    BigDecimal getAllTimeTotalByUserCars(List<Long> userCarIds);
 
-    List<Expense> findAllByOrderByExpenseDateDesc();
+    @Query("""
+           SELECT COALESCE(SUM(e.amount), 0)
+           FROM Expense e
+           WHERE e.userCarId IN :userCarIds
+           AND e.expenseDate BETWEEN :startDate AND :endDate
+           """)
+    BigDecimal getTotalByPeriodAndUserCars(
+            List<Long> userCarIds,
+            LocalDate startDate,
+            LocalDate endDate
+    );
+
+    List<Expense> findByUserCarIdInOrderByExpenseDateDesc(List<Long> userCarIds);
 }

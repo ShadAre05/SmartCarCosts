@@ -23,6 +23,15 @@ public class ConfirmationToken {
     @Column(name = "expires_at", nullable = false)
     private LocalDateTime expiresAt;
 
+    @Column(name = "full_name")
+    private String fullName;
+
+    @Column(name = "password_hash")
+    private String passwordHash;
+
+    @Column(name = "country_id")
+    private Long countryId;
+
     public ConfirmationToken() {
     }
 
@@ -31,6 +40,29 @@ public class ConfirmationToken {
         this.email = email;
         this.createdAt = createdAt;
         this.expiresAt = expiresAt;
+    }
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
+    }
+
+    public Long getCountryId() {
+        return countryId;
+    }
+
+    public void setCountryId(Long countryId) {
+        this.countryId = countryId;
     }
 
     public Long getId() {

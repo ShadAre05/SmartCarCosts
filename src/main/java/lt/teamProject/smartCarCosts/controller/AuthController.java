@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lt.teamProject.smartCarCosts.dto.RegisterRequest;
 import lt.teamProject.smartCarCosts.dto.ReminderRequest;
 import lt.teamProject.smartCarCosts.entity.Car;
+import lt.teamProject.smartCarCosts.entity.ConfirmationToken;
 import lt.teamProject.smartCarCosts.entity.User;
 import lt.teamProject.smartCarCosts.repository.CurrencyRepository;
 import lt.teamProject.smartCarCosts.service.*;
@@ -76,7 +77,8 @@ public class AuthController {
     @PostMapping("/register")
     public String handleRegister(
             @Valid @ModelAttribute("registerRequest") RegisterRequest registerRequest,
-            BindingResult bindingResult, HttpSession session,
+            BindingResult bindingResult,
+            HttpSession session,
             Model model
     ) {
         if (bindingResult.hasErrors()) {
@@ -84,27 +86,31 @@ public class AuthController {
             return "register";
         }
 
-        if (userService.existsByEmail(registerRequest.getEmail())){
+        if (userService.existsByEmail(registerRequest.getEmail())) {
             model.addAttribute("countries", countryRepository.findAll());
             model.addAttribute("emailExistsError", "User with this email already exists");
             return "register";
         }
 
-        userService.registerUser(registerRequest);
-        // Save user data in session
-        Long userId = userService.getUserIdByEmail(registerRequest.getEmail());
-        session.setAttribute("userId", userId);
-        session.setAttribute("userName", registerRequest.getFullName());
-        session.setAttribute("userEmail", registerRequest.getEmail());
-        // Create confirmation token
+        if (confirmationTokenService.existsByEmail(registerRequest.getEmail())) {
+            model.addAttribute("countries", countryRepository.findAll());
+            model.addAttribute("emailExistsError", "Confirmation email has already been sent");
+            return "register";
+        }
+
+        Long countryId = countryRepository.findByCountryName(registerRequest.getCountry())
+                .orElseThrow(() -> new RuntimeException("Country not found"))
+                .getId();
+
         String token = UUID.randomUUID().toString();
         String link = baseUrl + "/confirm-email?token=" + token;
 
-        confirmationTokenService.saveToken(token, registerRequest.getEmail());
-        emailService.sendConfirmationEmail(registerRequest.getEmail(), link);
+        confirmationTokenService.saveRegistrationToken(token, registerRequest, countryId);
 
-        // Start 60s resend cooldown
+        session.setAttribute("userEmail", registerRequest.getEmail());
         session.setAttribute("resendAvailableAt", System.currentTimeMillis() + 60_000);
+
+        emailService.sendConfirmationEmail(registerRequest.getEmail(), link);
 
         return "redirect:/confirm-email-notice";
     }
@@ -181,19 +187,17 @@ public class AuthController {
     @GetMapping("/confirm-email")
     public String confirmEmail(@RequestParam String token) {
 
-        // Invalid or expired token - back to register
         if (!confirmationTokenService.isValidToken(token)) {
             return "redirect:/register";
         }
 
-        String email = confirmationTokenService.getEmailByToken(token);
+        ConfirmationToken tokenData = confirmationTokenService.getTokenData(token);
 
-        userService.enableUser(email);
+        userService.registerUserAfterConfirmation(tokenData);
 
-        // Remove token after success
         confirmationTokenService.removeToken(token);
 
-        return "redirect:/main-interface";
+        return "redirect:/login";
     }
 
     // Resend confirmation email (with cooldown)
@@ -223,6 +227,24 @@ public class AuthController {
         session.setAttribute("resendAvailableAt", System.currentTimeMillis() + 60_000);
 
         return "redirect:/confirm-email-notice";
+    }
+
+    @PostMapping("/reminders/delete")
+    public String deleteReminder(@RequestParam List<Long> reminderIds,
+                                 HttpSession session) {
+
+        Long userId = (Long) session.getAttribute("userId");
+
+        if (userId == null) {
+            return "redirect:/login";
+        }
+
+        reminderService.deleteReminderGroup(userId, reminderIds);
+
+        session.removeAttribute("openReminderModal");
+        session.setAttribute("openMyRemindersModal", true);
+
+        return "redirect:/main-interface";
     }
 
 
@@ -272,8 +294,8 @@ public class AuthController {
         model.addAttribute("reminderTypes", reminderTypeRepository.findAll());
         model.addAttribute("currencies", currencyRepository.findAll());
 
-        BigDecimal allTimeTotal = expenseService.getAllTimeTotal();
-        BigDecimal periodTotal = expenseService.getTotalByPeriod(startDate, endDate);
+        BigDecimal allTimeTotal = expenseService.getAllTimeTotal(userId);
+        BigDecimal periodTotal = expenseService.getTotalByPeriod(userId, startDate, endDate);
         String selectedPeriod = expenseService.formatSelectedPeriod(startDate, endDate);
 
         model.addAttribute("allTimeTotal", allTimeTotal);
@@ -293,11 +315,13 @@ public class AuthController {
         model.addAttribute("reminderTypeError", session.getAttribute("reminderTypeError"));
         model.addAttribute("reminderDateError", session.getAttribute("reminderDateError"));
         model.addAttribute("reminderOptionError", session.getAttribute("reminderOptionError"));
+        model.addAttribute("currentReminders", reminderService.getUserReminderOverview(userId));
 
         session.removeAttribute("carError");
         session.removeAttribute("reminderTypeError");
         session.removeAttribute("reminderDateError");
         session.removeAttribute("reminderOptionError");
+        session.removeAttribute("openMyRemindersModal");
 
         return "main-interface";
     }

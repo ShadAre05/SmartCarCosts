@@ -2,6 +2,7 @@ package lt.teamProject.smartCarCosts.controller;
 
 import jakarta.servlet.http.HttpSession;
 import lt.teamProject.smartCarCosts.dto.UpdateProfileRequest;
+import lt.teamProject.smartCarCosts.entity.User;
 import lt.teamProject.smartCarCosts.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -29,6 +30,13 @@ public class SettingsController {
 
         userService.updateCurrency(userId, currencyId);
 
+        User updatedUser = userService.getUserById(userId);
+
+        session.setAttribute(
+                "currencySymbol",
+                updatedUser.getCurrency().getCurrencySymbol()
+        );
+
         return "redirect:/main-interface";
     }
 
@@ -51,7 +59,6 @@ public class SettingsController {
         }
 
         session.setAttribute("userName", request.getFullName());
-        session.setAttribute("userEmail", request.getEmail());
 
         return "redirect:/main-interface";
     }
@@ -67,6 +74,6 @@ public class SettingsController {
 
         session.invalidate();
 
-        return "redirect:/main-page";
+        return "redirect:/";
     }
 }
