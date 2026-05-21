@@ -5,6 +5,7 @@
     <title>Main Interface</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="stylesheet" th:href="@{/css/main-interface.css}">
+    <link rel="stylesheet" th:href="@{/css/logo.css}">
 </head>
 <body>
 
@@ -149,7 +150,6 @@
                            id="costStartDate"
                            name="startDate"
                            class="hidden-date-input"
-                           th:min="${#temporals.format(#temporals.createNow(), 'yyyy-MM-dd')}"
                            onchange="openEndDatePicker()">
 
                     <!-- Hidden end date -->
@@ -157,7 +157,6 @@
                            id="costEndDate"
                            name="endDate"
                            class="hidden-date-input"
-                           th:min="${#temporals.format(#temporals.createNow(), 'yyyy-MM-dd')}"
                            onchange="this.form.submit()">
 
                     <span class="selected-cost-period"
@@ -424,7 +423,8 @@
 
         <form th:action="@{/settings/update-profile}"
               method="post"
-              class="edit-profile-form">
+              class="edit-profile-form"
+              id="editProfileForm">
 
             <div class="edit-profile-row">
                 <label>Name</label>
@@ -437,9 +437,8 @@
             <div class="edit-profile-row">
                 <label>Email</label>
                 <input type="email"
-                       name="email"
                        th:value="${profileUser.email}"
-                       required>
+                       readonly>
             </div>
 
             <div class="edit-profile-row">
@@ -464,7 +463,7 @@
             <div class="edit-profile-actions">
                 <button type="button"
                         class="edit-profile-cancel-btn"
-                        onclick="closeEditProfileModal()">
+                        onclick="closeEditProfileModal(); resetEditProfileForm();">
                     Cancel
                 </button>
 
@@ -483,34 +482,72 @@
 <div id="myRemindersModal" class="modal">
     <div class="my-reminders-modal-content">
 
-        <h2>Current reminders</h2>
+        <h2>Reminders Overview</h2>
 
-        <!-- Reminders table wrapper with scroll -->
-        <div class="my-reminders-table-wrapper">
-            <table class="my-reminders-table">
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Date of created</th>
-                    <th>Type of reminder</th>
-                    <th>Date of end</th>
-                    <th>A month before</th>
-                    <th>A week before</th>
-                    <th>A day before</th>
-                    <th class="delete-header"></th>
-                </tr>
-                </thead>
+        <div class="my-reminders-list">
 
-            </table>
+            <div class="my-reminder-row"
+                 th:each="reminder : ${currentReminders}">
+
+                <div class="my-reminder-type"
+                     th:text="${reminder.reminderType}">
+                    Insurance
+                </div>
+
+                <div class="my-reminder-date">
+                    <span>Expires on:</span>
+                    <strong th:text="${reminder.expiresOn}">
+                        2026.12.29
+                    </strong>
+                </div>
+
+                <div class="my-reminder-toggle">
+                    <span>A month<br>before</span>
+                    <div th:classappend="${reminder.monthBefore} ? ' toggle-on' : ' toggle-off'"
+                         class="toggle-pill"></div>
+                </div>
+
+                <div class="my-reminder-toggle">
+                    <span>A week<br>before</span>
+                    <div th:classappend="${reminder.weekBefore} ? ' toggle-on' : ' toggle-off'"
+                         class="toggle-pill"></div>
+                </div>
+
+                <div class="my-reminder-toggle">
+                    <span>A day<br>before</span>
+                    <div th:classappend="${reminder.dayBefore} ? ' toggle-on' : ' toggle-off'"
+                         class="toggle-pill"></div>
+                </div>
+
+                <form th:action="@{/reminders/delete}" method="post">
+                    <input type="hidden"
+                           name="reminderIds"
+                           th:each="id : ${reminder.ids}"
+                           th:value="${id}">
+
+                    <button type="submit"
+                            class="my-reminder-delete-btn">
+                        🗑
+                    </button>
+                </form>
+
+            </div>
+
+            <div class="my-reminders-empty"
+                 th:if="${#lists.isEmpty(currentReminders)}">
+                No reminders yet
+            </div>
+
         </div>
 
-        <!-- Close button -->
-        <button type="button" class="my-reminders-done-btn" onclick="closeMyRemindersModal()">
+        <button type="button"
+                class="my-reminders-done-btn"
+                onclick="closeMyRemindersModal()">
             Done
         </button>
+
     </div>
 </div>
-
 
 <!-- Profile/Settings modal -->
 <div id="modal" class="modal">
@@ -568,7 +605,8 @@
                 <label>Currency</label>
 
                 <form th:action="@{/settings/update-currency}"
-                      method="post">
+                      method="post"
+                      class="currency-form">
 
                     <select name="currencyId"
                             class="currency-select"
@@ -616,6 +654,16 @@
     }
     function closeReminderModal() {
         document.getElementById("reminderModal").style.display = "none";
+
+        const successText = document.querySelector("#reminderModal .success-text");
+        if (successText) {
+            successText.style.display = "none";
+        }
+
+        const reminderErrors = document.querySelectorAll("#reminderModal .reminder-error");
+        reminderErrors.forEach(error => {
+            error.style.display = "none";
+        });
     }
 
     function openEditProfileModal() {
@@ -693,6 +741,13 @@
 
     const shouldOpenEditProfileModal = /*[[${openEditProfileModal}]]*/ false;
     const shouldOpenReminderModal = /*[[${openReminderModal}]]*/ false;
+    const shouldOpenMyRemindersModal = /*[[${openMyRemindersModal}]]*/ false;
+
+    if (shouldOpenMyRemindersModal) {
+        document.addEventListener("DOMContentLoaded", function () {
+            openMyRemindersModal();
+        });
+    }
 
     if (shouldOpenEditProfileModal) {
         document.addEventListener("DOMContentLoaded", function () {
@@ -716,6 +771,24 @@
     })
 
 
+
+
+</script>
+<script>
+    function resetEditProfileForm() {
+
+        const form = document.getElementById("editProfileForm");
+
+        if (form) {
+            form.reset();
+        }
+
+        const error = document.querySelector(".profile-password-error");
+
+        if (error) {
+            error.style.display = "none";
+        }
+    }
 </script>
 </body>
 </html>

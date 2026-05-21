@@ -15,18 +15,6 @@ body {
     padding: 20px;
 }
 
-/* Logo */
-.logo-box {
-    background-color: #5ab2da; /* Light blue */
-    color: #0f172a;
-    padding: 12px 20px;
-    border-radius: 8px;
-    font-weight: bold;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 18px;
-}
-
 /* Typography & Colors */
 .text-green { color: #00d084; }
 .text-dim { color: #9ca3af; font-size: 14px; }

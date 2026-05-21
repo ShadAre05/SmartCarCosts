@@ -7,6 +7,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface ReminderRepository extends JpaRepository<Reminder, Long> {
-
+    void deleteByUserCarIdIn(List<Long> userCarIds);
     List<Reminder> findByRemindAtAndActiveTrue(LocalDate remindAt);
+    List<Reminder> findByUserCarIdInAndActiveTrueOrderByRemindAtAsc(List<Long> userCarIds);
+    void deleteById(Long id);
 }
