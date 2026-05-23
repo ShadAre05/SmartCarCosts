@@ -24,8 +24,6 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 
     @Transactional
     void deleteByUserCarId(Long userCarId);
-}
-public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 
     void deleteByUserCarIdIn(List<Long> userCarIds);
 
@@ -43,9 +41,9 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
            AND e.expenseDate BETWEEN :startDate AND :endDate
            """)
     BigDecimal getTotalByPeriodAndUserCars(
-            List<Long> userCarIds,
-            LocalDate startDate,
-            LocalDate endDate
+            @Param("userCarIds") List<Long> userCarIds,
+            @Param("startDate") LocalDate startDate,
+            @Param("endDate") LocalDate endDate
     );
 
     List<Expense> findByUserCarIdInOrderByExpenseDateDesc(List<Long> userCarIds);
