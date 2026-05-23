@@ -25,3 +25,6 @@ spring:
 
 app:
     base-url: ${APP_BASE_URL:http://localhost:8080}
+
+jwt:
+  secret: ${JWT_SECRET:SmartCarCosts_Super_Secret_Key_For_JWT_Tokenization_2026}

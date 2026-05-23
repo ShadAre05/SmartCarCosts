@@ -29,11 +29,11 @@ public class UserCar {
         return id;
     }
 
-    public Long getUserId(){
+    public Long getUserId() {
         return userId;
     }
 
-    public Long getCarId(){
+    public Long getCarId() {
         return carId;
     }
 
@@ -48,4 +48,9 @@ public class UserCar {
     public void setCarId(Long carId) {
         this.carId = carId;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
 }

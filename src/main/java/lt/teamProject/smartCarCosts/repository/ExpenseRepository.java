@@ -3,22 +3,25 @@ package lt.teamProject.smartCarCosts.repository;
 import lt.teamProject.smartCarCosts.entity.Expense;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.math.BigDecimal;
 import java.util.List;
 
-public interface ExpenseRepository extends JpaRepository<Expense, Long > {
+@Repository
+public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 
-    @Query("SELECT COALESCE(SUM(e.amount), 0) FROM Expense e")
+    @Query("SELECT SUM(e.amount) FROM Expense e")
     BigDecimal getAllTimeTotal();
 
-    @Query("""
-           SELECT COALESCE(SUM(e.amount), 0)
-           FROM Expense e
-           WHERE e.expenseDate BETWEEN :startDate AND :endDate
-           """)
-    BigDecimal getTotalByPeriod(LocalDate startDate, LocalDate endDate);
+    @Query("SELECT SUM(e.amount) FROM Expense e WHERE e.expenseDate BETWEEN :startDate AND :endDate")
+    BigDecimal getTotalByPeriod(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
-    List<Expense> findAllByOrderByExpenseDateDesc();
+    List<Expense> findByUserCarIdIn(List<Long> userCarIds);
+
+    @Transactional
+    void deleteByUserCarId(Long userCarId);
 }

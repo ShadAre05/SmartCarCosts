@@ -1,6 +1,8 @@
 package lt.teamProject.smartCarCosts.controller;
 
 import jakarta.servlet.http.HttpSession;
+import lt.teamProject.smartCarCosts.util.JwtUtil;
+import org.springframework.ui.Model;
 import lt.teamProject.smartCarCosts.entity.ConfirmationToken;
 import lt.teamProject.smartCarCosts.entity.User;
 import lt.teamProject.smartCarCosts.repository.ConfirmationTokenRepository;
@@ -11,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import lt.teamProject.smartCarCosts.dto.CarDto;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -22,11 +25,14 @@ public class LoginController {
     private final EmailService emailService;
     private final UserRepository userRepository;
     private final ConfirmationTokenRepository tokenRepository;
+    private final JwtUtil jwtUtil;
 
-    public LoginController(EmailService emailService, UserRepository userRepository, ConfirmationTokenRepository tokenRepository) {
+    public LoginController(EmailService emailService, UserRepository userRepository,
+                           ConfirmationTokenRepository tokenRepository, JwtUtil jwtUtil) {
         this.emailService = emailService;
         this.userRepository = userRepository;
         this.tokenRepository = tokenRepository;
+        this.jwtUtil = jwtUtil;
     }
 
     // --- 1. LOGIN ---
@@ -45,9 +51,7 @@ public class LoginController {
         if (userOpt.isPresent() && userOpt.get().getPassword().equals(password)) {
             User user = userOpt.get();
 
-            String jwtToken = lt.teamProject.smartCarCosts.util.JwtUtil.generateToken(
-                    user.getId(), user.getFullName(), user.getEmail()
-            );
+            String jwtToken = jwtUtil.generateToken(user.getId(), user.getFullName(), user.getEmail());
 
             jakarta.servlet.http.Cookie jwtCookie = new jakarta.servlet.http.Cookie("jwt", jwtToken);
             jwtCookie.setHttpOnly(true);
@@ -67,27 +71,22 @@ public class LoginController {
         return "forget-password";
     }
 
+    // Добавляем HttpServletRequest в параметры
     @PostMapping("/forget-password")
-    public String processForgetPassword(@RequestParam("email") String email) {
-        // Check if the email exists in the database
+    public String processForgetPassword(@RequestParam("email") String email, jakarta.servlet.http.HttpServletRequest request) {
         if (userRepository.existsByEmail(email)) {
-
-            // 1. Generate a unique token
             String tokenValue = java.util.UUID.randomUUID().toString();
-
-            // 2. Save the token for 15 minutes
             ConfirmationToken token = new ConfirmationToken(
                     tokenValue, email, java.time.LocalDateTime.now(), java.time.LocalDateTime.now().plusMinutes(15)
             );
             tokenRepository.save(token);
 
-            // 3. Attach the token to the reset link
-            String resetLink = "http://localhost:8080/reset-password?token=" + tokenValue;
+            // Динамически получаем базовый URL (http://твой-сайт.com или http://localhost:8080)
+            String baseUrl = String.format("%s://%s:%d", request.getScheme(), request.getServerName(), request.getServerPort());
+            String resetLink = baseUrl + "/reset-password?token=" + tokenValue;
 
-            // 4. Send the password reset email
             emailService.sendPasswordResetEmail(email, resetLink);
         }
-
         return "redirect:/forget-password?success&email=" + email;
     }
 
@@ -114,20 +113,23 @@ public class LoginController {
     // --- 4. SAVE NEW PASSWORD ---
     @PostMapping("/reset-password")
     public String saveNewPassword(@RequestParam("token") String token,
-                                  @RequestParam("password") String newPassword) {
-
+                                  @RequestParam("password") String newPassword,
+                                  Model model) {
         Optional<ConfirmationToken> tokenOpt = tokenRepository.findByToken(token);
 
         if (tokenOpt.isPresent() && tokenOpt.get().getExpiresAt().isAfter(LocalDateTime.now())) {
             String email = tokenOpt.get().getEmail();
-
-            // Find the user and update the password
             User user = userRepository.findByEmail(email).orElseThrow();
+
+            if (user.getPassword().equals(newPassword)) {
+                model.addAttribute("token", token);
+                model.addAttribute("error", "New password must be different from the current one");
+                return "reset-password";
+            }
+
             user.setPassword(newPassword);
             userRepository.save(user);
-
             tokenRepository.delete(tokenOpt.get());
-
             return "redirect:/login?resetSuccess=true";
         }
 

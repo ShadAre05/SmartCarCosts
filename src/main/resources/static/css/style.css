@@ -266,13 +266,24 @@ h2 { font-size: 28px; margin-bottom: 10px; }
     background-color: #cbd5e1 !important; color: black !important; font-weight: bold; width: 100%; margin-top: 20px;
 }
 /* Remove spinner arrows from year and engine volume inputs */
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
+input[type="number"]:not([name="engineCapacity"])::-webkit-outer-spin-button,
+input[type="number"]:not([name="engineCapacity"])::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
-input[type="number"] {
+
+input[type="number"]:not([name="engineCapacity"]) {
     -moz-appearance: textfield;
+}
+
+input[name="engineCapacity"] {
+    -moz-appearance: auto !important;
+}
+
+input[name="engineCapacity"]::-webkit-outer-spin-button,
+input[name="engineCapacity"]::-webkit-inner-spin-button {
+    opacity: 1 !important;
+    -webkit-appearance: auto !important;
 }
 
 .auth-large-container {
@@ -308,4 +319,67 @@ input[type="number"] {
 .currency-select.editable {
     pointer-events: auto;
     opacity: 1;
+}
+
+/* =========================
+   КАТЕГОРИИ РАСХОДОВ (ИКОНКИ)
+========================= */
+.cat-icon {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    margin-right: 12px;
+    font-size: 12px;
+}
+.icon-fuel { background-color: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; color: #ef4444; }
+.icon-parking { background-color: rgba(59, 130, 246, 0.2); border: 1px solid #3b82f6; color: #3b82f6; }
+.icon-service { background-color: rgba(156, 163, 175, 0.2); border: 1px solid #9ca3af; color: #9ca3af; }
+.icon-fines { background-color: rgba(245, 158, 11, 0.2); border: 1px solid #f59e0b; color: #f59e0b; }
+.icon-insurance { background-color: rgba(139, 92, 246, 0.2); border: 1px solid #8b5cf6; color: #8b5cf6; }
+.icon-transport { background-color: rgba(16, 185, 129, 0.2); border: 1px solid #10b981; color: #10b981; }
+.icon-other { background-color: rgba(217, 119, 6, 0.2); border: 1px solid #d97706; color: #d97706; }
+
+.cost-row-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    font-size: 15px;
+}
+.cost-row-item:last-child { border-bottom: none; }
+
+/* Кнопки в меню расходов */
+.top-costs-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+.btn-manage {
+    background-color: #6fa0d6;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.auth-large-container {
+    background-color: #1e293b;
+    border-radius: 12px;
+    color: white;
+}
+
+.required-star {
+    color: #ef4444;
+}
+
+.active-car {
+    border: 2px solid #5ab2da;
+    background-color: rgba(90, 178, 218, 0.15);
 }

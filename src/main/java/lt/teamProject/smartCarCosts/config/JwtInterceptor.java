@@ -11,10 +11,15 @@ import org.springframework.web.servlet.HandlerInterceptor;
 @Component
 public class JwtInterceptor implements HandlerInterceptor {
 
+    private final JwtUtil jwtUtil;
+
+    public JwtInterceptor(JwtUtil jwtUtil) {
+        this.jwtUtil = jwtUtil;
+    }
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String token = null;
-
 
         if (request.getCookies() != null) {
             for (Cookie cookie : request.getCookies()) {
@@ -25,18 +30,15 @@ public class JwtInterceptor implements HandlerInterceptor {
             }
         }
 
-
         if (token != null) {
-            DecodedJWT decodedJWT = JwtUtil.verifyToken(token);
+            DecodedJWT decodedJWT = jwtUtil.verifyToken(token);
             if (decodedJWT != null) {
-
                 request.getSession().setAttribute("userId", decodedJWT.getClaim("userId").asLong());
                 request.getSession().setAttribute("userName", decodedJWT.getClaim("userName").asString());
                 request.getSession().setAttribute("userEmail", decodedJWT.getClaim("email").asString());
                 return true;
             }
         }
-
 
         response.sendRedirect("/login");
         return false;

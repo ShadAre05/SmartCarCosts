@@ -24,6 +24,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import lt.teamProject.smartCarCosts.dto.CarDto;
 
 @Controller
 public class AuthController {
@@ -84,26 +85,24 @@ public class AuthController {
             return "register";
         }
 
-        if (userService.existsByEmail(registerRequest.getEmail())){
+        if (userService.existsByEmail(registerRequest.getEmail())) {
             model.addAttribute("countries", countryRepository.findAll());
             model.addAttribute("emailExistsError", "User with this email already exists");
             return "register";
         }
 
-        userService.registerUser(registerRequest);
-        // Save user data in session
-        Long userId = userService.getUserIdByEmail(registerRequest.getEmail());
-        session.setAttribute("userId", userId);
-        session.setAttribute("userName", registerRequest.getFullName());
-        session.setAttribute("userEmail", registerRequest.getEmail());
-        // Create confirmation token
+
+        session.setAttribute("pendingEmail", registerRequest.getEmail());
+        session.setAttribute("pendingPassword", registerRequest.getPassword());
+        session.setAttribute("pendingFullName", registerRequest.getFullName());
+        session.setAttribute("pendingCountry", registerRequest.getCountry());
+
         String token = UUID.randomUUID().toString();
         String link = baseUrl + "/confirm-email?token=" + token;
-
         confirmationTokenService.saveToken(token, registerRequest.getEmail());
         emailService.sendConfirmationEmail(registerRequest.getEmail(), link);
 
-        // Start 60s resend cooldown
+        session.setAttribute("userEmail", registerRequest.getEmail());
         session.setAttribute("resendAvailableAt", System.currentTimeMillis() + 60_000);
 
         return "redirect:/confirm-email-notice";
@@ -179,19 +178,45 @@ public class AuthController {
 
     // Handle email confirmation via token
     @GetMapping("/confirm-email")
-    public String confirmEmail(@RequestParam String token) {
+    public String confirmEmail(@RequestParam String token, HttpSession session) {
 
-        // Invalid or expired token - back to register
         if (!confirmationTokenService.isValidToken(token)) {
-            return "redirect:/register";
+            return "redirect:/register?error=invalid_token";
         }
 
         String email = confirmationTokenService.getEmailByToken(token);
 
-        userService.enableUser(email);
 
-        // Remove token after success
+        String password = (String) session.getAttribute("pendingPassword");
+        String fullName = (String) session.getAttribute("pendingFullName");
+        String country = (String) session.getAttribute("pendingCountry");
+
+        if (password == null || fullName == null) {
+
+            return "redirect:/register?error=session_expired";
+        }
+
+
+        RegisterRequest registerRequest = new RegisterRequest();
+        registerRequest.setEmail(email);
+        registerRequest.setPassword(password);
+        registerRequest.setFullName(fullName);
+        registerRequest.setCountry(country);
+        userService.registerUser(registerRequest);
+
         confirmationTokenService.removeToken(token);
+
+
+        session.removeAttribute("pendingEmail");
+        session.removeAttribute("pendingPassword");
+        session.removeAttribute("pendingFullName");
+        session.removeAttribute("pendingCountry");
+
+
+        Long userId = userService.getUserIdByEmail(email);
+        session.setAttribute("userId", userId);
+        session.setAttribute("userName", fullName);
+        session.setAttribute("userEmail", email);
 
         return "redirect:/main-interface";
     }
@@ -231,7 +256,8 @@ public class AuthController {
     public String mainPage(Model model,
                            HttpSession session,
                            @RequestParam(required = false) LocalDate startDate,
-                           @RequestParam(required = false) LocalDate endDate
+                           @RequestParam(required = false) LocalDate endDate,
+                           @RequestParam(required = false) Long carId
     ) {
         // 1. Retrieve the actual user ID from the session
         Long userId = (Long) session.getAttribute("userId");
@@ -264,8 +290,10 @@ public class AuthController {
         model.addAttribute("userName", currentUser.getFullName());
         model.addAttribute("profileUser", currentUser);
 
-        List<Car> cars = carService.getUserCars(userId);
+        List<CarDto> cars = carService.getUserCarDtos(userId);
         model.addAttribute("cars", cars);
+
+
 
         model.addAttribute("reminderRequest", new ReminderRequest());
         model.addAttribute("openReminderModal", session.getAttribute("openReminderModal"));
@@ -280,6 +308,13 @@ public class AuthController {
         model.addAttribute("periodTotal", periodTotal);
         model.addAttribute("selectedPeriod", selectedPeriod);
         model.addAttribute("expenseCategories", expenseService.getExpenseCategories());
+        model.addAttribute("expenses", expenseService.getUserExpenses(userId));
+        model.addAttribute("selectedCarId", carId);
+        if (carId != null) {
+            model.addAttribute("carExpenses", expenseService.getExpensesByCarId(carId, userId));
+        } else {
+            model.addAttribute("carExpenses", List.of());
+        }
         model.addAttribute("profileError", session.getAttribute("profileError"));
         model.addAttribute("openEditProfileModal", session.getAttribute("openEditProfileModal"));
 
@@ -298,6 +333,7 @@ public class AuthController {
         session.removeAttribute("reminderTypeError");
         session.removeAttribute("reminderDateError");
         session.removeAttribute("reminderOptionError");
+
 
         return "main-interface";
     }

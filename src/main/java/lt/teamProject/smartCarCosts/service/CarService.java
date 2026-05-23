@@ -1,10 +1,13 @@
 package lt.teamProject.smartCarCosts.service;
 
+import lt.teamProject.smartCarCosts.dto.CarDto;
 import lt.teamProject.smartCarCosts.entity.Car;
+import lt.teamProject.smartCarCosts.entity.CarBrand;
+import lt.teamProject.smartCarCosts.entity.CarModel;
 import lt.teamProject.smartCarCosts.entity.UserCar;
-import lt.teamProject.smartCarCosts.repository.CarRepository;
-import lt.teamProject.smartCarCosts.repository.UserCarRepository;
+import lt.teamProject.smartCarCosts.repository.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,53 +15,77 @@ import java.util.stream.Collectors;
 @Service
 public class CarService {
 
+    private final ExpenseRepository expenseRepository;
     private final CarRepository carRepository;
     private final UserCarRepository userCarRepository;
+    private final CarModelRepository carModelRepository;
+    private final CarBrandRepository carBrandRepository;
 
-    public CarService(CarRepository carRepository, UserCarRepository userCarRepository){
+    public CarService(CarRepository carRepository, UserCarRepository userCarRepository,
+                      CarModelRepository carModelRepository, CarBrandRepository carBrandRepository,
+                      ExpenseRepository expenseRepository) {
         this.carRepository = carRepository;
         this.userCarRepository = userCarRepository;
+        this.carModelRepository = carModelRepository;
+        this.carBrandRepository = carBrandRepository;
+        this.expenseRepository = expenseRepository;
     }
 
-    // get the user's machines
+
     public List<Car> getUserCars(Long userId) {
         List<UserCar> links = userCarRepository.findByUserId(userId);
-
         return links.stream()
                 .map(link -> carRepository.findById(link.getCarId()).orElse(null))
                 .filter(car -> car != null)
                 .collect(Collectors.toList());
     }
 
-    //add a car (limit 3)
+    public List<CarDto> getUserCarDtos(Long userId) {
+        List<UserCar> links = userCarRepository.findByUserId(userId);
+        return links.stream()
+                .map(link -> carRepository.findById(link.getCarId()).orElse(null))
+                .filter(car -> car != null)
+                .map(car -> {
+                    CarModel model = carModelRepository.findById(car.getModelId()).orElse(null);
+                    String modelName = model != null ? model.getModelName() : "Unknown";
+                    String brandName = "Unknown";
+                    if (model != null) {
+                        CarBrand brand = carBrandRepository.findById(model.getBrandId()).orElse(null);
+                        brandName = brand != null ? brand.getName() : "Unknown";
+                    }
+                    return new CarDto(car.getId(), brandName, modelName, car.getGeneration(),
+                            car.getEngineCapacity(), car.getLicencePlate(), car.getYear());
+                })
+                .collect(Collectors.toList());
+    }
+
     public void addCar(Car car, Long userId) {
         long count = userCarRepository.countByUserId(userId);
-
-        ////Do we need this part of code???
-        if (count >= 3){
+        if (count >= 3) {
             throw new RuntimeException("MAX 3 CARS");
         }
-        //////////
-
-        // save car
         Car savedCar = carRepository.save(car);
-
-        // connect to the user
         UserCar link = new UserCar();
         link.setUserId(userId);
         link.setCarId(savedCar.getId());
-
         userCarRepository.save(link);
     }
 
-    // delete car
+    @Transactional
     public void deleteCar(Long carId, Long userId) {
         userCarRepository.findByUserId(userId)
                 .stream()
                 .filter(link -> link.getCarId().equals(carId))
                 .findFirst()
-                .ifPresent(userCarRepository::delete);
+                .ifPresent(userCar -> {
+                    expenseRepository.deleteByUserCarId(userCar.getId());
+                    userCarRepository.delete(userCar);
+                });
 
         carRepository.deleteById(carId);
     }
+
+
+
+
 }
