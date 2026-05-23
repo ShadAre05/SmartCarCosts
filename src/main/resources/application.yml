@@ -3,6 +3,8 @@ spring:
     url: ${DB_URL:jdbc:postgresql://aws-1-eu-central-1.pooler.supabase.com:5432/postgres}
     username: ${DB_USER:postgres.clobleulphasflvdrzxk}
     password: ${DB_PASSWORD}
+    hikari:
+      maximum-pool-size: ${HIKARI_MAX_POOL:3}
 
   jpa:
     hibernate:
@@ -13,15 +15,19 @@ spring:
 
   mail:
     host: smtp.gmail.com
-    port: 587
+    port: 465
     username: ${MAIL_USER:smartcarcosts.app@gmail.com}
     password: ${EMAIL_PASSWORD}
+    protocol: smtps
     properties:
       mail:
-        smtp:
+        smtps:
           auth: true
-          starttls:
+          ssl:
             enable: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
 
 app:
     base-url: ${APP_BASE_URL:http://localhost:8080}

@@ -22,7 +22,6 @@ public class ExpenseService {
     private final ExpenseCategoryRepository expenseCategoryRepository;
     private final UserCarRepository userCarRepository;
 
-
     public ExpenseService(ExpenseRepository expenseRepository,
                           ExpenseCategoryRepository expenseCategoryRepository,
                           UserCarRepository userCarRepository) {
@@ -31,15 +30,38 @@ public class ExpenseService {
         this.userCarRepository = userCarRepository;
     }
 
-    public BigDecimal getAllTimeTotal() {
-        return expenseRepository.getAllTimeTotal();
+    public BigDecimal getAllTimeTotal(Long userId) {
+        List<Long> userCarIds = userCarRepository.findByUserId(userId)
+                .stream()
+                .map(userCar -> userCar.getId())
+                .toList();
+
+        if (userCarIds.isEmpty()) {
+            return BigDecimal.ZERO;
+        }
+
+        return expenseRepository.getAllTimeTotalByUserCars(userCarIds);
     }
 
-    public BigDecimal getTotalByPeriod(LocalDate startDate, LocalDate endDate) {
+    public BigDecimal getTotalByPeriod(Long userId, LocalDate startDate, LocalDate endDate) {
         if (startDate == null || endDate == null) {
             return BigDecimal.ZERO;
         }
-        return expenseRepository.getTotalByPeriod(startDate, endDate);
+
+        List<Long> userCarIds = userCarRepository.findByUserId(userId)
+                .stream()
+                .map(userCar -> userCar.getId())
+                .toList();
+
+        if (userCarIds.isEmpty()) {
+            return BigDecimal.ZERO;
+        }
+
+        return expenseRepository.getTotalByPeriodAndUserCars(
+                userCarIds,
+                startDate,
+                endDate
+        );
     }
 
     public String formatSelectedPeriod(LocalDate startDate, LocalDate endDate) {

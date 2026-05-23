@@ -1,0 +1,32 @@
+.logo {
+    width: 185px !important;
+    height: 58px !important;
+    background: #59baf1 !important;
+    border: none !important;
+    border-radius: 8px !important;
+    color: #081521 !important;
+    text-decoration: none !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    font-size: 20px !important;
+    font-weight: 700 !important;
+    font-family: Arial, sans-serif !important;
+
+    padding: 0 !important;
+    margin: 0 !important;
+    cursor: pointer !important;
+    box-shadow: none !important;
+}
+
+.logo:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.05);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.25) !important;
+}
+
+.logo:active {
+    transform: scale(0.97);
+}

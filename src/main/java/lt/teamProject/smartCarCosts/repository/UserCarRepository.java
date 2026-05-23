@@ -9,8 +9,6 @@ import java.util.Optional;
 public interface UserCarRepository extends JpaRepository<UserCar, Long> {
     List<UserCar> findByUserId(Long userId);
     void deleteByUserId(Long userId);
-
     Optional<UserCar> findByUserIdAndCarId(Long userId, Long carId);
-
     long countByUserId(Long userId);
 }

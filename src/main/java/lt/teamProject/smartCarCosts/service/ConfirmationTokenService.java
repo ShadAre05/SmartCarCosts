@@ -1,5 +1,6 @@
 package lt.teamProject.smartCarCosts.service;
 
+import lt.teamProject.smartCarCosts.dto.RegisterRequest;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 import lt.teamProject.smartCarCosts.entity.ConfirmationToken;
@@ -51,6 +52,30 @@ public class ConfirmationTokenService {
         return confirmationTokenRepository.findByToken(token)
                 .map(ConfirmationToken::getEmail)
                 .orElse(null);
+    }
+
+    public boolean existsByEmail(String email) {
+        return confirmationTokenRepository.existsByEmail(email);
+    }
+
+    public ConfirmationToken getTokenData(String token) {
+        return confirmationTokenRepository.findByToken(token)
+                .orElseThrow(() -> new RuntimeException("Token not found"));
+    }
+
+    @Transactional
+    public void saveRegistrationToken(String token, RegisterRequest request, Long countryId) {
+        ConfirmationToken confirmationToken = new ConfirmationToken();
+
+        confirmationToken.setToken(token);
+        confirmationToken.setEmail(request.getEmail());
+        confirmationToken.setFullName(request.getFullName());
+        confirmationToken.setPasswordHash(request.getPassword());
+        confirmationToken.setCountryId(countryId);
+        confirmationToken.setCreatedAt(LocalDateTime.now());
+        confirmationToken.setExpiresAt(LocalDateTime.now().plusMinutes(15));
+
+        confirmationTokenRepository.save(confirmationToken);
     }
 
     @Transactional

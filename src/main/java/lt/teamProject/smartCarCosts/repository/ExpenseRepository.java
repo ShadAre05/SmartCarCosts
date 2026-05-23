@@ -25,3 +25,28 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
     @Transactional
     void deleteByUserCarId(Long userCarId);
 }
+public interface ExpenseRepository extends JpaRepository<Expense, Long> {
+
+    void deleteByUserCarIdIn(List<Long> userCarIds);
+
+    @Query("""
+           SELECT COALESCE(SUM(e.amount), 0)
+           FROM Expense e
+           WHERE e.userCarId IN :userCarIds
+           """)
+    BigDecimal getAllTimeTotalByUserCars(List<Long> userCarIds);
+
+    @Query("""
+           SELECT COALESCE(SUM(e.amount), 0)
+           FROM Expense e
+           WHERE e.userCarId IN :userCarIds
+           AND e.expenseDate BETWEEN :startDate AND :endDate
+           """)
+    BigDecimal getTotalByPeriodAndUserCars(
+            List<Long> userCarIds,
+            LocalDate startDate,
+            LocalDate endDate
+    );
+
+    List<Expense> findByUserCarIdInOrderByExpenseDateDesc(List<Long> userCarIds);
+}
