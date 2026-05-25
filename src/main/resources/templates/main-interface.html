@@ -170,6 +170,7 @@
                            id="costStartDate"
                            name="startDate"
                            class="hidden-date-input"
+                           lang="en"
                            onchange="openEndDatePicker()">
 
                     <!-- Hidden end date -->
@@ -177,11 +178,12 @@
                            id="costEndDate"
                            name="endDate"
                            class="hidden-date-input"
+                           lang="en"
                            onchange="this.form.submit()">
 
                     <span class="selected-cost-period"
                           th:text="${selectedPeriod}">
-                        XXXX-XX-XX - XXXX-XX-XX
+                        XXXX.XX.XX - XXXX.XX.XX
                     </span>
 
                     <!-- Reset selected period -->
@@ -207,8 +209,9 @@
                     </div>
                 </div>
             </div>
+            </div>
 
-        </section>
+        </section>>
 
     </main>
 
@@ -430,7 +433,8 @@
                     <input type="date"
                            id="reminderDate"
                            th:field="*{reminderDate}"
-                           th:min="${#temporals.format(#temporals.createNow(), 'yyyy-MM-dd')}">
+                           th:min="${#temporals.format(#temporals.createNow(), 'yyyy-MM-dd')}"
+                           lang="en">
 
                     <div class="reminder-error"
                          th:if="${reminderDateError}"
@@ -924,7 +928,8 @@
         const addCarModal = document.getElementById("addCarModal")
         const addTransactionModal = document.getElementById("addTransactionModal");
         const profileModal = document.getElementById("modal");
-    })
+    }
+    }
 
 
 

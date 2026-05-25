@@ -11,7 +11,7 @@ public class ReminderRequest {
     private Long reminderTypeId;
 
     @NotNull(message = "End date is required")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy.MM.dd")
     private LocalDate reminderDate;
 
     @NotNull(message = "Car is required")
