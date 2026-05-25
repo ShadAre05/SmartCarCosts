@@ -8,6 +8,8 @@ import lt.teamProject.smartCarCosts.repository.ExpenseRepository;
 import lt.teamProject.smartCarCosts.repository.UserCarRepository;
 import org.springframework.stereotype.Service;
 import lt.teamProject.smartCarCosts.entity.UserCar;
+
+import java.time.format.DateTimeFormatter;
 import java.util.stream.Collectors;
 import java.time.LocalDateTime;
 import java.math.BigDecimal;
@@ -65,9 +67,11 @@ public class ExpenseService {
 
     public String formatSelectedPeriod(LocalDate startDate, LocalDate endDate) {
         if (startDate == null || endDate == null) {
-            return "XXXX-XX-XX - XXXX-XX-XX";
+            return "XXXX.XX.XX - XXXX.XX.XX";
         }
-        return startDate + " - " + endDate;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+
+        return startDate.format(formatter) + " - " + endDate.format(formatter);
     }
 
     public List<ExpenseCategory> getExpenseCategories() {
