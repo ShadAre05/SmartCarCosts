@@ -8,18 +8,18 @@ Finalize create USER role by addind validation, correct workung logic, JWT
 ### Tasks
 |  Task  | Executor | Complete |
 |--------|----------|-----|
-| Create unit tests for current code |  Arseni  | In progress | 
-| Create presentation to demonstrate demo to 2026.05.27 | Arseni |  |
+| Create unit tests for current code |  Arseni  | + | 
+| Create presentation to demonstrate demo to 2026.05.27 | Arseni | +- |
 | Deploy app into test web server render.com | Arseni | + |
-| Finalize your part of responsibility (/, /register, /main-page, /settings, /reminders) | Vladyslav |  |
-| Finalize your part of responsibility (/login, /reset-password, /forget-password, /add-car, /add-costs, /history-of-spendings) | Matsvei |  |
+| Finalize your part of responsibility (/, /register, /main-page, /settings, /reminders) | Vladyslav | + |
+| Finalize your part of responsibility (/login, /reset-password, /forget-password, /add-car, /add-costs, /history-of-spendings) | Matsvei | + |
 
 Link: https://smartcarcosts.onrender.com
 
 ### Metrics
 - **Planned tasks:** 5
-- **Complete:** 
-- **Velocity:** --%
+- **Complete:** 5
+- **Velocity:** 100%
 
 ---
 
