@@ -55,7 +55,7 @@ public class EmailService {
                     <p>You requested a password reset for your SmartCarCosts account.</p>
                     <p>Click the link below to set a new password:</p>
                     <p>
-                        <a href="%s" style="display:inline-block; padding:10px 20px; background-color:#5ab2da; color:#000; font-weight:bold; text-decoration:none; border-radius:4px;">
+                        <a href="%s" style="color:#2d8cff; font-weight:bold; text-decoration:none;">
                             Reset Password
                         </a>
                     </p>

@@ -41,7 +41,7 @@ public class CarController {
 
             return "redirect:/main-interface?success";
         } catch (Exception e) {
-            System.out.println("Add Car Error: " + e.getMessage());
+            e.printStackTrace(); // <- ЭТО ВЫВЕДЕТ КРАСНЫЙ ТЕКСТ В КОНСОЛЬ IDEA. Посмотри туда при ошибке!
             return "redirect:/main-interface?error=db_error";
         }
     }
