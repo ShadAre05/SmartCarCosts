@@ -26,39 +26,33 @@ body {
     margin-bottom: 42px;
 }
 
-.logo-btn,
-.get-started-btn {
-    border: none;
-    background-color: #55b6e8;
-    color: #111;
-    cursor: pointer;
-    transition: 0.2s ease;
-}
-
-.logo-btn {
-    width: 140px;
-    height: 70px;
-    border-radius: 6px;
-    font-size: 16px;
-}
-
 .get-started-btn {
     width: 160px;
     height: 52px;
-    border-radius: 6px;
+    border-radius: 8px;
     font-size: 18px;
-    font-weight: 600;
+    font-weight: 700;
+
+    background: #59baf1;
+    color: #081521;
+
+    border: none;
+    cursor: pointer;
+
+    transition:
+            transform 0.18s ease,
+            filter 0.18s ease,
+            box-shadow 0.18s ease;
 }
 
-.logo-btn:hover,
 .get-started-btn:hover {
-    filter: brightness(1.12);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+    transform: translateY(-2px);
+    filter: brightness(1.05);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.25);
 }
 
-.logo-btn:active,
 .get-started-btn:active {
-    transform: scale(0.96);
+    transform: scale(0.97);
 }
 
 .main-content {

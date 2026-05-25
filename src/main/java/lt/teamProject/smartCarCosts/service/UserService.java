@@ -3,16 +3,11 @@ package lt.teamProject.smartCarCosts.service;
 import jakarta.transaction.Transactional;
 import lt.teamProject.smartCarCosts.dto.RegisterRequest;
 import lt.teamProject.smartCarCosts.dto.UpdateProfileRequest;
-import lt.teamProject.smartCarCosts.entity.Country;
-import lt.teamProject.smartCarCosts.entity.Currency;
-import lt.teamProject.smartCarCosts.entity.Role;
-import lt.teamProject.smartCarCosts.repository.CountryRepository;
-import lt.teamProject.smartCarCosts.repository.CurrencyRepository;
-import lt.teamProject.smartCarCosts.repository.RoleRepository;
-import lt.teamProject.smartCarCosts.repository.UserRepository;
+import lt.teamProject.smartCarCosts.entity.*;
+import lt.teamProject.smartCarCosts.repository.*;
 import org.springframework.stereotype.Service;
-import lt.teamProject.smartCarCosts.entity.User;
-import lt.teamProject.smartCarCosts.repository.UserCarRepository;
+
+import java.util.List;
 
 
 @Service
@@ -23,13 +18,19 @@ public class UserService {
     private final RoleRepository roleRepository;
     private final CurrencyRepository currencyRepository;
     private final UserCarRepository userCarRepository;
+    private final ReminderRepository reminderRepository;
+    private final ExpenseRepository expenseRepository;
+    private final ConfirmationTokenRepository confirmationTokenRepository;
 
-    public UserService(UserRepository userRepository, CountryRepository countryRepository, RoleRepository roleRepository, CurrencyRepository currencyRepository, UserCarRepository userCarRepository) {
+    public UserService(UserRepository userRepository, CountryRepository countryRepository, RoleRepository roleRepository, CurrencyRepository currencyRepository, UserCarRepository userCarRepository, ReminderRepository reminderRepository, ExpenseRepository expenseRepository, ConfirmationTokenRepository confirmationTokenRepository) {
         this.userRepository = userRepository;
         this.countryRepository = countryRepository;
         this.roleRepository = roleRepository;
         this.currencyRepository = currencyRepository;
         this.userCarRepository = userCarRepository;
+        this.reminderRepository = reminderRepository;
+        this.confirmationTokenRepository = confirmationTokenRepository;
+        this.expenseRepository = expenseRepository;
     }
 
     // Check if user already exists by email
@@ -88,6 +89,30 @@ public class UserService {
         user.setEnabled(true);
     }
 
+    @Transactional
+    public void deleteUser(Long userId) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        List<UserCar> userCars = userCarRepository.findByUserId(userId);
+
+        List<Long> userCarIds = userCars.stream()
+                .map(UserCar::getId)
+                .toList();
+
+        if (!userCarIds.isEmpty()) {
+            reminderRepository.deleteByUserCarIdIn(userCarIds);
+            expenseRepository.deleteByUserCarIdIn(userCarIds);
+        }
+
+        userCarRepository.deleteByUserId(userId);
+
+        confirmationTokenRepository.deleteByEmail(user.getEmail());
+
+        userRepository.deleteById(userId);
+    }
+
     public User getUserById(Long userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -95,6 +120,7 @@ public class UserService {
 
     @Transactional
     public void updateCurrency(Long userId, Long currencyId) {
+
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -102,14 +128,31 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("Currency not found"));
 
         user.setCurrency(currency);
+
+        userRepository.save(user);
     }
 
     @Transactional
-    public void deleteUser(Long userId) {
+    public void registerUserAfterConfirmation(ConfirmationToken tokenData) {
+        Country country = countryRepository.findById(tokenData.getCountryId())
+                .orElseThrow(() -> new RuntimeException("Country not found"));
 
-        userCarRepository.deleteByUserId(userId);
+        Role role = roleRepository.findByRole("USER")
+                .orElseThrow(() -> new RuntimeException("Default role USER not found"));
 
-        userRepository.deleteById(userId);
+        Currency defaultCurrency = currencyRepository.findById(1L)
+                .orElseThrow(() -> new RuntimeException("Currency not found"));
+
+        User user = new User();
+        user.setFullName(tokenData.getFullName());
+        user.setEmail(tokenData.getEmail());
+        user.setPassword(tokenData.getPasswordHash());
+        user.setCountry(country);
+        user.setRole(role);
+        user.setCurrency(defaultCurrency);
+        user.setEnabled(true);
+
+        userRepository.save(user);
     }
 
     @Transactional
@@ -118,8 +161,20 @@ public class UserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        boolean oldPasswordFilled = request.getOldPassword() != null && !request.getOldPassword().isBlank();
-        boolean newPasswordFilled = request.getNewPassword() != null && !request.getNewPassword().isBlank();
+
+        if (request.getFullName() != null
+                && !request.getFullName().isBlank()) {
+
+            user.setFullName(request.getFullName());
+        }
+
+        boolean oldPasswordFilled =
+                request.getOldPassword() != null
+                        && !request.getOldPassword().isBlank();
+
+        boolean newPasswordFilled =
+                request.getNewPassword() != null
+                        && !request.getNewPassword().isBlank();
 
         if (oldPasswordFilled || newPasswordFilled) {
 
@@ -133,9 +188,6 @@ public class UserService {
 
             user.setPassword(request.getNewPassword());
         }
-
-        user.setFullName(request.getFullName());
-        user.setEmail(request.getEmail());
 
         return null;
     }

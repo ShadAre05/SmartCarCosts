@@ -10,4 +10,5 @@ class SmartCarCostsApplicationTests {
 	void contextLoads() {
 	}
 
+
 }
