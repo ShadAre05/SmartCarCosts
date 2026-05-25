@@ -1,6 +1,7 @@
 package lt.teamProject.smartCarCosts.controller;
 
 import jakarta.validation.Valid;
+import lt.teamProject.smartCarCosts.dto.ExpenseDto;
 import lt.teamProject.smartCarCosts.dto.RegisterRequest;
 import lt.teamProject.smartCarCosts.dto.ReminderRequest;
 import lt.teamProject.smartCarCosts.entity.Car;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import jakarta.servlet.http.HttpSession;
 import lt.teamProject.smartCarCosts.repository.CountryRepository;
 import lt.teamProject.smartCarCosts.repository.ReminderTypeRepository;
+import java.util.HashMap;
+import java.util.Map;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -311,9 +314,17 @@ public class AuthController {
         model.addAttribute("expenses", expenseService.getUserExpenses(userId));
         model.addAttribute("selectedCarId", carId);
         if (carId != null) {
-            model.addAttribute("carExpenses", expenseService.getExpensesByCarId(carId, userId));
+            List<ExpenseDto> carExpenses = expenseService.getExpensesByCarId(carId, userId);
+            model.addAttribute("carExpenses", carExpenses);
+
+            Map<Long, BigDecimal> categoryTotals = new HashMap<>();
+            for (ExpenseDto exp : carExpenses) {
+                categoryTotals.merge(exp.getCategoryId(), exp.getAmount(), BigDecimal::add);
+            }
+            model.addAttribute("categoryTotals", categoryTotals);
         } else {
             model.addAttribute("carExpenses", List.of());
+            model.addAttribute("categoryTotals", new HashMap<>());
         }
         model.addAttribute("profileError", session.getAttribute("profileError"));
         model.addAttribute("openEditProfileModal", session.getAttribute("openEditProfileModal"));

@@ -144,19 +144,18 @@
                             Select a car to view its costs
                         </div>
                         <div th:if="${selectedCarId != null}">
-                            <div th:if="${#lists.isEmpty(carExpenses)}" style="color: #94a3b8; padding: 20px 0; font-size: 14px;">
-                                No expenses yet for this car
-                            </div>
-                            <div class="cost-row-item" th:each="exp : ${carExpenses}">
+                            <div class="cost-row" th:each="category : ${expenseCategories}">
                                 <div class="cost-category">
                                     <span class="cost-icon"></span>
-                                    <span th:text="${exp.categoryName}">Fuel</span>
+                                    <span th:text="${category.name}">Fuel</span>
                                 </div>
-                                <span style="font-weight: bold;" th:text="${exp.amount + currencySymbol}">0€</span>
+                                <span style="font-weight: bold;"
+                                      th:text="${currencySymbol + (categoryTotals[category.id] != null ? categoryTotals[category.id] : '0')}">
+                €0
+            </span>
                             </div>
                         </div>
                     </div>
-                </div>
 
 
                 <!-- Costs date filter -->
@@ -842,17 +841,6 @@
     const shouldOpenEditProfileModal = /*[[${openEditProfileModal}]]*/ false;
     const shouldOpenReminderModal = /*[[${openReminderModal}]]*/ false;
 
-    if (shouldOpenEditProfileModal) {
-        document.addEventListener("DOMContentLoaded", function () {
-            openEditProfileModal();
-        });
-    }
-
-    if (shouldOpenReminderModal) {
-        document.addEventListener("DOMContentLoaded", function () {
-            openReminderModal();
-        });
-    }
 
     document.addEventListener("DOMContentLoaded", function () {
         if (shouldOpenEditProfileModal) openEditProfileModal();

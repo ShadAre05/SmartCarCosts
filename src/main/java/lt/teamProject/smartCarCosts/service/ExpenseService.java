@@ -1,7 +1,6 @@
 package lt.teamProject.smartCarCosts.service;
 
 import lt.teamProject.smartCarCosts.dto.ExpenseDto;
-import lt.teamProject.smartCarCosts.entity.ExpenseCategory;
 import lt.teamProject.smartCarCosts.entity.Expense;
 import lt.teamProject.smartCarCosts.entity.ExpenseCategory;
 import lt.teamProject.smartCarCosts.repository.ExpenseCategoryRepository;
@@ -21,7 +20,6 @@ public class ExpenseService {
     private final ExpenseRepository expenseRepository;
     private final ExpenseCategoryRepository expenseCategoryRepository;
     private final UserCarRepository userCarRepository;
-
 
     public ExpenseService(ExpenseRepository expenseRepository,
                           ExpenseCategoryRepository expenseCategoryRepository,
@@ -68,8 +66,8 @@ public class ExpenseService {
                     String categoryName = expenseCategoryRepository.findById(expense.getCategoryId())
                             .map(ExpenseCategory::getName)
                             .orElse("Unknown");
-                    return new ExpenseDto(expense.getId(), categoryName, expense.getAmount(),
-                            expense.getDescription(), expense.getExpenseDate());
+                    return new ExpenseDto(expense.getId(), expense.getCategoryId(), categoryName,
+                            expense.getAmount(), expense.getDescription(), expense.getExpenseDate());
                 })
                 .collect(Collectors.toList());
     }
@@ -114,8 +112,8 @@ public class ExpenseService {
                     String categoryName = expenseCategoryRepository.findById(expense.getCategoryId())
                             .map(ExpenseCategory::getName)
                             .orElse("Unknown");
-                    return new ExpenseDto(expense.getId(), categoryName, expense.getAmount(),
-                            expense.getDescription(), expense.getExpenseDate());
+                    return new ExpenseDto(expense.getId(), expense.getCategoryId(), categoryName,
+                            expense.getAmount(), expense.getDescription(), expense.getExpenseDate());
                 })
                 .collect(Collectors.toList());
     }

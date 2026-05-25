@@ -2,6 +2,7 @@ package lt.teamProject.smartCarCosts.controller;
 
 import jakarta.servlet.http.HttpSession;
 import lt.teamProject.smartCarCosts.util.JwtUtil;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ui.Model;
 import lt.teamProject.smartCarCosts.entity.ConfirmationToken;
 import lt.teamProject.smartCarCosts.entity.User;
@@ -26,6 +27,8 @@ public class LoginController {
     private final UserRepository userRepository;
     private final ConfirmationTokenRepository tokenRepository;
     private final JwtUtil jwtUtil;
+    @Value("${app.base-url}")
+    private String baseUrl;
 
     public LoginController(EmailService emailService, UserRepository userRepository,
                            ConfirmationTokenRepository tokenRepository, JwtUtil jwtUtil) {
@@ -71,20 +74,16 @@ public class LoginController {
         return "forget-password";
     }
 
-    // Добавляем HttpServletRequest в параметры
+
     @PostMapping("/forget-password")
-    public String processForgetPassword(@RequestParam("email") String email, jakarta.servlet.http.HttpServletRequest request) {
+    public String processForgetPassword(@RequestParam("email") String email) {
         if (userRepository.existsByEmail(email)) {
-            String tokenValue = java.util.UUID.randomUUID().toString();
+            String tokenValue = UUID.randomUUID().toString();
             ConfirmationToken token = new ConfirmationToken(
-                    tokenValue, email, java.time.LocalDateTime.now(), java.time.LocalDateTime.now().plusMinutes(15)
+                    tokenValue, email, LocalDateTime.now(), LocalDateTime.now().plusMinutes(15)
             );
             tokenRepository.save(token);
-
-            // Динамически получаем базовый URL (http://твой-сайт.com или http://localhost:8080)
-            String baseUrl = String.format("%s://%s:%d", request.getScheme(), request.getServerName(), request.getServerPort());
             String resetLink = baseUrl + "/reset-password?token=" + tokenValue;
-
             emailService.sendPasswordResetEmail(email, resetLink);
         }
         return "redirect:/forget-password?success&email=" + email;
