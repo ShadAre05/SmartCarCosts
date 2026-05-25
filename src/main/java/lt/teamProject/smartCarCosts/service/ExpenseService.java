@@ -67,7 +67,7 @@ public class ExpenseService {
 
     public String formatSelectedPeriod(LocalDate startDate, LocalDate endDate) {
         if (startDate == null || endDate == null) {
-            return "XXXX.XX.XX - XXXX.XX.XX";
+            return "yyyy.mm.dd - yyyy.mm.dd";
         }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
 
