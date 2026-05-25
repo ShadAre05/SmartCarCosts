@@ -43,6 +43,7 @@ _Comments from mentor_
 | We have some bugs from previous sprint | In progress | Solve it by testing and update code |
 | Our first version of web-design was very old and "bad for the eyes" | In progress | Develop more modern version |
 | We don't have enough knowledge about JWT | In progress | Read documentation and watch tutorials |
+| Vladyslav has problems with PC | Critical | Waiting for solving it |
 
 
 
