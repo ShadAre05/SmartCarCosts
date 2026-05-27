@@ -99,7 +99,7 @@ public class ExpenseService {
                 .collect(Collectors.toList());
     }
 
-    public void addExpense(Long userId, Long carId, Long categoryId, BigDecimal amount, String description) {
+    public void addExpense(Long userId, Long carId, Long categoryId, BigDecimal amount, String description, LocalDate expenseDate) {
         UserCar userCar = userCarRepository.findByUserId(userId).stream()
                 .filter(link -> link.getCarId().equals(carId))
                 .findFirst()
@@ -110,7 +110,7 @@ public class ExpenseService {
         expense.setCategoryId(categoryId);
         expense.setAmount(amount);
         expense.setDescription(description);
-        expense.setExpenseDate(LocalDate.now());
+        expense.setExpenseDate(expenseDate != null ? expenseDate : LocalDate.now());
         expense.setCreatedAt(LocalDateTime.now());
 
         expenseRepository.save(expense);
@@ -124,6 +124,48 @@ public class ExpenseService {
                 }
             });
         });
+    }
+
+    public List<ExpenseDto> getExpensesByCarIdAndPeriod(Long carId, Long userId, LocalDate startDate, LocalDate endDate) {
+        UserCar userCar = userCarRepository.findByUserId(userId).stream()
+                .filter(link -> link.getCarId().equals(carId))
+                .findFirst()
+                .orElse(null);
+
+        if (userCar == null) return List.of();
+
+        return expenseRepository.findByUserCarIdIn(List.of(userCar.getId())).stream()
+                .filter(expense -> {
+                    if (startDate == null || endDate == null) return true;
+                    return !expense.getExpenseDate().isBefore(startDate) && !expense.getExpenseDate().isAfter(endDate);
+                })
+                .map(expense -> {
+                    String categoryName = expenseCategoryRepository.findById(expense.getCategoryId())
+                            .map(ExpenseCategory::getName)
+                            .orElse("Unknown");
+                    return new ExpenseDto(expense.getId(), expense.getCategoryId(), categoryName,
+                            expense.getAmount(), expense.getDescription(), expense.getExpenseDate());
+                })
+                .collect(Collectors.toList());
+    }
+
+    public BigDecimal getAllTimeTotalByCar(Long carId, Long userId) {
+        UserCar userCar = userCarRepository.findByUserId(userId).stream()
+                .filter(link -> link.getCarId().equals(carId))
+                .findFirst().orElse(null);
+        if (userCar == null) return BigDecimal.ZERO;
+        BigDecimal result = expenseRepository.getAllTimeTotalByUserCars(List.of(userCar.getId()));
+        return result != null ? result : BigDecimal.ZERO;
+    }
+
+    public BigDecimal getPeriodTotalByCar(Long carId, Long userId, LocalDate startDate, LocalDate endDate) {
+        if (startDate == null || endDate == null) return BigDecimal.ZERO;
+        UserCar userCar = userCarRepository.findByUserId(userId).stream()
+                .filter(link -> link.getCarId().equals(carId))
+                .findFirst().orElse(null);
+        if (userCar == null) return BigDecimal.ZERO;
+        BigDecimal result = expenseRepository.getTotalByPeriodAndUserCars(List.of(userCar.getId()), startDate, endDate);
+        return result != null ? result : BigDecimal.ZERO;
     }
 
     public List<ExpenseDto> getExpensesByCarId(Long carId, Long userId) {
