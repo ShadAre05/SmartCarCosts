@@ -126,25 +126,20 @@
             <div class="costs-main-block">
 
                 <div class="content-area">
-                    <div class="costs-header">
-                        <h2>Costs</h2>
-
-                        <div class="costs-header-actions">
-                            <button type="button" class="cost-manage-btn" onclick="openEditSpendingModal()">
-                                Manage
-                            </button>
-
-                            <button type="button" class="cost-add-btn" onclick="openAddTransactionModal()">
-                                + Add costs
-                            </button>
-                        </div>
+                    <div th:if="${selectedCarId == null}" style="display: flex; align-items: center; justify-content: center; height: 100%; border: 2px dashed rgba(255,255,255,0.3); border-radius: 16px; text-align: center; font-size: 22px; color: white; line-height: 1.5;">
+                        Select the car whose statistics<br>you want to view
                     </div>
 
-                    <div class="costs-list" id="costsListBlock">
-                        <div th:if="${selectedCarId == null}" style="color: #94a3b8; padding: 20px 0; font-size: 14px;">
-                            Select a car to view its costs
+                    <div th:if="${selectedCarId != null}">
+                        <div class="costs-header">
+                            <h2>Costs</h2>
+                            <div class="costs-header-actions">
+                                <button type="button" class="cost-manage-btn" onclick="openEditSpendingModal()">Manage</button>
+                                <button type="button" class="cost-add-btn" onclick="openAddTransactionModal()">+ Add costs</button>
+                            </div>
                         </div>
-                        <div th:if="${selectedCarId != null}">
+
+                        <div class="costs-list" id="costsListBlock">
                             <div class="cost-row" th:each="category : ${expenseCategories}">
                                 <div class="cost-category">
                                     <span class="cost-icon"></span>
@@ -152,68 +147,36 @@
                                 </div>
                                 <span style="font-weight: bold;"
                                       th:text="${currencySymbol + (categoryTotals[category.id] != null ? categoryTotals[category.id] : '0')}">
-                €0
-            </span>
+                            €0
+                        </span>
                             </div>
                         </div>
                     </div>
-
+                </div>
 
                 <!-- Costs date filter -->
-                <form th:action="@{/main-interface}" method="get" class="costs-filter-form">
-                    <input type="hidden" name="carId" th:value="${selectedCarId}">
+                <div th:if="${selectedCarId != null}">
+                    <form th:action="@{/main-interface}" method="get" class="costs-filter-form">
+                        <input type="hidden" name="carId" th:value="${selectedCarId}">
+                        <button type="button" class="select-date-btn" onclick="openStartDatePicker()">Select date:</button>
+                        <input type="date" id="costStartDate" name="startDate" class="hidden-date-input" lang="en" onchange="openEndDatePicker()">
+                        <input type="date" id="costEndDate" name="endDate" class="hidden-date-input" lang="en" onchange="this.form.submit()">
+                        <span class="selected-cost-period" th:text="${selectedPeriod}">yyyy.mm.dd - yyyy.mm.dd</span>
+                        <a th:href="@{/main-interface}" class="clean-date-btn">Clean</a>
+                        <div class="cost-total-box" th:text="${periodTotal + currencySymbol}">0€</div>
+                    </form>
 
-                    <button type="button" class="select-date-btn" onclick="openStartDatePicker()">
-                        Select date:
-                    </button>
-
-                    <!-- Hidden start date -->
-                    <input type="date"
-                           id="costStartDate"
-                           name="startDate"
-                           class="hidden-date-input"
-                           lang="en"
-                           onchange="openEndDatePicker()">
-
-                    <!-- Hidden end date -->
-                    <input type="date"
-                           id="costEndDate"
-                           name="endDate"
-                           class="hidden-date-input"
-                           lang="en"
-                           onchange="this.form.submit()">
-
-                    <span class="selected-cost-period"
-                          th:text="${selectedPeriod}">
-                        yyyy.mm.dd - yyyy.mm.dd
-                    </span>
-
-                    <!-- Reset selected period -->
-                    <a th:href="@{/main-interface}" class="clean-date-btn">Clean</a>
-
-                    <!-- Shows total for selected period -->
-                    <div class="cost-total-box"
-                         th:text="${periodTotal + currencySymbol}">
-                        0€
-                    </div>
-                </form>
-
-                <!-- All time total -->
-                <div class="costs-total-row">
-                    <span class="total-label">Total:</span>
-
-                    <span></span>
-                    <span></span>
-
-                    <div class="cost-total-box"
-                         th:text="${allTimeTotal + currencySymbol}">
-                        0€
+                    <!-- All time total -->
+                    <div class="costs-total-row">
+                        <span class="total-label">Total:</span>
+                        <span></span>
+                        <span></span>
+                        <div class="cost-total-box" th:text="${allTimeTotal + currencySymbol}">0€</div>
                     </div>
                 </div>
             </div>
-            </div>
 
-        </section>>
+        </section>
 
     </main>
 
