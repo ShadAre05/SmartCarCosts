@@ -6,10 +6,17 @@
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="stylesheet" th:href="@{/css/logo.css}">
     <style>
-        body { display: block !important; padding: 0 !important; }
-        .page { min-height: 100vh; padding: 30px; box-sizing: border-box; }
-        .top-bar { display: flex; align-items: center; margin-bottom: 30px; }
-        .content { display: flex; gap: 30px; }
+        html, body {
+            display: block !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            justify-content: unset !important;
+            align-items: unset !important;
+            background-color: #1e293b;
+        }
+        .page { min-height: 100vh; padding: 0; box-sizing: border-box; }
+        .top-bar { display: flex; align-items: flex-start; padding: 30px; margin-bottom: 30px; justify-content: flex-start; }
+        .content { display: flex; gap: 30px; padding: 0 30px 30px 30px; justify-content: center; }
         .left-card {
             width: 320px; min-width: 320px;
             background: #1e3a52;
@@ -36,6 +43,7 @@
         }
         .right-card {
             flex: 1;
+            max-width: 900px;
             background: #1e3a52;
             border-radius: 12px;
             padding: 25px;
@@ -117,7 +125,7 @@
 </head>
 <body>
 <div class="page">
-    <div class="top-bar">
+    <div class="top-bar" style="position: relative;">
         <a th:href="@{/main-interface}" class="logo">SmartCarCosts</a>
     </div>
 
