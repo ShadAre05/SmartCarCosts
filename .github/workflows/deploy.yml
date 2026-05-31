@@ -30,5 +30,5 @@ jobs:
               -e DB_USER="${{ secrets.DB_USER }}" \
               -e DB_PASSWORD="${{ secrets.DB_PASSWORD }}" \
               -e EMAIL_PASSWORD="${{ secrets.EMAIL_PASSWORD }}" \
-              -e APP_BASE_URL="https://13.53.164.7.nip.io"
+              -e APP_BASE_URL="https://13.53.164.7.nip.io" \
               smart-car-costs
