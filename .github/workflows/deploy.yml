@@ -33,4 +33,7 @@ jobs:
               -e APP_BASE_URL="https://13.53.164.7.nip.io" \
               -e SPRING_JPA_DEFER_DATASOURCE_INITIALIZATION="true" \
               -e SERVER_FORWARD_HEADERS_STRATEGY="FRAMEWORK" \
+              -e SERVER_TOMCAT_REDIRECT_CONTEXT_ROOT="false" \
+              -e SERVER_TOMCAT_REMOTEIP_PROTOCOL_HEADER="X-Forwarded-Proto" \
+              -e SERVER_TOMCAT_REMOTEIP_REMOTE_IP_HEADER="X-Forwarded-For" \
               smart-car-costs
