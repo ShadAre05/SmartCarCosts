@@ -1,0 +1,34 @@
+name: CI/CD Smart Car Costs
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to AWS EC2 via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd ~/smartCarCosts
+
+            git pull origin develop
+
+            docker build -t smart-car-costs .
+
+            docker rm -f smart-car-app || true
+
+            docker run -d -p 8080:8080 --name smart-car-app \
+              -e DB_URL="${{ secrets.DB_URL }}" \
+              -e DB_USER="${{ secrets.DB_USER }}" \
+              -e DB_PASSWORD="${{ secrets.DB_PASSWORD }}" \
+              -e EMAIL_PASSWORD="${{ secrets.EMAIL_PASSWORD }}" \
+              -e APP_BASE_URL="http://${{ secrets.HOST }}:8080" \
+              smart-car-costs
