@@ -31,4 +31,6 @@ jobs:
               -e DB_PASSWORD="${{ secrets.DB_PASSWORD }}" \
               -e EMAIL_PASSWORD="${{ secrets.EMAIL_PASSWORD }}" \
               -e APP_BASE_URL="https://13.53.164.7.nip.io" \
+              -e SPRING_JPA_DEFER_DATASOURCE_INITIALIZATION="true" \
+              -e SERVER_FORWARD_HEADERS_STRATEGY="FRAMEWORK" \
               smart-car-costs
