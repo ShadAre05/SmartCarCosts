@@ -99,7 +99,7 @@ public class ExpenseService {
                 .collect(Collectors.toList());
     }
 
-    public void addExpense(Long userId, Long carId, Long categoryId, BigDecimal amount, String description, LocalDate expenseDate) {
+    public void addExpense(Long userId, Long carId, Long categoryId, BigDecimal amount, String description) {
         UserCar userCar = userCarRepository.findByUserId(userId).stream()
                 .filter(link -> link.getCarId().equals(carId))
                 .findFirst()
@@ -110,7 +110,7 @@ public class ExpenseService {
         expense.setCategoryId(categoryId);
         expense.setAmount(amount);
         expense.setDescription(description);
-        expense.setExpenseDate(expenseDate != null ? expenseDate : LocalDate.now());
+        expense.setExpenseDate(LocalDate.now());
         expense.setCreatedAt(LocalDateTime.now());
 
         expenseRepository.save(expense);

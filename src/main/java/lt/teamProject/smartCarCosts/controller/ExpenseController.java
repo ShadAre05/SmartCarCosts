@@ -23,7 +23,6 @@ public class ExpenseController {
                           @RequestParam("categoryId") Long categoryId,
                           @RequestParam("amount") BigDecimal amount,
                           @RequestParam(value = "description", required = false) String description,
-                          @RequestParam(value = "expenseDate", required = false) LocalDate expenseDate,
                           HttpSession session) {
 
         Long userId = (Long) session.getAttribute("userId");
@@ -31,7 +30,7 @@ public class ExpenseController {
             return "redirect:/login";
         }
 
-        expenseService.addExpense(userId, carId, categoryId, amount, description, expenseDate);
+        expenseService.addExpense(userId, carId, categoryId, amount, description);
 
         return "redirect:/main-interface?carId=" + carId + "&costAdded";
     }

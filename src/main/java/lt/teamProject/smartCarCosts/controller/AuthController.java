@@ -314,7 +314,11 @@ public class AuthController {
         model.addAttribute("periodTotal", periodTotal);
         model.addAttribute("selectedPeriod", selectedPeriod);
         model.addAttribute("expenseCategories", expenseService.getExpenseCategories());
-        model.addAttribute("expenses", expenseService.getUserExpenses(userId));
+        if (carId != null) {
+            model.addAttribute("expenses", expenseService.getExpensesByCarId(carId, userId));
+        } else {
+            model.addAttribute("expenses", expenseService.getUserExpenses(userId));
+        }
         model.addAttribute("selectedCarId", carId);
         if (carId != null) {
             List<ExpenseDto> carExpenses = expenseService.getExpensesByCarIdAndPeriod(carId, userId, startDate, endDate);

@@ -162,7 +162,7 @@
                         <input type="date" id="costStartDate" name="startDate" class="hidden-date-input" lang="en" onchange="openEndDatePicker()">
                         <input type="date" id="costEndDate" name="endDate" class="hidden-date-input" lang="en" onchange="this.form.submit()">
                         <span class="selected-cost-period" th:text="${selectedPeriod}">yyyy.mm.dd - yyyy.mm.dd</span>
-                        <a th:href="@{/main-interface}" class="clean-date-btn">Clean</a>
+                        <a th:href="@{/main-interface(carId=${selectedCarId})}" class="clean-date-btn">Clean</a>
                         <div class="cost-total-box" th:text="${periodTotal + currencySymbol}">0€</div>
                     </form>
 
@@ -192,7 +192,7 @@
                 <label>Select Car <span class="required-star">*</span></label>
                 <select name="carId" required style="background: white; color: black; font-weight: bold;">
                     <option value="">Choose a car...</option>
-                    <option th:each="car : ${cars}" th:value="${car.id}" th:text="${car.brandName + ' ' + car.modelName + ' (' + car.licencePlate + ')'}"></option>
+                    <option th:each="car : ${cars}" th:value="${car.id}" th:text="${car.brandName + ' ' + car.modelName + (car.licencePlate != null ? ' (' + car.licencePlate + ')' : '')}"></option>
                 </select>
             </div>
 
@@ -229,14 +229,6 @@
                 <textarea name="description" rows="3" placeholder="Enter description..." style="resize: none; background: white; color: black;"></textarea>
             </div>
 
-            <div class="form-group" style="margin-bottom: 15px;">
-                <label>Date <span class="required-star">*</span></label>
-                <input type="date"
-                       name="expenseDate"
-                       required
-                       th:value="${#temporals.format(#temporals.createNow(), 'yyyy-MM-dd')}"
-                       style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ccc; background: white; color: black; font-size: 15px;">
-            </div>
 
             <div style="display: flex; gap: 15px; margin-top: 25px;">
                 <button type="button" style="flex: 1; background-color: #5ab2da; color: black; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer;" onclick="closeAddTransactionModal()">Cancel</button>
@@ -289,14 +281,7 @@
 
                     <div class="form-group">
                         <label>Engine capacity <span class="required-star">*</span></label>
-                        <input type="number"
-                               step="0.1"
-                               min="0.8"
-                               max="10.0"
-                               name="engineCapacity"
-                               id="engineCapacityInput"
-                               required
-                               style="text-align: center; width: 80px;">
+                        <input type="number" step="0.1" min="0.8" max="10.0" name="engineCapacity" id="engineCapacityInput" required>
                     </div>
 
                     <div class="form-group">
@@ -465,7 +450,7 @@
             </div>
         </div>
 
-        <div style="max-height: 300px; overflow-y: auto; background-color: #cbd5e1; color: black; border-radius: 8px; padding: 10px;">
+        <div style="height: 300px; overflow-y: auto; background-color: #cbd5e1; color: black; border-radius: 8px; padding: 10px;">
             <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 14px;">
                 <thead style="border-bottom: 2px solid #9ca3af;">
                 <tr>
