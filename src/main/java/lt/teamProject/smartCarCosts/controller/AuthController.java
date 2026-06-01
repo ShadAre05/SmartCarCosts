@@ -2,6 +2,7 @@ package lt.teamProject.smartCarCosts.controller;
 
 import jakarta.validation.Valid;
 import lt.teamProject.smartCarCosts.dto.ExpenseDto;
+import lt.teamProject.smartCarCosts.dto.ServiceRegisterRequest;
 import lt.teamProject.smartCarCosts.dto.RegisterRequest;
 import lt.teamProject.smartCarCosts.dto.ReminderRequest;
 import lt.teamProject.smartCarCosts.entity.Car;
@@ -109,7 +110,7 @@ public class AuthController {
         String token = UUID.randomUUID().toString();
         String link = baseUrl + "/confirm-email?token=" + token;
 
-        confirmationTokenService.saveRegistrationToken(token, registerRequest, countryId);
+        confirmationTokenService.saveRegistrationToken(token, registerRequest.getEmail(), registerRequest.getFullName(), registerRequest.getPassword(), countryId, "USER");
 
         session.setAttribute("userEmail", registerRequest.getEmail());
         session.setAttribute("resendAvailableAt", System.currentTimeMillis() + 60_000);
@@ -117,6 +118,46 @@ public class AuthController {
         emailService.sendConfirmationEmail(registerRequest.getEmail(), link);
 
         return "redirect:/confirm-email-notice";
+    }
+
+    @GetMapping("/service-register")
+    public String showServiceRegisterPage(Model model) {
+
+        if (!model.containsAttribute("serviceRegisterRequest")) {
+            model.addAttribute("serviceRegisterRequest", new ServiceRegisterRequest());
+        }
+
+        model.addAttribute("countries", countryRepository.findAll());
+
+        return "service-register";
+    }
+
+    @GetMapping("/service-main-interface")
+    public String serviceMainInterface(HttpSession session, Model model) {
+
+        Long userId = (Long) session.getAttribute("userId");
+
+        if (userId == null) {
+            return "redirect:/login";
+        }
+
+        User user = userService.getUserById(userId);
+
+        if (!"SERVICE".equals(user.getRole().getRole())) {
+            return "redirect:/main-interface";
+        }
+
+        model.addAttribute("userName", user.getFullName());
+        model.addAttribute("profileUser", user);
+        model.addAttribute("currencies", currencyRepository.findAll());
+
+        model.addAttribute("profileError", session.getAttribute("profileError"));
+        model.addAttribute("openEditProfileModal", session.getAttribute("openEditProfileModal"));
+
+        session.removeAttribute("profileError");
+        session.removeAttribute("openEditProfileModal");
+
+        return "service-main-interface";
     }
 
     // Show confirmation info page with resend timer
@@ -187,6 +228,54 @@ public class AuthController {
         return "redirect:/main-interface";
     }
 
+    @PostMapping("/service-register")
+    public String handleServiceRegister(
+            @Valid @ModelAttribute("serviceRegisterRequest") ServiceRegisterRequest request,
+            BindingResult bindingResult,
+            HttpSession session,
+            Model model
+    ) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("countries", countryRepository.findAll());
+            return "service-register";
+        }
+
+        if (userService.existsByEmail(request.getEmail())) {
+            model.addAttribute("countries", countryRepository.findAll());
+            model.addAttribute("emailExistsError", "User with this email already exists");
+            return "service-register";
+        }
+
+        if (confirmationTokenService.existsByEmail(request.getEmail())) {
+            model.addAttribute("countries", countryRepository.findAll());
+            model.addAttribute("emailExistsError", "Confirmation email has already been sent");
+            return "service-register";
+        }
+
+        Long countryId = countryRepository.findByCountryName(request.getCountry())
+                .orElseThrow(() -> new RuntimeException("Country not found"))
+                .getId();
+
+        String token = UUID.randomUUID().toString();
+        String link = baseUrl + "/confirm-email?token=" + token;
+
+        confirmationTokenService.saveRegistrationToken(
+                token,
+                request.getEmail(),
+                request.getFullName(),
+                request.getPassword(),
+                countryId,
+                "SERVICE"
+        );
+
+        session.setAttribute("userEmail", request.getEmail());
+        session.setAttribute("resendAvailableAt", System.currentTimeMillis() + 60_000);
+
+        emailService.sendConfirmationEmail(request.getEmail(), link);
+
+        return "redirect:/confirm-email-notice";
+    }
+
     // Handle email confirmation via token
     @GetMapping("/confirm-email")
     public String confirmEmail(@RequestParam String token, HttpSession session) {
@@ -206,28 +295,37 @@ public class AuthController {
 
     // Resend confirmation email (with cooldown)
     @PostMapping("/resend-confirmation")
-    public String resendConfirmation(HttpSession session){
+    public String resendConfirmation(HttpSession session) {
+
         String email = (String) session.getAttribute("userEmail");
         Long resendAvailableAt = (Long) session.getAttribute("resendAvailableAt");
 
-        // if session lost - go back to register
-        if (email == null || email.isBlank()){
+        if (email == null || email.isBlank()) {
             return "redirect:/register";
         }
 
-        // Prevent resend during cooldown
-        if (resendAvailableAt != null && System.currentTimeMillis() < resendAvailableAt){
+        if (resendAvailableAt != null && System.currentTimeMillis() < resendAvailableAt) {
             return "redirect:/confirm-email-notice";
         }
 
-        // Generate new token
+        ConfirmationToken oldToken = confirmationTokenService.getTokenDataByEmail(email);
+
         String token = UUID.randomUUID().toString();
         String link = baseUrl + "/confirm-email?token=" + token;
 
-        confirmationTokenService.saveToken(token, email);
+        confirmationTokenService.removeTokensByEmail(email);
+
+        confirmationTokenService.saveRegistrationToken(
+                token,
+                oldToken.getEmail(),
+                oldToken.getFullName(),
+                oldToken.getPasswordHash(),
+                oldToken.getCountryId(),
+                oldToken.getRole()
+        );
+
         emailService.sendConfirmationEmail(email, link);
 
-        // Restart cooldown
         session.setAttribute("resendAvailableAt", System.currentTimeMillis() + 60_000);
 
         return "redirect:/confirm-email-notice";
@@ -281,6 +379,10 @@ public class AuthController {
 
         // 3. Load cars that belong ONLY to the current user
         User currentUser = userService.getUserById(userId);
+
+        if ("SERVICE".equals(currentUser.getRole().getRole())) {
+            return "redirect:/service-main-interface";
+        }
 
         String currencySymbol = currentUser.getCurrency() != null
                 ? currentUser.getCurrency().getCurrencySymbol()

@@ -1,5 +1,6 @@
 package lt.teamProject.smartCarCosts.controller;
 
+
 import jakarta.servlet.http.HttpSession;
 import lt.teamProject.smartCarCosts.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,11 +11,10 @@ import lt.teamProject.smartCarCosts.repository.ConfirmationTokenRepository;
 import lt.teamProject.smartCarCosts.repository.UserRepository;
 import lt.teamProject.smartCarCosts.service.EmailService;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import lt.teamProject.smartCarCosts.dto.CarDto;
+
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -47,14 +47,19 @@ public class LoginController {
     @PostMapping("/login")
     public String processLogin(@RequestParam("email") String email,
                                @RequestParam("password") String password,
-                               jakarta.servlet.http.HttpServletResponse response) {
+                               jakarta.servlet.http.HttpServletResponse response,
+                               HttpSession session) {
 
         Optional<User> userOpt = userRepository.findByEmail(email);
 
         if (userOpt.isPresent() && userOpt.get().getPassword().equals(password)) {
             User user = userOpt.get();
 
-            String jwtToken = jwtUtil.generateToken(user.getId(), user.getFullName(), user.getEmail());
+            String jwtToken = jwtUtil.generateToken(
+                    user.getId(),
+                    user.getFullName(),
+                    user.getEmail()
+            );
 
             jakarta.servlet.http.Cookie jwtCookie = new jakarta.servlet.http.Cookie("jwt", jwtToken);
             jwtCookie.setHttpOnly(true);
@@ -63,8 +68,19 @@ public class LoginController {
 
             response.addCookie(jwtCookie);
 
+            session.setAttribute("userId", user.getId());
+            session.setAttribute("userName", user.getFullName());
+            session.setAttribute("userEmail", user.getEmail());
+
+            String role = user.getRole().getRole();
+
+            if ("SERVICE".equals(role)) {
+                return "redirect:/service-main-interface";
+            }
+
             return "redirect:/main-interface";
         }
+
         return "redirect:/login?error=true";
     }
 

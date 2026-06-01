@@ -37,7 +37,7 @@ public class SettingsController {
                 updatedUser.getCurrency().getCurrencySymbol()
         );
 
-        return "redirect:/main-interface";
+        return redirectByRole(updatedUser);
     }
 
     @PostMapping("/settings/update-profile")
@@ -50,17 +50,21 @@ public class SettingsController {
             return "redirect:/login";
         }
 
+        User currentUser = userService.getUserById(userId);
+
         String error = userService.updateProfile(userId, request);
 
         if (error != null) {
             session.setAttribute("profileError", error);
             session.setAttribute("openEditProfileModal", true);
-            return "redirect:/main-interface";
+            return redirectByRole(currentUser);
         }
 
-        session.setAttribute("userName", request.getFullName());
+        User updatedUser = userService.getUserById(userId);
 
-        return "redirect:/main-interface";
+        session.setAttribute("userName", updatedUser.getFullName());
+
+        return redirectByRole(updatedUser);
     }
 
     @PostMapping("/settings/delete-account")
@@ -75,5 +79,13 @@ public class SettingsController {
         session.invalidate();
 
         return "redirect:/";
+    }
+
+    private String redirectByRole(User user) {
+        if ("SERVICE".equals(user.getRole().getRole())) {
+            return "redirect:/service-main-interface";
+        }
+
+        return "redirect:/main-interface";
     }
 }

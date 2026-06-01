@@ -1,0 +1,82 @@
+html,
+body {
+    min-height: 100%;
+    margin: 0;
+    background: #0f1c29;
+    overflow: auto;
+}
+
+.service-page {
+    min-height: 100vh;
+    padding: 24px;
+    box-sizing: border-box;
+}
+
+.service-main-wrapper {
+    min-width: 1200px;
+    background: #2f4a66;
+    padding: 18px;
+    box-sizing: border-box;
+}
+
+.service-header {
+    display: grid;
+    grid-template-columns: 170px 1fr 240px;
+    gap: 20px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.service-header-center {
+    height: 60px;
+    background: #86b5cf;
+    border-radius: 8px;
+}
+
+.service-content {
+    background: #24384f;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.service-actions-row {
+    display: grid;
+    grid-template-columns: 180px 250px 1fr 180px;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.service-filter,
+.service-search {
+    height: 42px;
+    border-radius: 8px;
+    border: none;
+    padding: 0 12px;
+}
+
+.service-new-car-btn {
+    height: 42px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.service-table-wrapper {
+    overflow-x: auto;
+}
+
+.service-cars-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: white;
+}
+
+.service-cars-table th {
+    background: #0dc7a5;
+    padding: 12px;
+}
+
+.service-cars-table td {
+    padding: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+}
