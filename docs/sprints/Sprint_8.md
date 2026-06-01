@@ -8,24 +8,26 @@ Finalize create USER role, start to develop SERVICE role
 ### Tasks
 |  Task  | Executor | Complete |
 |--------|----------|-----|
-| Deploy application into AWS | Arseni |  | 
-| Finalize presentation to demonstrate demo to 2026.05.27 | Arseni |  |
-| Fix some small bugs wich connected with calendar and date format | Vladyslav |  |
-| Develop register page | Vladyslav |  |
-| Develop main-interface | Vladyslav |  |
-| Develop add-car | Vladyslav |  |
-| Finalize USER role | Matsvei |  |
-| Develop View car's repair (+ specific repair) | Matsvei |  |
-| Develop visit for service's car | Matsvei |  |
-| Develop edit visit for service's car | Matsvei |  |
+| Deploy application into AWS | Arseni | + | 
+| Finalize presentation to demonstrate demo to 2026.05.27 | Arseni | Don't need it |
+| Fix some small bugs wich connected with calendar and date format | Vladyslav | + |
+| Develop register page | Vladyslav | + |
+| Develop main-interface | Vladyslav | + |
+| Develop add-car | Vladyslav | Decide give it to Matsvei |
+| Finalize USER role | Matsvei | +- |
+| Develop View car's repair (+ specific repair) | Matsvei | +- |
+| Develop visit for service's car | Matsvei | +- |
+| Develop edit visit for service's car | Matsvei | +- |
 
+### Matvey's tasks were completed, but I did not approve Merge (22.40 by Vilnius) since he made the implementation of the SERVICE role for the USER role, which is ABSOLUTELY CONTRADICTORY to the concept
 
-Link: https://smartcarcosts.onrender.com
+Link: https://smartcarcosts.onrender.com (deleted)
+Link (AWS): https://13.53.164.7.nip.io/
 
 ### Metrics
 - **Planned tasks:** 10
-- **Complete:** 
-- **Velocity:** --%
+- **Complete:** 7
+- **Velocity:** 70%
 
 ---
 
