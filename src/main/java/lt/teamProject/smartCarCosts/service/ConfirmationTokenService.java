@@ -31,6 +31,11 @@ public class ConfirmationTokenService {
         confirmationTokenRepository.save(confirmationToken);
     }
 
+    public ConfirmationToken getTokenData(String token) {
+        return confirmationTokenRepository.findByToken(token)
+                .orElseThrow(() -> new RuntimeException("Confirmation token not found"));
+    }
+
     // Checks whether the token exists and is not expired.
     public boolean isValidToken(String token){
         Optional<ConfirmationToken> optionalToken = confirmationTokenRepository.findByToken(token);
@@ -58,20 +63,27 @@ public class ConfirmationTokenService {
         return confirmationTokenRepository.existsByEmail(email);
     }
 
-    public ConfirmationToken getTokenData(String token) {
-        return confirmationTokenRepository.findByToken(token)
-                .orElseThrow(() -> new RuntimeException("Token not found"));
+    public ConfirmationToken getTokenDataByEmail(String email) {
+        return confirmationTokenRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Confirmation token not found"));
     }
 
     @Transactional
-    public void saveRegistrationToken(String token, RegisterRequest request, Long countryId) {
+    public void saveRegistrationToken(String token,
+                                      String email,
+                                      String fullName,
+                                      String password,
+                                      Long countryId,
+                                      String role) {
+
         ConfirmationToken confirmationToken = new ConfirmationToken();
 
         confirmationToken.setToken(token);
-        confirmationToken.setEmail(request.getEmail());
-        confirmationToken.setFullName(request.getFullName());
-        confirmationToken.setPasswordHash(request.getPassword());
+        confirmationToken.setEmail(email);
+        confirmationToken.setFullName(fullName);
+        confirmationToken.setPasswordHash(password);
         confirmationToken.setCountryId(countryId);
+        confirmationToken.setRole(role);
         confirmationToken.setCreatedAt(LocalDateTime.now());
         confirmationToken.setExpiresAt(LocalDateTime.now().plusMinutes(15));
 
@@ -82,6 +94,11 @@ public class ConfirmationTokenService {
     public void removeToken(String token) {
         confirmationTokenRepository.findByToken(token)
                 .ifPresent(confirmationTokenRepository::delete);
+    }
+
+    @Transactional
+    public void removeTokensByEmail(String email) {
+        confirmationTokenRepository.deleteByEmail(email);
     }
 }
 

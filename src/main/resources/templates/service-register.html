@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Register Service Account</title>
+    <link rel="stylesheet" th:href="@{/css/register.css}">
+    <link rel="stylesheet" th:href="@{/css/logo.css}">
+</head>
+<body>
+
+<div class="page">
+
+    <a th:href="@{/service-main-interface}" class="logo">
+        SmartCarCosts
+    </a>
+
+    <div class="center-box">
+        <h2>Create Service account</h2>
+        <p class="form-subtitle">Please fill in the details to register.</p>
+
+        <form method="post"
+              th:action="@{/service-register}"
+              th:object="${serviceRegisterRequest}"
+              novalidate>
+
+            <div class="field-group">
+                <label for="email">Email</label>
+                <input id="email" type="email" th:field="*{email}">
+                <p class="error"
+                   th:text="${#fields.hasErrors('email') ? #fields.errors('email')[0] : ''}"></p>
+                <p class="error" th:if="${emailExistsError}" th:text="${emailExistsError}"></p>
+            </div>
+
+            <div class="field-group">
+                <label for="password">Password</label>
+                <input id="password" type="password" th:field="*{password}">
+                <p class="error"
+                   th:text="${#fields.hasErrors('password') ? #fields.errors('password')[0] : ''}"></p>
+            </div>
+
+            <div class="field-group">
+                <label for="fullName">Full Service station name</label>
+                <input id="fullName" type="text" th:field="*{fullName}">
+                <p class="error"
+                   th:text="${#fields.hasErrors('fullName') ? #fields.errors('fullName')[0] : ''}"></p>
+            </div>
+
+            <div class="field-group">
+                <label for="country">Select Country</label>
+                <select id="country" th:field="*{country}">
+                    <option value="">Please select from the list</option>
+
+                    <option th:each="country : ${countries}"
+                            th:value="${country.countryName}"
+                            th:text="${country.countryName}">
+                    </option>
+                </select>
+
+                <p class="error"
+                   th:text="${#fields.hasErrors('country') ? #fields.errors('country')[0] : ''}">
+                </p>
+            </div>
+
+            <button type="submit" class="btn-create">
+                Create Service account
+            </button>
+        </form>
+
+        <p class="login-link">
+            Already have an account?
+            <a th:href="@{/login}">Sign in</a>
+        </p>
+    </div>
+
+</div>
+
+</body>
+</html>

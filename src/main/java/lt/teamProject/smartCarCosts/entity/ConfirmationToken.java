@@ -32,8 +32,12 @@ public class ConfirmationToken {
     @Column(name = "country_id")
     private Long countryId;
 
+    @Column(name = "role")
+    private String role;
+
     public ConfirmationToken() {
     }
+
 
     public ConfirmationToken(String token, String email, LocalDateTime createdAt, LocalDateTime expiresAt) {
         this.token = token;
@@ -41,6 +45,15 @@ public class ConfirmationToken {
         this.createdAt = createdAt;
         this.expiresAt = expiresAt;
     }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     public String getFullName() {
         return fullName;
     }

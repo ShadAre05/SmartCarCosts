@@ -137,8 +137,8 @@ public class UserService {
         Country country = countryRepository.findById(tokenData.getCountryId())
                 .orElseThrow(() -> new RuntimeException("Country not found"));
 
-        Role role = roleRepository.findByRole("USER")
-                .orElseThrow(() -> new RuntimeException("Default role USER not found"));
+        Role role = roleRepository.findByRole(tokenData.getRole())
+                .orElseThrow(() -> new RuntimeException("Role not found"));
 
         Currency defaultCurrency = currencyRepository.findById(1L)
                 .orElseThrow(() -> new RuntimeException("Currency not found"));
