@@ -1,19 +1,21 @@
 html,
 body {
-    min-height: 100%;
+    width: 100%;
+    height: 100%;
     margin: 0;
-    background: #0f1c29;
-    overflow: auto;
 }
 
 .service-page {
+    width: 100%;
     min-height: 100vh;
-    padding: 24px;
+    padding: 0;
+    margin: 0;
     box-sizing: border-box;
 }
 
 .service-main-wrapper {
-    min-width: 1200px;
+    width: 100%;
+    min-height: 100vh;
     background: #2f4a66;
     padding: 18px;
     box-sizing: border-box;

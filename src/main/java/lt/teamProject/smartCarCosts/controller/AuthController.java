@@ -115,7 +115,11 @@ public class AuthController {
         session.setAttribute("userEmail", registerRequest.getEmail());
         session.setAttribute("resendAvailableAt", System.currentTimeMillis() + 60_000);
 
-        emailService.sendConfirmationEmail(registerRequest.getEmail(), link);
+        emailService.sendConfirmationEmail(
+                registerRequest.getEmail(),
+                registerRequest.getFullName(),
+                link
+        );
 
         return "redirect:/confirm-email-notice";
     }
@@ -271,7 +275,11 @@ public class AuthController {
         session.setAttribute("userEmail", request.getEmail());
         session.setAttribute("resendAvailableAt", System.currentTimeMillis() + 60_000);
 
-        emailService.sendConfirmationEmail(request.getEmail(), link);
+        emailService.sendConfirmationEmail(
+                request.getEmail(),
+                request.getFullName(),
+                link
+        );
 
         return "redirect:/confirm-email-notice";
     }
@@ -324,7 +332,11 @@ public class AuthController {
                 oldToken.getRole()
         );
 
-        emailService.sendConfirmationEmail(email, link);
+        emailService.sendConfirmationEmail(
+                oldToken.getEmail(),
+                oldToken.getFullName(),
+                link
+        );
 
         session.setAttribute("resendAvailableAt", System.currentTimeMillis() + 60_000);
 
