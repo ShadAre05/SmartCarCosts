@@ -19,26 +19,68 @@ public class EmailService {
     }
 
     // Sends account confirmation email with verification link
-    public void sendConfirmationEmail(String toEmail, String confirmationLink) {
+    public void sendConfirmationEmail(String toEmail, String userName, String confirmationLink) {
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
             String htmlContent = """
-                    <p>Hello!</p>
-                    <p>Please confirm your account by clicking the link below:</p>
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+
+                    <h2 style="color:#2d8cff;">
+                        Welcome to SmartCarCosts
+                    </h2>
+
+                    <p>Hello, <b>%s</b>,</p>
+
                     <p>
-                        <a href="%s" style="color:#2d8cff; font-weight:bold; text-decoration:none;">
-                            SmartCarCosts
-                        </a>
+                        Thank you for registering with SmartCarCosts.
                     </p>
-                    <p>If you did not create this account, ignore this email.</p>
-                    """.formatted(confirmationLink);
+
+                    <p>
+                        To activate your account and complete the registration process,
+                        please confirm your email address by clicking the button below:
+                    </p>
+
+                    <div style="text-align:center; margin:30px 0;">
+                        <a href="%s"
+                           style="
+                                background:#58ACE0;
+                                color:white;
+                                padding:14px 32px;
+                                text-decoration:none;
+                                border-radius:6px;
+                                font-weight:bold;
+                                display:inline-block;">
+                            Confirm Email
+                        </a>
+                    </div>
+
+                    <p>
+                        This confirmation link will expire in <b>15 minutes</b>.
+                    </p>
+
+                    <p>
+                        If you did not create a SmartCarCosts account,
+                        you can safely ignore this email.
+                    </p>
+
+                    <br>
+
+                    <p>
+                        Best regards,<br>
+                        <b>SmartCarCosts Team</b>
+                    </p>
+
+                </div>
+                """.formatted(userName, confirmationLink);
+
             helper.setTo(toEmail);
             helper.setSubject("Confirm your SmartCarCosts account");
             helper.setText(htmlContent, true);
 
             mailSender.send(message);
+
         } catch (MessagingException e) {
             throw new RuntimeException("Failed to send confirmation email", e);
         }
