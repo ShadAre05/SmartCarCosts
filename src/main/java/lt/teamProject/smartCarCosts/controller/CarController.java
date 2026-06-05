@@ -32,9 +32,9 @@ public class CarController {
             car.setYear(request.getYear());
             car.setEngineCapacity(request.getEngineCapacity());
             car.setFuelTypeId(request.getFuelTypeId());
-            car.setLicencePlate(request.getLicencePlate());
-            car.setVin(request.getVin());
-            car.setGeneration(request.getGeneration());
+            car.setLicencePlate(request.getLicencePlate() != null && !request.getLicencePlate().isBlank() ? request.getLicencePlate() : null);
+            car.setVin(request.getVin() != null && !request.getVin().isBlank() ? request.getVin() : null);
+            car.setGeneration(request.getGeneration() != null && !request.getGeneration().isBlank() ? request.getGeneration() : null);
 
             // Saves user's car
             carService.addCar(car, userId);
