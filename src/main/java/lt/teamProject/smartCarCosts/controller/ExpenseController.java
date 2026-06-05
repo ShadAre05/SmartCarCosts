@@ -1,6 +1,7 @@
 package lt.teamProject.smartCarCosts.controller;
 
 import jakarta.servlet.http.HttpSession;
+import java.time.LocalDate;
 import lt.teamProject.smartCarCosts.service.ExpenseService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +20,7 @@ public class ExpenseController {
 
     @PostMapping("/costs/add")
     public String addCost(@RequestParam("carId") Long carId,
-                          @RequestParam("categoryId") Long categoryId, // <-- ТЕПЕРЬ ТУТ ID КАТЕГОРИИ
+                          @RequestParam("categoryId") Long categoryId,
                           @RequestParam("amount") BigDecimal amount,
                           @RequestParam(value = "description", required = false) String description,
                           HttpSession session) {
@@ -31,7 +32,7 @@ public class ExpenseController {
 
         expenseService.addExpense(userId, carId, categoryId, amount, description);
 
-        return "redirect:/main-interface?costAdded";
+        return "redirect:/main-interface?carId=" + carId + "&costAdded";
     }
 
     @PostMapping("/costs/delete")
