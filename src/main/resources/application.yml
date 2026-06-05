@@ -17,7 +17,7 @@ spring:
     host: smtp.gmail.com
     port: 465
     username: ${MAIL_USER:smartcarcosts.app@gmail.com}
-    password: mucf bcll lkce gigz
+    password:
     protocol: smtps
     properties:
       mail:
