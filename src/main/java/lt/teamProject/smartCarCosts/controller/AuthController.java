@@ -415,18 +415,27 @@ public class AuthController {
         model.addAttribute("reminderTypes", reminderTypeRepository.findAll());
         model.addAttribute("currencies", currencyRepository.findAll());
 
-        BigDecimal allTimeTotal = expenseService.getAllTimeTotal(userId);
-        BigDecimal periodTotal = expenseService.getTotalByPeriod(userId, startDate, endDate);
+        BigDecimal allTimeTotal = carId != null
+                ? expenseService.getAllTimeTotalByCar(carId, userId)
+                : expenseService.getAllTimeTotal(userId);
+
+        BigDecimal periodTotal = carId != null
+                ? expenseService.getPeriodTotalByCar(carId, userId, startDate, endDate)
+                : expenseService.getTotalByPeriod(userId, startDate, endDate);
         String selectedPeriod = expenseService.formatSelectedPeriod(startDate, endDate);
 
         model.addAttribute("allTimeTotal", allTimeTotal);
         model.addAttribute("periodTotal", periodTotal);
         model.addAttribute("selectedPeriod", selectedPeriod);
         model.addAttribute("expenseCategories", expenseService.getExpenseCategories());
-        model.addAttribute("expenses", expenseService.getUserExpenses(userId));
+        if (carId != null) {
+            model.addAttribute("expenses", expenseService.getExpensesByCarId(carId, userId));
+        } else {
+            model.addAttribute("expenses", expenseService.getUserExpenses(userId));
+        }
         model.addAttribute("selectedCarId", carId);
         if (carId != null) {
-            List<ExpenseDto> carExpenses = expenseService.getExpensesByCarId(carId, userId);
+            List<ExpenseDto> carExpenses = expenseService.getExpensesByCarIdAndPeriod(carId, userId, startDate, endDate);
             model.addAttribute("carExpenses", carExpenses);
 
             Map<Long, BigDecimal> categoryTotals = new HashMap<>();
