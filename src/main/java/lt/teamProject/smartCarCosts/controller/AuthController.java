@@ -11,6 +11,9 @@ import lt.teamProject.smartCarCosts.entity.User;
 import lt.teamProject.smartCarCosts.repository.CurrencyRepository;
 import lt.teamProject.smartCarCosts.service.*;
 import org.springframework.beans.factory.annotation.Value;
+import lt.teamProject.smartCarCosts.repository.CarBrandRepository;
+import lt.teamProject.smartCarCosts.repository.CarModelRepository;
+import lt.teamProject.smartCarCosts.repository.FuelTypeRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -46,6 +49,9 @@ public class AuthController {
     private final CarService carService;
     private final CurrencyRepository currencyRepository;
     private final ReminderService reminderService;
+    private final CarBrandRepository carBrandRepository;
+    private final CarModelRepository carModelRepository;
+    private final FuelTypeRepository fuelTypeRepository;
 
     public AuthController(EmailService emailService,
                           ConfirmationTokenService confirmationTokenService,
@@ -55,7 +61,10 @@ public class AuthController {
                           ExpenseService expenseService,
                           CarService carService,
                           CurrencyRepository currencyRepository,
-                          ReminderService reminderService) {
+                          ReminderService reminderService,
+                          CarBrandRepository carBrandRepository,
+                          CarModelRepository carModelRepository,
+                          FuelTypeRepository fuelTypeRepository) {
         this.emailService = emailService;
         this.confirmationTokenService = confirmationTokenService;
         this.countryRepository = countryRepository;
@@ -65,6 +74,9 @@ public class AuthController {
         this.carService = carService;
         this.currencyRepository = currencyRepository;
         this.reminderService = reminderService;
+        this.carBrandRepository = carBrandRepository;
+        this.carModelRepository = carModelRepository;
+        this.fuelTypeRepository = fuelTypeRepository;
     }
     // Show registration page
     @GetMapping("/register")
@@ -140,10 +152,7 @@ public class AuthController {
     public String serviceMainInterface(HttpSession session, Model model) {
 
         Long userId = (Long) session.getAttribute("userId");
-
-        if (userId == null) {
-            return "redirect:/login";
-        }
+        if (userId == null) return "redirect:/login";
 
         User user = userService.getUserById(userId);
 
@@ -154,10 +163,13 @@ public class AuthController {
         model.addAttribute("userName", user.getFullName());
         model.addAttribute("profileUser", user);
         model.addAttribute("currencies", currencyRepository.findAll());
+        model.addAttribute("cars", carService.getUserCarDtos(userId));
+        model.addAttribute("brands", carBrandRepository.findAll());
+        model.addAttribute("models", carModelRepository.findAll());
+        model.addAttribute("fuelTypes", fuelTypeRepository.findAll());
 
         model.addAttribute("profileError", session.getAttribute("profileError"));
         model.addAttribute("openEditProfileModal", session.getAttribute("openEditProfileModal"));
-
         session.removeAttribute("profileError");
         session.removeAttribute("openEditProfileModal");
 

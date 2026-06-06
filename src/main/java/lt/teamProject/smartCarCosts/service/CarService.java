@@ -85,7 +85,13 @@ public class CarService {
         carRepository.deleteById(carId);
     }
 
-
+    public void addCarForService(Car car, Long userId) {
+        Car savedCar = carRepository.save(car);
+        UserCar link = new UserCar();
+        link.setUserId(userId);
+        link.setCarId(savedCar.getId());
+        userCarRepository.save(link);
+    }
 
 
 }

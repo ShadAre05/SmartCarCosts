@@ -55,10 +55,6 @@
                                     th:onclick="'window.location.href=\'/main-interface?carId=' + ${cars[0].id} + '\''">
                             </button>
 
-                            <a th:href="@{/cars/{carId}/repairs(carId=${cars[0].id})}"
-                               style="font-size: 11px; color: #5ab2da; text-decoration: none; display: block; text-align: center; margin-top: 2px;">
-                                View repairs
-                            </a>
                         </div>
 
                         <div th:if="${cars.size() == 0}">
@@ -81,10 +77,6 @@
                                     th:onclick="'window.location.href=\'/main-interface?carId=' + ${cars[1].id} + '\''">
                             </button>
 
-                            <a th:href="@{/cars/{carId}/repairs(carId=${cars[1].id})}"
-                               style="font-size: 11px; color: #5ab2da; text-decoration: none; display: block; text-align: center; margin-top: 2px;">
-                                View repairs
-                            </a>
                         </div>
 
                         <div th:if="${cars.size() <= 1}">
@@ -107,10 +99,6 @@
                                     th:onclick="'window.location.href=\'/main-interface?carId=' + ${cars[2].id} + '\''">
                             </button>
 
-                            <a th:href="@{/cars/{carId}/repairs(carId=${cars[2].id})}"
-                               style="font-size: 11px; color: #5ab2da; text-decoration: none; display: block; text-align: center; margin-top: 2px;">
-                                View repairs
-                            </a>
                         </div>
 
                         <div th:if="${cars.size() <= 2}">

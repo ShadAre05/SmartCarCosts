@@ -58,7 +58,8 @@ public class LoginController {
             String jwtToken = jwtUtil.generateToken(
                     user.getId(),
                     user.getFullName(),
-                    user.getEmail()
+                    user.getEmail(),
+                    user.getRole().getRole()
             );
 
             jakarta.servlet.http.Cookie jwtCookie = new jakarta.servlet.http.Cookie("jwt", jwtToken);
@@ -71,6 +72,11 @@ public class LoginController {
             session.setAttribute("userId", user.getId());
             session.setAttribute("userName", user.getFullName());
             session.setAttribute("userEmail", user.getEmail());
+
+            session.setAttribute("userId", user.getId());
+            session.setAttribute("userName", user.getFullName());
+            session.setAttribute("userEmail", user.getEmail());
+            session.setAttribute("userRole", user.getRole().getRole());
 
             String role = user.getRole().getRole();
 

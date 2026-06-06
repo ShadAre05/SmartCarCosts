@@ -32,12 +32,13 @@ public class ServiceVisitController {
                               HttpSession session) {
         Long userId = (Long) session.getAttribute("userId");
         if (userId == null) return "redirect:/login";
-
+        String role = (String) session.getAttribute("userRole");
+        if (!"SERVICE".equals(role)) return "redirect:/main-interface";
         CarDto car = carService.getUserCarDtos(userId).stream()
                 .filter(c -> c.getId().equals(carId))
                 .findFirst().orElse(null);
 
-        if (car == null) return "redirect:/main-interface";
+        if (car == null) return "redirect:/service-main-interface";
 
         model.addAttribute("car", car);
         model.addAttribute("visits", visitService.getVisitsByCarId(carId.intValue()));
@@ -58,6 +59,8 @@ public class ServiceVisitController {
                            HttpSession session) {
         Long userId = (Long) session.getAttribute("userId");
         if (userId == null) return "redirect:/login";
+        String role = (String) session.getAttribute("userRole");
+        if (!"SERVICE".equals(role)) return "redirect:/main-interface";
 
         ServiceVisitDto dto = new ServiceVisitDto();
         dto.setClientName(clientName);
@@ -98,6 +101,8 @@ public class ServiceVisitController {
                             HttpSession session) {
         Long userId = (Long) session.getAttribute("userId");
         if (userId == null) return "redirect:/login";
+        String role = (String) session.getAttribute("userRole");
+        if (!"SERVICE".equals(role)) return "redirect:/main-interface";
 
         ServiceVisitDto dto = new ServiceVisitDto();
         dto.setClientName(clientName);
@@ -130,6 +135,8 @@ public class ServiceVisitController {
                               HttpSession session) {
         Long userId = (Long) session.getAttribute("userId");
         if (userId == null) return "redirect:/login";
+        String role = (String) session.getAttribute("userRole");
+        if (!"SERVICE".equals(role)) return "redirect:/main-interface";
         visitService.deleteVisit(visitId);
         return "redirect:/cars/" + carId + "/repairs";
     }
