@@ -1,7 +1,6 @@
 package lt.teamProject.smartCarCosts.controller;
 
 import jakarta.servlet.http.HttpSession;
-import java.time.LocalDate;
 import lt.teamProject.smartCarCosts.service.ExpenseService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;

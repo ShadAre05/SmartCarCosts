@@ -41,7 +41,7 @@ public class CarController {
 
             return "redirect:/main-interface?success";
         } catch (Exception e) {
-            e.printStackTrace(); // <- ЭТО ВЫВЕДЕТ КРАСНЫЙ ТЕКСТ В КОНСОЛЬ IDEA. Посмотри туда при ошибке!
+            e.printStackTrace();
             return "redirect:/main-interface?error=db_error";
         }
     }
