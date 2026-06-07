@@ -3,6 +3,7 @@ package lt.teamProject.smartCarCosts.service;
 import lt.teamProject.smartCarCosts.entity.Car;
 import lt.teamProject.smartCarCosts.entity.UserCar;
 import lt.teamProject.smartCarCosts.repository.CarRepository;
+import lt.teamProject.smartCarCosts.repository.ExpenseRepository;
 import lt.teamProject.smartCarCosts.repository.UserCarRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,6 +27,9 @@ public class CarServiceTest {
 
     @Mock
     private UserCarRepository userCarRepository;
+
+    @Mock
+    private ExpenseRepository expenseRepository;
 
     @InjectMocks
     private CarService carService;

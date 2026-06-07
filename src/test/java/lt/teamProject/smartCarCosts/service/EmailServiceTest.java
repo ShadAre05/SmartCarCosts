@@ -27,7 +27,7 @@ public class EmailServiceTest {
     void sendConfirmationEmail_ShouldCallMailSender() {
         when(mailSender.createMimeMessage()).thenReturn(mimeMessage);
 
-        emailService.sendConfirmationEmail("student@test.com", "http://localhost:8080/confirm");
+        emailService.sendConfirmationEmail("student@test.com", "USER","http://localhost:8080/confirm");
 
         verify(mailSender, times(1)).createMimeMessage();
         verify(mailSender, times(1)).send(mimeMessage);

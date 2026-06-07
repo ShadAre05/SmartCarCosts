@@ -74,10 +74,10 @@ public class ExpenseServiceTest {
         LocalDate end = LocalDate.of(2026, 12, 31);
 
         String validResult = expenseService.formatSelectedPeriod(start, end);
-        assertEquals("2026-01-01 - 2026-12-31", validResult);
+        assertEquals("2026.01.01 - 2026.12.31", validResult);
 
         String nullResult = expenseService.formatSelectedPeriod(null, end);
-        assertEquals("XXXX-XX-XX - XXXX-XX-XX", nullResult);
+        assertEquals("yyyy.mm.dd - yyyy.mm.dd", nullResult);
     }
 
     @Test
