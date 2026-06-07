@@ -52,5 +52,4 @@ public class UserCar {
     public void setId(Long id) {
         this.id = id;
     }
-
 }

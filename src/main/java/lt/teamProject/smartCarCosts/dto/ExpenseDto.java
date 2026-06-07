@@ -20,10 +20,27 @@ public class ExpenseDto {
         this.expenseDate = expenseDate;
     }
 
-    public Long getId() { return id; }
-    public Long getCategoryId() { return categoryId; }
-    public String getCategoryName() { return categoryName; }
-    public BigDecimal getAmount() { return amount; }
-    public String getDescription() { return description; }
-    public LocalDate getExpenseDate() { return expenseDate; }
+    public Long getId() {
+        return id;
+    }
+
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public LocalDate getExpenseDate() {
+        return expenseDate;
+    }
 }

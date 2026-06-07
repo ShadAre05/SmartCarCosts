@@ -31,18 +31,43 @@ public class Reminder {
         return id;
     }
 
-    public Long getUserCarId() { return userCarId; }
-    public void setUserCarId(Long userCarId) { this.userCarId = userCarId; }
+    public Long getUserCarId() {
+        return userCarId;
+    }
 
-    public Long getReminderTypeId() { return reminderTypeId; }
-    public void setReminderTypeId(Long reminderTypeId) { this.reminderTypeId = reminderTypeId; }
+    public void setUserCarId(Long userCarId) {
+        this.userCarId = userCarId;
+    }
 
-    public LocalDate getRemindAt() { return remindAt; }
-    public void setRemindAt(LocalDate remindAt) { this.remindAt = remindAt; }
+    public Long getReminderTypeId() {
+        return reminderTypeId;
+    }
 
-    public Integer getNotifyBeforeDays() { return notifyBeforeDays; }
-    public void setNotifyBeforeDays(Integer notifyBeforeDays) { this.notifyBeforeDays = notifyBeforeDays; }
+    public void setReminderTypeId(Long reminderTypeId) {
+        this.reminderTypeId = reminderTypeId;
+    }
 
-    public Boolean getActive() { return active; }
-    public void setActive(Boolean active) { this.active = active; }
+    public LocalDate getRemindAt() {
+        return remindAt;
+    }
+
+    public void setRemindAt(LocalDate remindAt) {
+        this.remindAt = remindAt;
+    }
+
+    public Integer getNotifyBeforeDays() {
+        return notifyBeforeDays;
+    }
+
+    public void setNotifyBeforeDays(Integer notifyBeforeDays) {
+        this.notifyBeforeDays = notifyBeforeDays;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
 }

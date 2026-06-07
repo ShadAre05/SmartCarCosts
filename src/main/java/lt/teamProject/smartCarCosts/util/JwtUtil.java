@@ -19,12 +19,13 @@ public class JwtUtil {
         this.secretKey = secretKey;
     }
 
-    public String generateToken(Long userId, String userName, String email) {
+    public String generateToken(Long userId, String userName, String email, String role) {
         return JWT.create()
                 .withIssuer(ISSUER)
                 .withClaim("userId", userId)
                 .withClaim("userName", userName)
                 .withClaim("email", email)
+                .withClaim("role", role)
                 .withIssuedAt(new Date())
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .sign(Algorithm.HMAC256(secretKey));

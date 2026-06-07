@@ -19,11 +19,31 @@ public class CarDto {
         this.year = year;
     }
 
-    public Long getId() { return id; }
-    public String getBrandName() { return brandName; }
-    public String getModelName() { return modelName; }
-    public String getGeneration() { return generation; }
-    public Double getEngineCapacity() { return engineCapacity; }
-    public String getLicencePlate() { return licencePlate; }
-    public Integer getYear() { return year; }
+    public Long getId() {
+        return id;
+    }
+
+    public String getBrandName() {
+        return brandName;
+    }
+
+    public String getModelName() {
+        return modelName;
+    }
+
+    public String getGeneration() {
+        return generation;
+    }
+
+    public Double getEngineCapacity() {
+        return engineCapacity;
+    }
+
+    public String getLicencePlate() {
+        return licencePlate;
+    }
+
+    public Integer getYear() {
+        return year;
+    }
 }

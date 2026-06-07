@@ -41,7 +41,7 @@ public class CarController {
 
             return "redirect:/main-interface?success";
         } catch (Exception e) {
-            e.printStackTrace(); // <- ЭТО ВЫВЕДЕТ КРАСНЫЙ ТЕКСТ В КОНСОЛЬ IDEA. Посмотри туда при ошибке!
+            e.printStackTrace();
             return "redirect:/main-interface?error=db_error";
         }
     }
@@ -54,4 +54,37 @@ public class CarController {
         }
         return "redirect:/main-interface";
     }
+
+    @PostMapping("/service/cars/add")
+    public String addServiceCar(@ModelAttribute AddCarRequest request, HttpSession session) {
+        Long userId = (Long) session.getAttribute("userId");
+        if (userId == null) return "redirect:/login";
+
+        try {
+            Car car = new Car();
+            car.setModelId(request.getModelId());
+            car.setYear(request.getYear());
+            car.setEngineCapacity(request.getEngineCapacity());
+            car.setFuelTypeId(request.getFuelTypeId());
+            car.setLicencePlate(request.getLicencePlate() != null && !request.getLicencePlate().isBlank() ? request.getLicencePlate() : null);
+            car.setVin(request.getVin() != null && !request.getVin().isBlank() ? request.getVin() : null);
+            car.setGeneration(request.getGeneration() != null && !request.getGeneration().isBlank() ? request.getGeneration() : null);
+
+            carService.addCarForService(car, userId);
+            return "redirect:/service-main-interface";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/service-main-interface?error=db_error";
+        }
+    }
+
+    @PostMapping("/service/cars/delete")
+    public String deleteServiceCar(@RequestParam Long carId, HttpSession session) {
+        Long userId = (Long) session.getAttribute("userId");
+        if (userId != null) {
+            carService.deleteCar(carId, userId);
+        }
+        return "redirect:/service-main-interface";
+    }
+
 }

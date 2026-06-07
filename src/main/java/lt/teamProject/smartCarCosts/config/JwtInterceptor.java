@@ -36,6 +36,7 @@ public class JwtInterceptor implements HandlerInterceptor {
                 request.getSession().setAttribute("userId", decodedJWT.getClaim("userId").asLong());
                 request.getSession().setAttribute("userName", decodedJWT.getClaim("userName").asString());
                 request.getSession().setAttribute("userEmail", decodedJWT.getClaim("email").asString());
+                request.getSession().setAttribute("userRole", decodedJWT.getClaim("role").asString());
                 return true;
             }
         }
