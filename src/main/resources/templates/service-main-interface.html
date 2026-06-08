@@ -167,10 +167,12 @@
                         <td style="text-align:center;" th:text="${car.licencePlate != null ? car.licencePlate : '-'}">Plate</td>
                         <td style="text-align:center;">-</td>
                         <td style="text-align:center;">
-                            <a th:href="@{/cars/{carId}/repairs(carId=${car.id})}"
-                               style="background: #5ab2da; color: black; padding: 6px 12px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: bold;">
-                                View repairs
-                            </a>
+                            <form th:action="@{/service/select-car}" method="post" style="display:inline;">
+                                <input type="hidden" name="carId" th:value="${car.id}">
+                                <button type="submit" style="background: #5ab2da; color: black; padding: 6px 12px; border-radius: 6px; border: none; cursor: pointer; font-size: 13px; font-weight: bold;">
+                                    View repairs
+                                </button>
+                            </form>
                         </td>
                     </tr>
                     </tbody>

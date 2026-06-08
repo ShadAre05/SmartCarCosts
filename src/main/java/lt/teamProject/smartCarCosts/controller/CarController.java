@@ -97,4 +97,12 @@ public class CarController {
         return "redirect:/service-main-interface";
     }
 
+    @PostMapping("/service/select-car")
+    public String selectServiceCar(@RequestParam Long carId, HttpSession session) {
+        Long userId = (Long) session.getAttribute("userId");
+        if (userId == null) return "redirect:/login";
+        session.setAttribute("selectedCarId", carId);
+        return "redirect:/service/repairs";
+    }
+
 }
