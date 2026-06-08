@@ -1,14 +1,28 @@
 package lt.teamProject.smartCarCosts.dto;
 
+import jakarta.validation.constraints.*;
+
 public class AddCarRequest {
 
     private Long id;
-
     private Long brandId;
+
+    @NotNull(message = "Model is required")
     private Long modelId;
+
     private String generation;
+
+    @NotNull(message = "Year is required")
+    @Min(value = 1970, message = "Year must be at least 1970")
+    @Max(value = 2026, message = "Year must be at most 2026")
     private Integer year;
+
+    @NotNull(message = "Engine capacity is required")
+    @DecimalMin(value = "0.8", message = "Engine capacity must be at least 0.8")
+    @DecimalMax(value = "10.0", message = "Engine capacity must be at most 10.0")
     private Double engineCapacity;
+
+    @NotNull(message = "Fuel type is required")
     private Long fuelTypeId;
 
     private String licencePlate;

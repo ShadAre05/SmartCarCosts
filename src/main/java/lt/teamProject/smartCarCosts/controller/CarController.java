@@ -8,6 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import jakarta.validation.Valid;
+import org.springframework.validation.BindingResult;
+
 
 @Controller
 public class CarController {
@@ -19,11 +22,14 @@ public class CarController {
     }
 
     @PostMapping("/my-cars/add")
-    public String addCar(@ModelAttribute AddCarRequest request, HttpSession session) {
-        // Retrieve the actual user ID from the session
+    public String addCar(@Valid @ModelAttribute AddCarRequest request,
+                         BindingResult bindingResult,
+                         HttpSession session) {
         Long userId = (Long) session.getAttribute("userId");
-        if (userId == null) {
-            return "redirect:/login"; // Redirect to login page if the user is not authenticated
+        if (userId == null) return "redirect:/login";
+
+        if (bindingResult.hasErrors()) {
+            return "redirect:/main-interface?error=validation";
         }
 
         try {
@@ -36,9 +42,7 @@ public class CarController {
             car.setVin(request.getVin() != null && !request.getVin().isBlank() ? request.getVin() : null);
             car.setGeneration(request.getGeneration() != null && !request.getGeneration().isBlank() ? request.getGeneration() : null);
 
-            // Saves user's car
             carService.addCar(car, userId);
-
             return "redirect:/main-interface?success";
         } catch (Exception e) {
             e.printStackTrace();
@@ -56,9 +60,15 @@ public class CarController {
     }
 
     @PostMapping("/service/cars/add")
-    public String addServiceCar(@ModelAttribute AddCarRequest request, HttpSession session) {
+    public String addServiceCar(@Valid @ModelAttribute AddCarRequest request,
+                                BindingResult bindingResult,
+                                HttpSession session) {
         Long userId = (Long) session.getAttribute("userId");
         if (userId == null) return "redirect:/login";
+
+        if (bindingResult.hasErrors()) {
+            return "redirect:/service-main-interface?error=validation";
+        }
 
         try {
             Car car = new Car();
