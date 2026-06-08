@@ -22,8 +22,8 @@ Link (AWS): https://13.53.164.7.nip.io/
 
 ### Metrics
 - **Planned tasks:** 7
-- **Complete:** 
-- **Velocity:** --%
+- **Complete:** 7
+- **Velocity:** 100%
 
 ---
 
