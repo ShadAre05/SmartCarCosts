@@ -9,13 +9,14 @@ Finalize out project by fixing bugs wich connected with USER and SERVICE role
 |  Task  | Executor | Complete |
 |--------|----------|-----|
 | Prepare for presentation project by write scenario and make a presentation | Arseni |  |
-| FInalize project by fixing bugs which Arseni found by testing (from Teams chat) | Vladyslav / Matsvei |  |
+| Finalize project by fixing bugs which Arseni found by testing (from Teams chat) | Matsvei |  |
+| Finalize project by fixing bugs which Arseni found by testing (from Teams chat) | Vladyslav |  |
 
 
 Link (AWS): https://13.53.164.7.nip.io/
 
 ### Metrics
-- **Planned tasks:** 2
+- **Planned tasks:** 3
 - **Complete:** 
 - **Velocity:** --%
 
@@ -56,7 +57,7 @@ _Comments from mentor_
 
 | Space | Status | Comment |
 |---------|--------|-------------|
-| Backend | 🟢 | User role almost done (MVP), SERVICE role in developing |
+| Backend | 🟢 | Almost done! |
 | Frontend | 🟢 | Almost done! |
 | CI/CD | 🟢 | Done! |
 | Documentation | 🟢 | Done! |
