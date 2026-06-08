@@ -8,14 +8,14 @@ Finalize create USER role (from previous sprint), continue to develop SERVICE ro
 ### Tasks
 |  Task  | Executor | Complete |
 |--------|----------|-----|
-| Start to create presentation by final deffense | Arseni |  |
-| Fix some small bugs wich connected with SERVICE role | Vladyslav |  |
-| Fix future bugs after Matsvei's PR | Vladyslav |  |
-| Develop add-car (was changed from previous sprint because you developed it for USER role) | Matsvei | |
-| Finalize USER role (add correct version into #21 PR) | Matsvei |  |
-| Add correct version of View car's repair (+ specific repair) | Matsvei |  |
-| Add correct version of visit for service's car | Matsvei |  |
-| Add correct version of edit visit for service's car | Matsvei |  |
+| Start to create presentation by final deffense | Arseni | + |
+| Fix some small bugs wich connected with SERVICE role | Vladyslav | + |
+| Fix future bugs after Matsvei's PR | Vladyslav | + |
+| Develop add-car (was changed from previous sprint because you developed it for USER role) | Matsvei |+ |
+| Finalize USER role (add correct version into #21 PR) | Matsvei | + |
+| Add correct version of View car's repair (+ specific repair) | Matsvei | + |
+| Add correct version of visit for service's car | Matsvei | + |
+| Add correct version of edit visit for service's car | Matsvei | + |
 
 
 Link (AWS): https://13.53.164.7.nip.io/
@@ -62,7 +62,7 @@ _Comments from mentor_
 
 | Space | Status | Comment |
 |---------|--------|-------------|
-| Backend | 🟢 / 🟡 | User role almost done (MVP), SERVICE role in developing |
+| Backend | 🟢 | User role almost done (MVP), SERVICE role in developing |
 | Frontend | 🟢 | Almost done! |
 | CI/CD | 🟢 | Done! |
 | Documentation | 🟢 | Done! |
