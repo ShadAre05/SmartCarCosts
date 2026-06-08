@@ -54,7 +54,14 @@
             background: #4ecdc4; color: black;
         }
         .repairs-table th { padding: 12px 15px; text-align: left; }
-        .repairs-table td { padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.1); vertical-align: top; }
+        .repairs-table td { padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.1); vertical-align: top; word-break: break-word; }
+        .repairs-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+        .repairs-table th:nth-child(1) { width: 15%; }
+        .repairs-table th:nth-child(2) { width: 10%; }
+        .repairs-table th:nth-child(3) { width: 35%; }
+        .repairs-table th:nth-child(4) { width: 12%; }
+        .repairs-table th:nth-child(5) { width: 13%; }
+        .repairs-table th:nth-child(6) { width: 15%; }
         .status-progress { color: white; }
         .status-complete { color: white; }
         .work-row { font-size: 13px; color: #94a3b8; padding: 2px 0; }
@@ -192,7 +199,7 @@
                 </tr>
                 <th:block th:each="visit : ${visits}">
                     <!-- Main visit panel -->
-                    <tr>
+                    <tr style="cursor: pointer;" th:onclick="'toggleWorks(' + ${visit.id} + ')'">
                         <td>
                             <div th:text="${visit.clientName}">Name</div>
                             <div style="color: #94a3b8; font-size: 13px;" th:text="${visit.clientPhone}">Phone</div>
@@ -200,13 +207,8 @@
                         <td th:text="${visit.serviceDate}">Date</td>
                         <td th:text="${visit.description}">Desc</td>
                         <td th:text="'€' + ${visit.totalCost}">€0</td>
-                        <td>
-                            <a href="javascript:void(0)"
-                               th:onclick="'toggleWorks(' + ${visit.id} + ')'"
-                               style="color: white; text-decoration: none; cursor: pointer;"
-                               th:text="${visit.isPaid ? '· Complete' : '· In progress'}">Status</a>
-                        </td>
-                        <td>
+                        <td th:text="${visit.isPaid ? '· Complete' : '· In progress'}">Status</td>
+                        <td onclick="event.stopPropagation();">
                             <button class="btn-edit"
                                     th:data-visit-id="${visit.id}"
                                     th:data-client-name="${visit.clientName}"
@@ -225,15 +227,24 @@
                     <!-- Detailed -->
                     <tr th:id="'works-' + ${visit.id}" style="display: none;">
                         <td colspan="6" style="padding: 0 15px 15px 15px; background: #162a3a;">
-                            <table style="width: 100%; font-size: 13px;">
+                            <table style="width: 100%; font-size: 13px; table-layout: fixed; border-collapse: collapse;">
+                                <thead>
+                                <tr>
+                                    <th style="padding: 6px 8px; color: #000000; width: 40%; text-align: left;">#. Work</th>
+                                    <th style="padding: 6px 8px; color: #000000; width: 30%; text-align: left;">Price for work</th>
+                                    <th style="padding: 6px 8px; color: #000000; width: 30%; text-align: left;">Part costs</th>
+                                </tr>
+                                </thead>
+                                <tbody>
                                 <tr th:each="workStat, iterStat : ${visit.works}">
-                                    <td style="padding: 6px 8px; color: #94a3b8;"
+                                    <td style="padding: 6px 8px; color: #94a3b8; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                         th:text="${iterStat.count + '. ' + workStat.name}">1. Change oil</td>
                                     <td style="padding: 6px 8px; color: #94a3b8;"
-                                        th:text="'Price for work: €' + ${workStat.laborCost}">Price for work: €0</td>
+                                        th:text="'€' + ${workStat.laborCost}">€0</td>
                                     <td style="padding: 6px 8px; color: #94a3b8;"
-                                        th:text="'Part costs: €' + ${workStat.partsCost}">Part costs: €0</td>
+                                        th:text="'€' + ${workStat.partsCost}">€0</td>
                                 </tr>
+                                </tbody>
                             </table>
                         </td>
                     </tr>
@@ -291,8 +302,9 @@
                 </div>
                 <div class="total-amount" id="addTotal">0.00 €</div>
                 <button type="button" class="btn-cancel" onclick="closeAddModal()">Cancel</button>
-                <button type="submit" class="btn-submit">Add visit</button>
+                <button type="button" class="btn-submit" onclick="validateAndSubmitAdd()">Add visit</button>
             </div>
+            <p id="addValidationError" style="color: #f87171; font-size: 14px; margin-top: 10px; text-align: right;"></p>
         </form>
     </div>
 </div>
@@ -455,6 +467,25 @@
         } else {
             row.style.display = 'none';
         }
+    }
+
+    function validateAndSubmitAdd() {
+        const errorEl = document.getElementById('addValidationError');
+        const works = document.querySelectorAll('#addWorksList .work-item');
+        if (works.length === 0) {
+            errorEl.textContent = 'Please add at least one work item.';
+            return;
+        }
+        const hasEmpty = Array.from(works).some(item => {
+            const name = item.querySelector('input[name="workNames"]').value.trim();
+            return name === '';
+        });
+        if (hasEmpty) {
+            errorEl.textContent = 'Please fill in the title for all work items.';
+            return;
+        }
+        errorEl.textContent = '';
+        document.getElementById('addForm').submit();
     }
 </script>
 </body>

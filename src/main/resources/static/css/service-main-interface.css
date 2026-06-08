@@ -1,8 +1,8 @@
-html,
-body {
-    width: 100%;
-    height: 100%;
-    margin: 0;
+html, body {
+    display: block !important;
+    justify-content: unset !important;
+    align-items: unset !important;
+    padding: 0 !important;
 }
 
 .service-page {
@@ -71,14 +71,31 @@ body {
     width: 100%;
     border-collapse: collapse;
     color: white;
+    table-layout: fixed;
 }
 
 .service-cars-table th {
     background: #0dc7a5;
     padding: 12px;
+    text-align: center !important;
 }
 
 .service-cars-table td {
     padding: 12px;
     border-bottom: 1px solid rgba(255,255,255,0.15);
+    text-align: center !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
+
+.service-cars-table th:nth-child(1), .service-cars-table td:nth-child(1) { width: 50px; }
+.service-cars-table th:nth-child(2), .service-cars-table td:nth-child(2) { width: 120px; }
+.service-cars-table th:nth-child(3), .service-cars-table td:nth-child(3) { width: 120px; }
+.service-cars-table th:nth-child(4), .service-cars-table td:nth-child(4) { width: 120px; }
+.service-cars-table th:nth-child(5), .service-cars-table td:nth-child(5) { width: 80px; }
+.service-cars-table th:nth-child(6), .service-cars-table td:nth-child(6) { width: 80px; }
+.service-cars-table th:nth-child(7), .service-cars-table td:nth-child(7) { width: 80px; }
+.service-cars-table th:nth-child(8), .service-cars-table td:nth-child(8) { width: 100px; }
+.service-cars-table th:nth-child(9), .service-cars-table td:nth-child(9) { width: 150px; }
+.service-cars-table th:nth-child(10), .service-cars-table td:nth-child(10) { width: 120px; }

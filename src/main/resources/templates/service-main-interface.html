@@ -157,16 +157,16 @@
                         <td colspan="9" style="text-align:center;padding:40px;">No cars yet</td>
                     </tr>
                     <tr th:each="car, iterStat : ${cars}">
-                        <td th:text="${iterStat.count}">1</td>
-                        <td th:text="${car.brandName}">Brand</td>
-                        <td th:text="${car.modelName}">Model</td>
-                        <td th:text="${car.generation != null ? car.generation : '-'}">Gen</td>
-                        <td th:text="${car.year}">Year</td>
-                        <td th:text="${car.engineCapacity}">Engine</td>
-                        <td>-</td>
-                        <td th:text="${car.licencePlate != null ? car.licencePlate : '-'}">Plate</td>
-                        <td>-</td>
-                        <td>
+                        <td style="text-align:center;" th:text="${iterStat.count}">1</td>
+                        <td style="text-align:center;" th:text="${car.brandName}">Brand</td>
+                        <td style="text-align:center;" th:text="${car.modelName}">Model</td>
+                        <td style="text-align:center;" th:text="${car.generation != null ? car.generation : '-'}">Gen</td>
+                        <td style="text-align:center;" th:text="${car.year}">Year</td>
+                        <td style="text-align:center;" th:text="${car.engineCapacity}">Engine</td>
+                        <td style="text-align:center;">-</td>
+                        <td style="text-align:center;" th:text="${car.licencePlate != null ? car.licencePlate : '-'}">Plate</td>
+                        <td style="text-align:center;">-</td>
+                        <td style="text-align:center;">
                             <a th:href="@{/cars/{carId}/repairs(carId=${car.id})}"
                                style="background: #5ab2da; color: black; padding: 6px 12px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: bold;">
                                 View repairs
