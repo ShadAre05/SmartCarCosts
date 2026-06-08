@@ -62,7 +62,7 @@ _Comments from mentor_
 
 | Space | Status | Comment |
 |---------|--------|-------------|
-| Backend | 🟢 | User role almost done (MVP), SERVICE role in developing |
+| Backend | 🟢 | Almost done! |
 | Frontend | 🟢 | Almost done! |
 | CI/CD | 🟢 | Done! |
 | Documentation | 🟢 | Done! |
