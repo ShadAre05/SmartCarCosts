@@ -39,13 +39,24 @@
 
             <div class="service-actions-row">
 
-                <select class="service-filter">
-                    <option>All brands</option>
+                <select id="brandFilter"
+                        class="service-filter"
+                        onchange="filterServiceCars()">
+
+                    <option value="">All brands</option>
+
+                    <option th:each="car : ${cars}"
+                            th:value="${car.brandName}"
+                            th:text="${car.brandName}">
+                    </option>
+
                 </select>
 
-                <input type="text"
+                <input id="plateSearch"
+                       type="text"
                        class="service-search"
-                       placeholder="Enter licence plate...">
+                       placeholder="Enter licence plate..."
+                       oninput="filterServiceCars()">
 
                 <div></div>
 
@@ -113,20 +124,41 @@
                         <div class="two-columns">
                             <div class="column">
                                 <div class="form-group">
-                                    <label>Licence plate</label>
+                                    <label>
+                                        Licence plate <span class="required-star">*</span>
+                                    </label>
+
                                     <input type="text" name="licencePlate">
+
+                                    <p class="car-validation-error"
+                                       th:if="${licencePlateError}"
+                                       th:text="${licencePlateError}">
+                                    </p>
                                 </div>
                             </div>
+
                             <div class="column">
                                 <div class="form-group">
-                                    <label>VIN</label>
+                                    <label>
+                                        VIN <span class="required-star">*</span>
+                                    </label>
+
                                     <input type="text" name="vin">
+
+                                    <p class="car-validation-error"
+                                       th:if="${vinError}"
+                                       th:text="${vinError}">
+                                    </p>
                                 </div>
                             </div>
                         </div>
 
                         <div class="modal-actions-centered">
-                            <button type="button" class="btn-blue-outline" onclick="document.getElementById('addServiceCarModal').style.display='none'">Cancel</button>
+                            <button type="button"
+                                    class="btn-blue-outline"
+                                    onclick="closeAddCarModal()">
+                                Cancel
+                            </button>
                             <button type="submit" class="btn-blue-solid">Add car</button>
                         </div>
                     </form>
@@ -156,7 +188,9 @@
                     <tr th:if="${#lists.isEmpty(cars)}">
                         <td colspan="9" style="text-align:center;padding:40px;">No cars yet</td>
                     </tr>
-                    <tr th:each="car, iterStat : ${cars}">
+                    <tr th:each="car, iterStat : ${cars}"
+                        th:attr="data-brand=${car.brandName},
+                                 data-plate=${car.licencePlate}">
                         <td th:text="${iterStat.count}">1</td>
                         <td th:text="${car.brandName}">Brand</td>
                         <td th:text="${car.modelName}">Model</td>
@@ -177,6 +211,10 @@
 
                 </table>
 
+            </div>
+
+            <div class="service-total-cars-bar">
+                Total cars: <span th:text="${totalCars}">0</span>
             </div>
 
         </main>
@@ -375,14 +413,47 @@
     function closeEditProfileModal() {
         document.getElementById("editProfileModal").style.display = "none";
     }
+
+    function openAddCarModal() {
+        document.getElementById("addServiceCarModal").style.display = "flex";
+    }
+
+    function closeAddCarModal() {
+
+        document.getElementById("addServiceCarModal").style.display = "none";
+
+        const licenceError = document.querySelector(".licence-error");
+        const vinError = document.querySelector(".vin-error");
+        const form = document.querySelector("#addServiceCarModal form");
+
+        if (licenceError) {
+            licenceError.style.display = "none";
+        }
+
+        if (vinError) {
+            vinError.style.display = "none";
+        }
+
+        if (form) {
+            form.reset();
+        }
+
+        document.querySelectorAll(".car-validation-error")
+            .forEach(error => error.style.display = "none");
+    }
 </script>
 
 <script th:inline="javascript">
     const shouldOpenEditProfileModal = /*[[${openEditProfileModal}]]*/ false;
+    const shouldOpenAddCarModal = /*[[${openAddCarModal}]]*/ false;
 
     document.addEventListener("DOMContentLoaded", function () {
-        if (shouldOpenEditProfileModal) {
+        if (shouldOpenEditProfileModal === true || shouldOpenEditProfileModal === "true") {
             openEditProfileModal();
+        }
+
+        if (shouldOpenAddCarModal === true || shouldOpenAddCarModal === "true") {
+            openAddCarModal();
         }
     });
 </script>
@@ -407,6 +478,49 @@
         options.forEach(function(option) {
             if (option.value === "") return;
             option.style.display = option.getAttribute('data-brand-id') === selectedBrandId ? '' : 'none';
+        });
+    }
+</script>
+
+<script>
+    function filterServiceCars() {
+
+        const selectedBrand =
+            document.getElementById("brandFilter")
+                .value
+                .toLowerCase();
+
+        const plateSearch =
+            document.getElementById("plateSearch")
+                .value
+                .toLowerCase();
+
+        const rows =
+            document.querySelectorAll(
+                ".service-cars-table tbody tr"
+            );
+
+        rows.forEach(row => {
+
+            const brand =
+                (row.getAttribute("data-brand") || "")
+                    .toLowerCase();
+
+            const plate =
+                (row.getAttribute("data-plate") || "")
+                    .toLowerCase();
+
+            const brandMatch =
+                selectedBrand === "" ||
+                brand === selectedBrand;
+
+            const plateMatch =
+                plate.includes(plateSearch);
+
+            row.style.display =
+                brandMatch && plateMatch
+                    ? ""
+                    : "none";
         });
     }
 </script>

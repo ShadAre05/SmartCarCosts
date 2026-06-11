@@ -163,11 +163,20 @@ public class AuthController {
         model.addAttribute("userName", user.getFullName());
         model.addAttribute("profileUser", user);
         model.addAttribute("currencies", currencyRepository.findAll());
-        model.addAttribute("cars", carService.getUserCarDtos(userId));
+        List<CarDto> cars = carService.getUserCarDtos(userId);
+
+        model.addAttribute("cars", cars);
+        model.addAttribute("totalCars", cars.size());
         model.addAttribute("brands", carBrandRepository.findAll());
         model.addAttribute("models", carModelRepository.findAll());
         model.addAttribute("fuelTypes", fuelTypeRepository.findAll());
+        model.addAttribute("openAddCarModal", session.getAttribute("openAddCarModal"));
+        model.addAttribute("licencePlateError", session.getAttribute("licencePlateError"));
+        model.addAttribute("vinError", session.getAttribute("vinError"));
 
+        session.removeAttribute("openAddCarModal");
+        session.removeAttribute("licencePlateError");
+        session.removeAttribute("vinError");
         model.addAttribute("profileError", session.getAttribute("profileError"));
         model.addAttribute("openEditProfileModal", session.getAttribute("openEditProfileModal"));
         session.removeAttribute("profileError");
@@ -424,6 +433,7 @@ public class AuthController {
 
         model.addAttribute("reminderRequest", new ReminderRequest());
         model.addAttribute("openReminderModal", session.getAttribute("openReminderModal"));
+        session.removeAttribute("openReminderModal");
         model.addAttribute("reminderTypes", reminderTypeRepository.findAll());
         model.addAttribute("currencies", currencyRepository.findAll());
 
@@ -473,7 +483,15 @@ public class AuthController {
         model.addAttribute("reminderDateError", session.getAttribute("reminderDateError"));
         model.addAttribute("reminderOptionError", session.getAttribute("reminderOptionError"));
         model.addAttribute("currentReminders", reminderService.getUserReminderOverview(userId));
+        model.addAttribute("openAddCarModal", session.getAttribute("openAddCarModal"));
+        model.addAttribute("carValidationError", session.getAttribute("carValidationError"));
+        model.addAttribute("licencePlateError", session.getAttribute("licencePlateError"));
+        model.addAttribute("vinError", session.getAttribute("vinError"));
 
+        session.removeAttribute("licencePlateError");
+        session.removeAttribute("vinError");
+        session.removeAttribute("openAddCarModal");
+        session.removeAttribute("carValidationError");
         session.removeAttribute("carError");
         session.removeAttribute("reminderTypeError");
         session.removeAttribute("reminderDateError");

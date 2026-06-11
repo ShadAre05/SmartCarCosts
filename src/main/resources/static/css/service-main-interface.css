@@ -64,6 +64,8 @@ body {
 }
 
 .service-table-wrapper {
+    flex: 1;
+    overflow-y: auto;
     overflow-x: auto;
 }
 
@@ -81,4 +83,46 @@ body {
 .service-cars-table td {
     padding: 12px;
     border-bottom: 1px solid rgba(255,255,255,0.15);
+}
+
+.required-star {
+    color: #ff4d4f;
+}
+
+.car-validation-error {
+    color: #ff4d4f;
+    font-size: 14px;
+    margin-top: 6px;
+    margin-bottom: 0;
+    font-weight: 600;
+}
+
+.service-content {
+    background: #24384f;
+    border-radius: 10px;
+    padding: 20px;
+
+    min-height: calc(100vh - 180px);
+    display: flex;
+    flex-direction: column;
+}
+
+.service-table-container {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.service-total-cars {
+    margin-top: auto;
+    background: #4b6580;
+    color: white;
+    padding: 14px 22px;
+    font-weight: bold;
+    font-size: 18px;
+    border-radius: 0 0 10px 10px;
+}
+
+.required-star,
+.car-validation-error{
+    color: #ff4d4f;
 }

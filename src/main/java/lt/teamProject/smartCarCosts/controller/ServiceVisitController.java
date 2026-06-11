@@ -40,9 +40,31 @@ public class ServiceVisitController {
 
         if (car == null) return "redirect:/service-main-interface";
 
+        model.addAttribute("visitValidationError", session.getAttribute("visitValidationError"));
+        model.addAttribute("openAddVisitModal", session.getAttribute("openAddVisitModal"));
+        model.addAttribute("clientNameError", session.getAttribute("clientNameError"));
+        model.addAttribute("clientPhoneError", session.getAttribute("clientPhoneError"));
+        model.addAttribute("serviceDateError", session.getAttribute("serviceDateError"));
+        model.addAttribute("workNameError", session.getAttribute("workNameError"));
+        model.addAttribute("partsCostError", session.getAttribute("partsCostError"));
+        model.addAttribute("laborCostError", session.getAttribute("laborCostError"));
         model.addAttribute("car", car);
         model.addAttribute("visits", visitService.getVisitsByCarId(carId.intValue()));
         model.addAttribute("totalRepairs", visitService.getTotalRepairsByCarId(carId.intValue()));
+        model.addAttribute(
+                "workNameError",
+                session.getAttribute("workNameError")
+        );
+
+        session.removeAttribute("clientNameError");
+        session.removeAttribute("clientPhoneError");
+        session.removeAttribute("serviceDateError");
+        session.removeAttribute("workNameError");
+        session.removeAttribute("partsCostError");
+        session.removeAttribute("laborCostError");
+        session.removeAttribute("openAddVisitModal");
+        session.removeAttribute("workNameError");
+
         return "car-repairs";
     }
 
@@ -61,6 +83,48 @@ public class ServiceVisitController {
         if (userId == null) return "redirect:/login";
         String role = (String) session.getAttribute("userRole");
         if (!"SERVICE".equals(role)) return "redirect:/main-interface";
+
+        boolean hasErrors = false;
+
+        if (clientName == null || clientName.isBlank()) {
+            session.setAttribute("clientNameError", "Client name is required");
+            hasErrors = true;
+        }
+
+        if (clientPhone == null || clientPhone.isBlank()) {
+            session.setAttribute("clientPhoneError", "Client phone is required");
+            hasErrors = true;
+        } else if (!clientPhone.matches("^[+0-9 ]+$")) {
+            session.setAttribute("clientPhoneError", "Phone can contain only numbers, spaces and +");
+            hasErrors = true;
+        }
+
+        if (serviceDate == null || serviceDate.isBlank()) {
+            session.setAttribute("serviceDateError", "Service date is required");
+            hasErrors = true;
+        }
+
+        boolean hasWork = false;
+
+        if (workNames != null) {
+            for (String workName : workNames) {
+
+                if (workName != null && !workName.isBlank()) {
+                    hasWork = true;
+                    break;
+                }
+            }
+        }
+
+        if (!hasWork) {
+            session.setAttribute("workNameError", "At least one repair work is required");
+            hasErrors = true;
+        }
+
+        if (hasErrors) {
+            session.setAttribute("openAddVisitModal", true);
+            return "redirect:/cars/" + carId + "/repairs";
+        }
 
         ServiceVisitDto dto = new ServiceVisitDto();
         dto.setClientName(clientName);
@@ -103,6 +167,20 @@ public class ServiceVisitController {
         if (userId == null) return "redirect:/login";
         String role = (String) session.getAttribute("userRole");
         if (!"SERVICE".equals(role)) return "redirect:/main-interface";
+
+        String validationError = validateVisit(
+                clientName,
+                clientPhone,
+                serviceDate,
+                workNames,
+                partsCosts,
+                laborCosts
+        );
+
+        if (validationError != null) {
+            session.setAttribute("visitValidationError", validationError);
+            return "redirect:/cars/" + carId + "/repairs";
+        }
 
         ServiceVisitDto dto = new ServiceVisitDto();
         dto.setClientName(clientName);
@@ -163,5 +241,56 @@ public class ServiceVisitController {
         model.addAttribute("visit", visit);
         model.addAttribute("totalRepairs", visitService.getTotalRepairsByCarId(carId.intValue()));
         return "car-repair-detail";
+    }
+
+    private String validateVisit(String clientName,
+                                 String clientPhone,
+                                 String serviceDate,
+                                 List<String> workNames,
+                                 List<BigDecimal> partsCosts,
+                                 List<BigDecimal> laborCosts) {
+
+        BigDecimal max = new BigDecimal("10000000");
+
+        if (clientName == null || clientName.isBlank()) {
+            return "Client name is required";
+        }
+
+        if (clientPhone == null || clientPhone.isBlank()) {
+            return "Client phone is required";
+        }
+
+        if (!clientPhone.matches("^[+0-9 ]+$")) {
+            return "Client phone can contain only numbers, spaces and +";
+        }
+
+        if (serviceDate == null || serviceDate.isBlank()) {
+            return "Service date is required";
+        }
+
+        boolean hasWork = workNames != null &&
+                workNames.stream().anyMatch(name -> name != null && !name.isBlank());
+
+        if (!hasWork) {
+            return "At least one repair work is required";
+        }
+
+        if (partsCosts != null) {
+            for (BigDecimal cost : partsCosts) {
+                if (cost != null && cost.compareTo(max) > 0) {
+                    return "Part cost cannot be greater than 10,000,000";
+                }
+            }
+        }
+
+        if (laborCosts != null) {
+            for (BigDecimal cost : laborCosts) {
+                if (cost != null && cost.compareTo(max) > 0) {
+                    return "Cost of work cannot be greater than 10,000,000";
+                }
+            }
+        }
+
+        return null;
     }
 }
