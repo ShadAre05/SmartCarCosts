@@ -20,15 +20,17 @@ public class CarService {
     private final UserCarRepository userCarRepository;
     private final CarModelRepository carModelRepository;
     private final CarBrandRepository carBrandRepository;
+    private final ReminderRepository reminderRepository;
 
     public CarService(CarRepository carRepository, UserCarRepository userCarRepository,
                       CarModelRepository carModelRepository, CarBrandRepository carBrandRepository,
-                      ExpenseRepository expenseRepository) {
+                      ExpenseRepository expenseRepository, ReminderRepository reminderRepository) {
         this.carRepository = carRepository;
         this.userCarRepository = userCarRepository;
         this.carModelRepository = carModelRepository;
         this.carBrandRepository = carBrandRepository;
         this.expenseRepository = expenseRepository;
+        this.reminderRepository = reminderRepository;
     }
 
 
@@ -78,11 +80,11 @@ public class CarService {
                 .filter(link -> link.getCarId().equals(carId))
                 .findFirst()
                 .ifPresent(userCar -> {
+                    reminderRepository.deleteByUserCarIdIn(List.of(userCar.getId()));
                     expenseRepository.deleteByUserCarId(userCar.getId());
                     userCarRepository.delete(userCar);
+                    carRepository.deleteById(carId);
                 });
-
-        carRepository.deleteById(carId);
     }
 
     public void addCarForService(Car car, Long userId) {

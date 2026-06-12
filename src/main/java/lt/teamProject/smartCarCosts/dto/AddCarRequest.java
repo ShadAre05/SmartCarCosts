@@ -1,5 +1,7 @@
 package lt.teamProject.smartCarCosts.dto;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class AddCarRequest {
 
     private Long id;
@@ -11,7 +13,10 @@ public class AddCarRequest {
     private Double engineCapacity;
     private Long fuelTypeId;
 
+    @NotBlank(message = "Licence plate is required")
     private String licencePlate;
+
+    @NotBlank(message = "VIN is required")
     private String vin;
 
     public Long getId() {
