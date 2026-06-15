@@ -1,4 +1,4 @@
-# Sprint 10: 2026.06.09 — 2026.06.16
+# Sprint 10: 2026.06.09 — 2026.06.16 (Final)
 
 ## Goal of Sprint
 Finalize out project by fixing bugs wich connected with USER and SERVICE role
