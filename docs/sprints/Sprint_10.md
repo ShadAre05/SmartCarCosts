@@ -8,17 +8,17 @@ Finalize out project by fixing bugs wich connected with USER and SERVICE role
 ### Tasks
 |  Task  | Executor | Complete |
 |--------|----------|-----|
-| Prepare for presentation project by write scenario and make a presentation | Arseni |  |
-| Finalize project by fixing bugs which Arseni found by testing (from Teams chat) | Matsvei |  |
-| Finalize project by fixing bugs which Arseni found by testing (from Teams chat) | Vladyslav |  |
+| Prepare for presentation project by write scenario and make a presentation | Arseni | + |
+| Finalize project by fixing bugs which Arseni found by testing (from Teams chat) | Matsvei | + |
+| Finalize project by fixing bugs which Arseni found by testing (from Teams chat) | Vladyslav | + |
 
 
 Link (AWS): https://13.53.164.7.nip.io/
 
 ### Metrics
 - **Planned tasks:** 3
-- **Complete:** 
-- **Velocity:** --%
+- **Complete:** 3
+- **Velocity:** 100%
 
 ---
 
@@ -49,7 +49,6 @@ _Comments from mentor_
 
 ### Prioroty
 1. Finalize whole web-service (USER and SERVICE)
-2. Fix UI and bugs which will be after completing developing
 
 ---
 
@@ -57,8 +56,8 @@ _Comments from mentor_
 
 | Space | Status | Comment |
 |---------|--------|-------------|
-| Backend | 🟢 | Almost done! |
-| Frontend | 🟢 | Almost done! |
+| Backend | 🟢 | Done! |
+| Frontend | 🟢 | Done! |
 | CI/CD | 🟢 | Done! |
 | Documentation | 🟢 | Done! |
 
