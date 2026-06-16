@@ -483,44 +483,51 @@
 </script>
 
 <script>
+    function normalizePlate(value) {
+        return (value || "")
+            .toString()
+            .toLowerCase()
+            .replace(/\s+/g, "")
+            .replace(/-/g, "")
+            .trim();
+    }
+
     function filterServiceCars() {
 
-        const selectedBrand =
-            document.getElementById("brandFilter")
-                .value
-                .toLowerCase();
+        const selectedBrand = document
+            .getElementById("brandFilter")
+            .value
+            .toLowerCase()
+            .trim();
 
-        const plateSearch =
-            document.getElementById("plateSearch")
-                .value
-                .toLowerCase();
+        const plateSearch = normalizePlate(
+            document.getElementById("plateSearch").value
+        );
 
-        const rows =
-            document.querySelectorAll(
-                ".service-cars-table tbody tr"
-            );
+        const rows = document.querySelectorAll(
+            ".service-cars-table tbody tr"
+        );
 
         rows.forEach(row => {
 
-            const brand =
-                (row.getAttribute("data-brand") || "")
-                    .toLowerCase();
+            const brand = (row.getAttribute("data-brand") || "")
+                .toLowerCase()
+                .trim();
 
-            const plate =
-                (row.getAttribute("data-plate") || "")
-                    .toLowerCase();
+            const plate = normalizePlate(
+                row.getAttribute("data-plate")
+            );
 
             const brandMatch =
                 selectedBrand === "" ||
                 brand === selectedBrand;
 
             const plateMatch =
+                plateSearch === "" ||
                 plate.includes(plateSearch);
 
             row.style.display =
-                brandMatch && plateMatch
-                    ? ""
-                    : "none";
+                brandMatch && plateMatch ? "" : "none";
         });
     }
 </script>

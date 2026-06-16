@@ -63,18 +63,28 @@ body {
     gap: 16px;
     padding: 0 16px;
     cursor: pointer;
+    flex-shrink: 0;
+    overflow: hidden;
 }
 
 .user-name {
     color: black;
     font-size: 18px;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .avatar {
     width: 44px;
     height: 44px;
+    min-width: 44px;
+    min-height: 44px;
     border-radius: 50%;
     background: #273050;
+    flex: 0 0 44px;
 }
 
 /* =========================
@@ -689,11 +699,11 @@ button:active,
 }
 
 .profile-avatar-circle {
-    width: 72px;
-    height: 72px;
-    border-radius: 50%;
-    background: #625b5b;
-    border: 1px solid black;
+    width: 60px;
+    height: 60px;
+    min-width: 60px;
+    min-height: 60px;
+    flex-shrink: 0;
 }
 
 .profile-name-large {
