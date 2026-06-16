@@ -4,6 +4,7 @@ import lt.teamProject.smartCarCosts.entity.Car;
 import lt.teamProject.smartCarCosts.entity.UserCar;
 import lt.teamProject.smartCarCosts.repository.CarRepository;
 import lt.teamProject.smartCarCosts.repository.ExpenseRepository;
+import lt.teamProject.smartCarCosts.repository.ReminderRepository;
 import lt.teamProject.smartCarCosts.repository.UserCarRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,6 +34,9 @@ public class CarServiceTest {
 
     @InjectMocks
     private CarService carService;
+
+    @Mock
+    private ReminderRepository reminderRepository;
 
     @Test
     void addCar_WhenLimitNotReached_ShouldSaveCarAndLink() {
@@ -95,8 +99,11 @@ public class CarServiceTest {
     void deleteCar_ShouldDeleteLinkAndCar() {
         Long userId = 1L;
         Long carId = 99L;
+
         UserCar link = new UserCar();
         link.setCarId(carId);
+
+        ReflectionTestUtils.setField(link, "id", 555L);
 
         when(userCarRepository.findByUserId(userId)).thenReturn(List.of(link));
 
