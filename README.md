@@ -4,6 +4,7 @@
 **Smart Car Costs** is a web application for tracking and managing car-related data for both car owners and service stations.  
 It helps users monitor the real cost of car ownership, while also allowing service providers to maintain structured service history.
 
+Link for demo: https://youtu.be/8rM2BFZEhpI
 ---
 
 ## Problem
@@ -59,7 +60,8 @@ The application allows users to:
 
 ### Common features:
 - Notification system for important events  
-- Profile management  
+- Profile management
+- Control expenses by adding it for each car
 
 ---
 
