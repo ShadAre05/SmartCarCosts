@@ -25,7 +25,7 @@ jobs:
 
             docker rm -f smart-car-app || true
 
-            docker run -d -p 8080:8080 --name smart-car-app \
+            docker run -d --restart unless-stopped -p 8080:8080 --name smart-car-app \
               -e DB_URL="${{ secrets.DB_URL }}" \
               -e DB_USER="${{ secrets.DB_USER }}" \
               -e DB_PASSWORD="${{ secrets.DB_PASSWORD }}" \
