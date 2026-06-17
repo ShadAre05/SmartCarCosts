@@ -26,21 +26,6 @@ public class CarController {
             return "redirect:/login"; // Redirect to login page if the user is not authenticated
         }
 
-        if (request.getLicencePlate() == null || request.getLicencePlate().isBlank()) {
-            session.setAttribute("openAddCarModal", true);
-            session.setAttribute("licencePlateError", "Licence plate is required");
-        }
-
-        if (request.getVin() == null || request.getVin().isBlank()) {
-            session.setAttribute("openAddCarModal", true);
-            session.setAttribute("vinError", "VIN is required");
-        }
-
-        if (session.getAttribute("licencePlateError") != null
-                || session.getAttribute("vinError") != null) {
-            return "redirect:/main-interface";
-        }
-
         try {
             Car car = new Car();
             car.setModelId(request.getModelId());

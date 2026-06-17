@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 
 import java.time.LocalDateTime;
@@ -27,15 +28,21 @@ public class LoginController {
     private final UserRepository userRepository;
     private final ConfirmationTokenRepository tokenRepository;
     private final JwtUtil jwtUtil;
+    private final PasswordEncoder passwordEncoder;
     @Value("${app.base-url}")
     private String baseUrl;
 
-    public LoginController(EmailService emailService, UserRepository userRepository,
-                           ConfirmationTokenRepository tokenRepository, JwtUtil jwtUtil) {
+
+    public LoginController(EmailService emailService,
+                           UserRepository userRepository,
+                           ConfirmationTokenRepository tokenRepository,
+                           JwtUtil jwtUtil,
+                           PasswordEncoder passwordEncoder) {
         this.emailService = emailService;
         this.userRepository = userRepository;
         this.tokenRepository = tokenRepository;
         this.jwtUtil = jwtUtil;
+        this.passwordEncoder = passwordEncoder;
     }
 
     // --- 1. LOGIN ---
@@ -52,7 +59,8 @@ public class LoginController {
 
         Optional<User> userOpt = userRepository.findByEmail(email);
 
-        if (userOpt.isPresent() && userOpt.get().getPassword().equals(password)) {
+        if (userOpt.isPresent()
+                && passwordEncoder.matches(password, userOpt.get().getPassword())) {
             User user = userOpt.get();
 
             String jwtToken = jwtUtil.generateToken(
@@ -142,13 +150,13 @@ public class LoginController {
             String email = tokenOpt.get().getEmail();
             User user = userRepository.findByEmail(email).orElseThrow();
 
-            if (user.getPassword().equals(newPassword)) {
+            if (passwordEncoder.matches(newPassword, user.getPassword())) {
                 model.addAttribute("token", token);
                 model.addAttribute("error", "New password must be different from the current one");
                 return "reset-password";
             }
 
-            user.setPassword(newPassword);
+            user.setPassword(passwordEncoder.encode(newPassword));
             userRepository.save(user);
             tokenRepository.delete(tokenOpt.get());
             return "redirect:/login?resetSuccess=true";

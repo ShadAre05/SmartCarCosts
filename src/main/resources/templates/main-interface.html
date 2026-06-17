@@ -302,27 +302,15 @@
             <div class="two-columns">
                 <div class="column">
                     <div class="form-group">
-                        <label>
-                            Licence plate <span class="required-star">*</span>
-                        </label>
+                        <label>Licence plate</label>
                         <input type="text" name="licencePlate">
-                        <p class="car-validation-error"
-                           th:if="${licencePlateError}"
-                           th:text="${licencePlateError}">
-                        </p>
                     </div>
                 </div>
                 <div class="column">
                     <div class="form-group">
-                        <label>
-                            VIN <span class="required-star">*</span>
-                        </label>
+                        <label>VIN</label>
                         <input type="text" name="vin">
                         <span class="input-hint">Unique vehicle identifier</span>
-                        <p class="car-validation-error"
-                           th:if="${vinError}"
-                           th:text="${vinError}">
-                        </p>
                     </div>
                 </div>
             </div>
