@@ -5,6 +5,7 @@ import lt.teamProject.smartCarCosts.dto.RegisterRequest;
 import lt.teamProject.smartCarCosts.dto.UpdateProfileRequest;
 import lt.teamProject.smartCarCosts.entity.*;
 import lt.teamProject.smartCarCosts.repository.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,8 +22,9 @@ public class UserService {
     private final ReminderRepository reminderRepository;
     private final ExpenseRepository expenseRepository;
     private final ConfirmationTokenRepository confirmationTokenRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, CountryRepository countryRepository, RoleRepository roleRepository, CurrencyRepository currencyRepository, UserCarRepository userCarRepository, ReminderRepository reminderRepository, ExpenseRepository expenseRepository, ConfirmationTokenRepository confirmationTokenRepository) {
+    public UserService(UserRepository userRepository, CountryRepository countryRepository, RoleRepository roleRepository, CurrencyRepository currencyRepository, UserCarRepository userCarRepository, ReminderRepository reminderRepository, ExpenseRepository expenseRepository, ConfirmationTokenRepository confirmationTokenRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.countryRepository = countryRepository;
         this.roleRepository = roleRepository;
@@ -31,6 +33,7 @@ public class UserService {
         this.reminderRepository = reminderRepository;
         this.confirmationTokenRepository = confirmationTokenRepository;
         this.expenseRepository = expenseRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     // Check if user already exists by email
@@ -56,7 +59,7 @@ public class UserService {
         user.setEmail(registerRequest.getEmail());
 
         // Set raw password (should be hashed in real app)
-        user.setPassword(registerRequest.getPassword());
+        user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
 
         user.setCountry(country);
         user.setRole(role);
@@ -146,7 +149,7 @@ public class UserService {
         User user = new User();
         user.setFullName(tokenData.getFullName());
         user.setEmail(tokenData.getEmail());
-        user.setPassword(tokenData.getPasswordHash());
+        user.setPassword(passwordEncoder.encode(tokenData.getPasswordHash()));
         user.setCountry(country);
         user.setRole(role);
         user.setCurrency(defaultCurrency);
@@ -182,11 +185,11 @@ public class UserService {
                 return "Enter old and new password";
             }
 
-            if (!user.getPassword().equals(request.getOldPassword())) {
+            if (!passwordEncoder.matches(request.getOldPassword(), user.getPassword())) {
                 return "Old password is incorrect";
             }
 
-            user.setPassword(request.getNewPassword());
+            user.setPassword(passwordEncoder.encode(request.getNewPassword()));
         }
 
         return null;
