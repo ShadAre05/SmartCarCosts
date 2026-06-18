@@ -49,7 +49,7 @@
                                 <button class="circle-btn" style="background: #e53935;">-</button>
                             </form>
 
-                            <form th:action="@{/select-car}" method="post" style="display:inline; flex:1;">
+                            <form th:action="@{/select-car}" method="post" style="display:flex; flex:1; width:100%;">
                                 <input type="hidden" name="carId" th:value="${cars[0].id}">
                                 <button type="submit" class="car-card"
                                         th:classappend="${selectedCarId != null and selectedCarId == cars[0].id ? ' active-car' : ''}"
@@ -73,7 +73,7 @@
                                 <button class="circle-btn" style="background: #e53935;">-</button>
                             </form>
 
-                            <form th:action="@{/select-car}" method="post" style="display:inline; flex:1;">
+                            <form th:action="@{/select-car}" method="post" style="display:flex; flex:1; width:100%;">
                                 <input type="hidden" name="carId" th:value="${cars[1].id}">
                                 <button type="submit" class="car-card"
                                         th:classappend="${selectedCarId != null and selectedCarId == cars[1].id ? ' active-car' : ''}"
@@ -97,7 +97,7 @@
                                 <button class="circle-btn" style="background: #e53935;">-</button>
                             </form>
 
-                            <form th:action="@{/select-car}" method="post" style="display:inline; flex:1;">
+                            <form th:action="@{/select-car}" method="post" style="display:flex; flex:1; width:100%;">
                                 <input type="hidden" name="carId" th:value="${cars[2].id}">
                                 <button type="submit" class="car-card"
                                         th:classappend="${selectedCarId != null and selectedCarId == cars[2].id ? ' active-car' : ''}"
@@ -254,6 +254,7 @@
     <div class="modal-content dark-modal add-car-modal">
         <h2>Add new car</h2>
         <p class="text-dim">Fill in your car's parameters</p>
+        <p th:if="${carValidationError}" th:text="${carValidationError}" style="color:#f87171; margin-bottom:15px;"></p>
 
         <form th:action="@{/my-cars/add}" method="POST" class="dark-form">
             <div class="form-section-title">Basic parameters</div>
@@ -310,6 +311,7 @@
                     <div class="form-group">
                         <label>Licence plate</label>
                         <input type="text" name="licencePlate">
+                        <p class="field-error" th:if="${licencePlateError}" th:text="${licencePlateError}" style="color:#f87171; font-size:13px; margin-top:5px;"></p>
                     </div>
                 </div>
                 <div class="column">

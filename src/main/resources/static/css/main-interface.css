@@ -1077,3 +1077,13 @@ button:active,
     margin-top: 10px;
     font-weight: bold;
 }
+
+.car-row form {
+    display: flex;
+    flex: 1;
+    width: 100%;
+}
+
+.car-row form .car-card {
+    width: 100%;
+}

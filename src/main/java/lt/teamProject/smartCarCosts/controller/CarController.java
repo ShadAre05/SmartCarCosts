@@ -29,7 +29,17 @@ public class CarController {
         if (userId == null) return "redirect:/login";
 
         if (bindingResult.hasErrors()) {
-            return "redirect:/main-interface?error=validation";
+            session.setAttribute("openAddCarModal", true);
+            if (bindingResult.hasFieldErrors("licencePlate")) {
+                session.setAttribute("licencePlateError", bindingResult.getFieldError("licencePlate").getDefaultMessage());
+            }
+            if (bindingResult.hasFieldErrors("year")) {
+                session.setAttribute("carValidationError", bindingResult.getFieldError("year").getDefaultMessage());
+            }
+            if (bindingResult.hasFieldErrors("engineCapacity")) {
+                session.setAttribute("carValidationError", bindingResult.getFieldError("engineCapacity").getDefaultMessage());
+            }
+            return "redirect:/main-interface";
         }
 
         try {
@@ -69,7 +79,14 @@ public class CarController {
         if (userId == null) return "redirect:/login";
 
         if (bindingResult.hasErrors()) {
-            return "redirect:/service-main-interface?error=validation";
+            session.setAttribute("openAddCarModal", true);
+            if (bindingResult.hasFieldErrors("licencePlate")) {
+                session.setAttribute("licencePlateError", bindingResult.getFieldError("licencePlate").getDefaultMessage());
+            }
+            if (bindingResult.hasFieldErrors("vin")) {
+                session.setAttribute("vinError", bindingResult.getFieldError("vin").getDefaultMessage());
+            }
+            return "redirect:/service-main-interface";
         }
 
         if (request.getLicencePlate() == null || request.getLicencePlate().isBlank()) {
