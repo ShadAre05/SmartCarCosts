@@ -20,7 +20,7 @@
             <hr class="divider">
             <div class="tech-row">
                 <span class="tech-label">VIN</span>
-                <span class="tech-value">-</span>
+                <span class="tech-value" th:text="${car.vin != null ? car.vin : '-'}">-</span>
             </div>
             <div class="tech-row">
                 <span class="tech-label">Brand</span>
@@ -46,10 +46,20 @@
                 <span class="tech-label">Licence plate</span>
                 <span class="tech-value" th:text="${car.licencePlate != null ? car.licencePlate : '-'}">-</span>
             </div>
-            <hr class="divider">
             <div class="tech-row">
+                <span class="tech-label">Fuel</span>
+                <span class="tech-value" th:text="${car.fuelTypeName}">-</span>
+            </div>
+            <hr class="divider">
+            <div class="tech-row" style="align-items: center;">
                 <span class="tech-label">Total visits:</span>
-                <span style="color: #4ecdc4; font-weight: bold;" th:text="${totalRepairs}">0</span>
+                <span style="display:flex; align-items:center; gap:15px;">
+        <span style="color: #4ecdc4; font-weight: bold;" th:text="${totalRepairs}">0</span>
+        <form th:action="@{/service/cars/delete}" method="post" style="margin:0;">
+            <input type="hidden" name="carId" th:value="${car.id}">
+            <button type="submit" style="background:#e53935; color:white; border:none; padding:6px 16px; border-radius:8px; cursor:pointer; font-weight:bold;">Delete</button>
+        </form>
+    </span>
             </div>
 
             <button class="btn-back" onclick="window.location.href='/service-main-interface'">Back to main page</button>
@@ -197,9 +207,8 @@
                 </div>
                 <div class="total-amount" id="addTotal">0.00 €</div>
                 <button type="button" class="btn-cancel" onclick="closeAddModal()">Cancel</button>
-                <button type="button" class="btn-submit" onclick="validateAndSubmitAdd()">Add visit</button>
+                <button type="submit" class="btn-submit">Add visit</button>
             </div>
-            <p id="addValidationError" class="validation-error"></p>
         </form>
     </div>
 </div>
@@ -342,19 +351,18 @@
 
 
             <input type="number" name="partsCosts"
-                   placeholder="0"
-                   value="${parts || 0}"
-                   min="0"
-                   step="0.01"
-                   oninput="limitDigits(this); recalcTotal('${listId}', '${totalId}')">
+       placeholder="0"
+       value="${parts || ''}"
+       min="0"
+       step="0.01"
+       oninput="limitDigits(this); recalcTotal('${listId}', '${totalId}')">
 
-
-           <input type="number" name="laborCosts"
-                  placeholder="0"
-                  value="${labor || 0}"
-                  min="0"
-                  step="0.01"
-                  oninput="limitDigits(this); recalcTotal('${listId}', '${totalId}')">
+<input type="number" name="laborCosts"
+       placeholder="0"
+       value="${labor || ''}"
+       min="0"
+       step="0.01"
+       oninput="limitDigits(this); recalcTotal('${listId}', '${totalId}')">
 
             <div class="work-total">0 €</div>
             <button type="button" class="btn-remove-work" onclick="removeWork(this, '${listId}', '${totalId}')">✕</button>
@@ -382,12 +390,7 @@
         document.getElementById(totalId).textContent = grandTotal.toFixed(2) + ' €';
     }
 
-    document.getElementById('addModal').addEventListener('click', function(e) {
-        if (e.target === this) closeAddModal();
-    });
-    document.getElementById('editModal').addEventListener('click', function(e) {
-        if (e.target === this) closeEditModal();
-    });
+
 
     function openEditFromButton(btn) {
         const visitId = btn.getAttribute('data-visit-id');
@@ -408,24 +411,6 @@
         }
     }
 
-    function validateAndSubmitAdd() {
-        const errorEl = document.getElementById('addValidationError');
-        const works = document.querySelectorAll('#addWorksList .work-item');
-        if (works.length === 0) {
-            errorEl.textContent = 'Please add at least one work item.';
-            return;
-        }
-        const hasEmpty = Array.from(works).some(item => {
-            const name = item.querySelector('input[name="workNames"]').value.trim();
-            return name === '';
-        });
-        if (hasEmpty) {
-            errorEl.textContent = 'Please fill in the title for all work items.';
-            return;
-        }
-        errorEl.textContent = '';
-        document.getElementById('addForm').submit();
-    }
 
     function limitDigits(input) {
         if (input.value.length > 8) {

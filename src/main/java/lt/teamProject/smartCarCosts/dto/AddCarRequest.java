@@ -25,10 +25,9 @@ public class AddCarRequest {
     @NotNull(message = "Fuel type is required")
     private Long fuelTypeId;
 
-    @NotBlank(message = "Licence plate is required")
+    @Size(max = 15, message = "Licence plate must be at most 15 characters")
     private String licencePlate;
 
-    @NotBlank(message = "VIN is required")
     private String vin;
 
     public Long getId() {

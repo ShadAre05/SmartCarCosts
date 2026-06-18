@@ -126,7 +126,7 @@ public class ServiceVisitController {
 
         if (hasErrors) {
             session.setAttribute("openAddVisitModal", true);
-            return "redirect:/cars/" + carId + "/repairs";
+            return "redirect:/service/repairs";
         }
 
         ServiceVisitDto dto = new ServiceVisitDto();
@@ -182,9 +182,8 @@ public class ServiceVisitController {
 
         if (validationError != null) {
             session.setAttribute("visitValidationError", validationError);
-            return "redirect:/cars/" + carId + "/repairs";
+            return "redirect:/service/repairs";
         }
-
         ServiceVisitDto dto = new ServiceVisitDto();
         dto.setClientName(clientName);
         dto.setClientPhone(clientPhone);

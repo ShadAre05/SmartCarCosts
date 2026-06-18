@@ -8,8 +8,11 @@ public class CarDto {
     private Double engineCapacity;
     private String licencePlate;
     private Integer year;
+    private String vin;
+    private String fuelTypeName;
 
-    public CarDto(Long id, String brandName, String modelName, String generation, Double engineCapacity, String licencePlate, Integer year) {
+    public CarDto(Long id, String brandName, String modelName, String generation, Double engineCapacity,
+                  String licencePlate, Integer year, String vin, String fuelTypeName) {
         this.id = id;
         this.brandName = brandName;
         this.modelName = modelName;
@@ -17,33 +20,17 @@ public class CarDto {
         this.engineCapacity = engineCapacity;
         this.licencePlate = licencePlate;
         this.year = year;
+        this.vin = vin;
+        this.fuelTypeName = fuelTypeName;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getBrandName() {
-        return brandName;
-    }
-
-    public String getModelName() {
-        return modelName;
-    }
-
-    public String getGeneration() {
-        return generation;
-    }
-
-    public Double getEngineCapacity() {
-        return engineCapacity;
-    }
-
-    public String getLicencePlate() {
-        return licencePlate;
-    }
-
-    public Integer getYear() {
-        return year;
-    }
+    public Long getId() { return id; }
+    public String getBrandName() { return brandName; }
+    public String getModelName() { return modelName; }
+    public String getGeneration() { return generation; }
+    public Double getEngineCapacity() { return engineCapacity; }
+    public String getLicencePlate() { return licencePlate; }
+    public Integer getYear() { return year; }
+    public String getVin() { return vin; }
+    public String getFuelTypeName() { return fuelTypeName; }
 }

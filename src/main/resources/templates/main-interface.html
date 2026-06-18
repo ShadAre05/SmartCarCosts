@@ -49,11 +49,13 @@
                                 <button class="circle-btn" style="background: #e53935;">-</button>
                             </form>
 
-                            <button class="car-card"
-                                    th:classappend="${selectedCarId != null and selectedCarId == cars[0].id ? ' active-car' : ''}"
-                                    th:text="${cars[0].brandName + ' ' + cars[0].modelName + ' ' + (cars[0].generation != null ? cars[0].generation + ' ' : '') + cars[0].engineCapacity + 'l' + (cars[0].licencePlate != null ? ' ' + cars[0].licencePlate : '')}"
-                                    th:onclick="'window.location.href=\'/main-interface?carId=' + ${cars[0].id} + '\''">
-                            </button>
+                            <form th:action="@{/select-car}" method="post" style="display:inline; flex:1;">
+                                <input type="hidden" name="carId" th:value="${cars[0].id}">
+                                <button type="submit" class="car-card"
+                                        th:classappend="${selectedCarId != null and selectedCarId == cars[0].id ? ' active-car' : ''}"
+                                        th:text="${cars[0].brandName + ' ' + cars[0].modelName + ' ' + (cars[0].generation != null ? cars[0].generation + ' ' : '') + cars[0].engineCapacity + 'l' + (cars[0].licencePlate != null ? ' ' + cars[0].licencePlate : '')}">
+                                </button>
+                            </form>
 
                         </div>
 
@@ -71,11 +73,13 @@
                                 <button class="circle-btn" style="background: #e53935;">-</button>
                             </form>
 
-                            <button class="car-card"
-                                    th:classappend="${selectedCarId != null and selectedCarId == cars[1].id ? ' active-car' : ''}"
-                                    th:text="${cars[1].brandName + ' ' + cars[1].modelName + ' ' + (cars[1].generation != null ? cars[1].generation + ' ' : '') + cars[1].engineCapacity + 'l' + (cars[1].licencePlate != null ? ' ' + cars[1].licencePlate : '')}"
-                                    th:onclick="'window.location.href=\'/main-interface?carId=' + ${cars[1].id} + '\''">
-                            </button>
+                            <form th:action="@{/select-car}" method="post" style="display:inline; flex:1;">
+                                <input type="hidden" name="carId" th:value="${cars[1].id}">
+                                <button type="submit" class="car-card"
+                                        th:classappend="${selectedCarId != null and selectedCarId == cars[1].id ? ' active-car' : ''}"
+                                        th:text="${cars[1].brandName + ' ' + cars[1].modelName + ' ' + (cars[1].generation != null ? cars[1].generation + ' ' : '') + cars[1].engineCapacity + 'l' + (cars[1].licencePlate != null ? ' ' + cars[1].licencePlate : '')}">
+                                </button>
+                            </form>
 
                         </div>
 
@@ -93,11 +97,13 @@
                                 <button class="circle-btn" style="background: #e53935;">-</button>
                             </form>
 
-                            <button class="car-card"
-                                    th:classappend="${selectedCarId != null and selectedCarId == cars[2].id ? ' active-car' : ''}"
-                                    th:text="${cars[2].brandName + ' ' + cars[2].modelName + ' ' + (cars[2].generation != null ? cars[2].generation + ' ' : '') + cars[2].engineCapacity + 'l' + (cars[2].licencePlate != null ? ' ' + cars[2].licencePlate : '')}"
-                                    th:onclick="'window.location.href=\'/main-interface?carId=' + ${cars[2].id} + '\''">
-                            </button>
+                            <form th:action="@{/select-car}" method="post" style="display:inline; flex:1;">
+                                <input type="hidden" name="carId" th:value="${cars[2].id}">
+                                <button type="submit" class="car-card"
+                                        th:classappend="${selectedCarId != null and selectedCarId == cars[2].id ? ' active-car' : ''}"
+                                        th:text="${cars[2].brandName + ' ' + cars[2].modelName + ' ' + (cars[2].generation != null ? cars[2].generation + ' ' : '') + cars[2].engineCapacity + 'l' + (cars[2].licencePlate != null ? ' ' + cars[2].licencePlate : '')}">
+                                </button>
+                            </form>
 
                         </div>
 
@@ -165,7 +171,7 @@
                         <input type="date" id="costStartDate" name="startDate" class="hidden-date-input" lang="en" onchange="openEndDatePicker()">
                         <input type="date" id="costEndDate" name="endDate" class="hidden-date-input" lang="en" onchange="this.form.submit()">
                         <span class="selected-cost-period" th:text="${selectedPeriod}">yyyy.mm.dd - yyyy.mm.dd</span>
-                        <a th:href="@{/main-interface(carId=${selectedCarId})}" class="clean-date-btn">Clean</a>
+                        <a th:href="@{/main-interface}" class="clean-date-btn">Clean</a>
                         <div class="cost-total-box" th:text="${periodTotal + currencySymbol}">0€</div>
                     </form>
 
