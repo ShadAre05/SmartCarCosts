@@ -1,0 +1,120 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    background-color: #1e293b;
+}
+
+.login-logo-wrapper {
+    position: absolute;
+    top: 40px;
+    left: 40px;
+}
+
+.login-card {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 16px;
+    padding: 80px 100px;
+    width: 100%;
+    max-width: 800px;
+    box-sizing: border-box;
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.login-title {
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+.login-subtitle {
+    color: #94a3b8;
+    font-size: 20px;
+}
+
+.login-form-group {
+    margin-bottom: 25px;
+}
+
+.login-label {
+    display: block;
+    color: #cbd5e1;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.login-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.login-input {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 8px;
+    border: none;
+    font-size: 16px;
+    color: #000;
+    box-sizing: border-box;
+}
+
+.login-input-password {
+    width: 100%;
+    padding: 18px 20px;
+    border-radius: 8px;
+    border: none;
+    font-size: 18px;
+    color: #000;
+    box-sizing: border-box;
+}
+
+.login-forgot-link {
+    color: #5ab2da;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.login-error {
+    color: #ff6b6b;
+    font-size: 14px;
+    margin-top: 8px;
+}
+
+.login-submit-btn {
+    width: 100%;
+    background-color: #d1d5db;
+    color: #000;
+    border: none;
+    padding: 20px;
+    border-radius: 8px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.login-footer {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 18px;
+    color: #cbd5e1;
+}
+
+.login-footer p {
+    margin-bottom: 12px;
+}
+
+.login-link {
+    color: #5ab2da;
+    text-decoration: none;
+}

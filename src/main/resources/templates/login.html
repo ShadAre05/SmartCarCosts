@@ -5,50 +5,44 @@
   <title>Login - Smart Car Costs</title>
   <link rel="stylesheet" th:href="@{/css/style.css}">
   <link rel="stylesheet" th:href="@{/css/logo.css}">
+  <link rel="stylesheet" th:href="@{/css/login.css}">
 </head>
-<body style="margin: 0; padding: 0; min-height: 100vh; display: flex; justify-content: center; align-items: center; background-color: #1e293b;">
+<body>
 
-<div style="position: absolute; top: 40px; left: 40px;">
+<div class="login-logo-wrapper">
   <a th:href="@{/}" class="logo">SmartCarCosts</a>
 </div>
 
-<div style="background: transparent; border: 1px solid rgba(255,255,255,0.15); border-radius: 16px; padding: 80px 100px; width: 100%; max-width: 800px; box-sizing: border-box;">
-
-  <div style="text-align: center; margin-bottom: 40px;">
-    <h2 style="font-size: 48px; font-weight: bold; margin-bottom: 12px;">Welcome!</h2>
-    <p style="color: #94a3b8; font-size: 20px;">Please enter your login details</p>
+<div class="login-card">
+  <div class="login-header">
+    <h2 class="login-title">Welcome!</h2>
+    <p class="login-subtitle">Please enter your login details</p>
   </div>
 
   <form th:action="@{/login}" method="POST">
-    <div style="margin-bottom: 25px;">
-      <label style="display: block; color: #cbd5e1; font-size: 18px; margin-bottom: 10px;">Email</label>
-      <input type="email" name="email" required
-             style="width: 100%; padding: 14px 16px; border-radius: 8px; border: none; font-size: 16px; color: #000; box-sizing: border-box;">
-      <div th:if="${param.error}" style="color: #ff6b6b; font-size: 14px; margin-top: 8px;">
+    <div class="login-form-group">
+      <label class="login-label">Email</label>
+      <input type="email" name="email" required class="login-input">
+      <div th:if="${param.error}" class="login-error">
         Invalid email or password. Please try again.
       </div>
     </div>
 
-    <div style="margin-bottom: 25px;">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-        <label style="color: #cbd5e1; font-size: 18px;">Password</label>
-        <a th:href="@{/forget-password}" style="color: #5ab2da; font-size: 16px; text-decoration: none;">Forget password?</a>
+    <div class="login-form-group">
+      <div class="login-label-row">
+        <label class="login-label">Password</label>
+        <a th:href="@{/forget-password}" class="login-forgot-link">Forget password?</a>
       </div>
-      <input type="password" name="password" required
-             style="width: 100%; padding: 18px 20px; border-radius: 8px; border: none; font-size: 18px; color: #000; box-sizing: border-box;">
+      <input type="password" name="password" required class="login-input-password">
     </div>
 
-    <button type="submit"
-            style="width: 100%; background-color: #d1d5db; color: #000; border: none; padding: 20px; border-radius: 8px; font-size: 20px; font-weight: bold; cursor: pointer; margin-top: 10px;">
-      Sign In
-    </button>
+    <button type="submit" class="login-submit-btn">Sign In</button>
   </form>
 
-  <div style="text-align: center; margin-top: 40px; font-size: 18px; color: #cbd5e1;">
-    <p style="margin-bottom: 12px;">Don't have an account? <a th:href="@{/register}" style="color: #5ab2da; text-decoration: none;">Sign Up</a></p>
-    <p>Want to create a <a th:href="@{/service-register}" style="color: #5ab2da; text-decoration: none;">service account</a>?</p>
+  <div class="login-footer">
+    <p>Don't have an account? <a th:href="@{/register}" class="login-link">Sign Up</a></p>
+    <p>Want to create a <a th:href="@{/service-register}" class="login-link">service account</a>?</p>
   </div>
-
 </div>
 
 </body>
