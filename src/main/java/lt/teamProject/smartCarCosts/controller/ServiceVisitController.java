@@ -26,14 +26,17 @@ public class ServiceVisitController {
         this.carService = carService;
     }
 
-    @GetMapping("/cars/{carId}/repairs")
-    public String viewRepairs(@PathVariable Long carId,
-                              Model model,
-                              HttpSession session) {
+    @GetMapping("/service/repairs")
+    public String viewRepairs(Model model, HttpSession session) {
         Long userId = (Long) session.getAttribute("userId");
         if (userId == null) return "redirect:/login";
+
         String role = (String) session.getAttribute("userRole");
         if (!"SERVICE".equals(role)) return "redirect:/main-interface";
+
+        Long carId = (Long) session.getAttribute("selectedCarId");
+        if (carId == null) return "redirect:/service-main-interface";
+
         CarDto car = carService.getUserCarDtos(userId).stream()
                 .filter(c -> c.getId().equals(carId))
                 .findFirst().orElse(null);
@@ -123,7 +126,7 @@ public class ServiceVisitController {
 
         if (hasErrors) {
             session.setAttribute("openAddVisitModal", true);
-            return "redirect:/cars/" + carId + "/repairs";
+            return "redirect:/service/repairs";
         }
 
         ServiceVisitDto dto = new ServiceVisitDto();
@@ -148,7 +151,7 @@ public class ServiceVisitController {
         dto.setWorks(works);
 
         visitService.addVisit(carId.intValue(), userId.intValue(), dto);
-        return "redirect:/cars/" + carId + "/repairs";
+        return "redirect:/service/repairs";
     }
 
     @PostMapping("/cars/{carId}/repairs/{visitId}/edit")
@@ -179,9 +182,8 @@ public class ServiceVisitController {
 
         if (validationError != null) {
             session.setAttribute("visitValidationError", validationError);
-            return "redirect:/cars/" + carId + "/repairs";
+            return "redirect:/service/repairs";
         }
-
         ServiceVisitDto dto = new ServiceVisitDto();
         dto.setClientName(clientName);
         dto.setClientPhone(clientPhone);
@@ -204,7 +206,7 @@ public class ServiceVisitController {
         dto.setWorks(works);
 
         visitService.updateVisit(visitId, dto);
-        return "redirect:/cars/" + carId + "/repairs";
+        return "redirect:/service/repairs";
     }
 
     @PostMapping("/cars/{carId}/repairs/{visitId}/delete")
@@ -216,7 +218,7 @@ public class ServiceVisitController {
         String role = (String) session.getAttribute("userRole");
         if (!"SERVICE".equals(role)) return "redirect:/main-interface";
         visitService.deleteVisit(visitId);
-        return "redirect:/cars/" + carId + "/repairs";
+        return "redirect:/service/repairs";
     }
 
     @GetMapping("/cars/{carId}/repairs/{visitId}")

@@ -382,15 +382,23 @@ public class AuthController {
         return "redirect:/main-interface";
     }
 
+    @PostMapping("/select-car")
+    public String selectCar(@RequestParam Long carId, HttpSession session) {
+        Long userId = (Long) session.getAttribute("userId");
+        if (userId == null) return "redirect:/login";
+        session.setAttribute("selectedUserCarId", carId);
+        return "redirect:/main-interface";
+    }
+
 
     // Main interface page
     @GetMapping("/main-interface")
     public String mainPage(Model model,
                            HttpSession session,
                            @RequestParam(required = false) LocalDate startDate,
-                           @RequestParam(required = false) LocalDate endDate,
-                           @RequestParam(required = false) Long carId
+                           @RequestParam(required = false) LocalDate endDate
     ) {
+        Long carId = (Long) session.getAttribute("selectedUserCarId");
         // 1. Retrieve the actual user ID from the session
         Long userId = (Long) session.getAttribute("userId");
 

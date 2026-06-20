@@ -8,4 +8,5 @@ import java.util.List;
 @Repository
 public interface ServiceVisitRepository extends JpaRepository<ServiceVisit, Integer> {
     List<ServiceVisit> findByCarId(Integer carId);
+    void deleteByCarId(Integer carId);
 }

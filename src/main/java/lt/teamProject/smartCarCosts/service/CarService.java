@@ -1,10 +1,7 @@
 package lt.teamProject.smartCarCosts.service;
 
 import lt.teamProject.smartCarCosts.dto.CarDto;
-import lt.teamProject.smartCarCosts.entity.Car;
-import lt.teamProject.smartCarCosts.entity.CarBrand;
-import lt.teamProject.smartCarCosts.entity.CarModel;
-import lt.teamProject.smartCarCosts.entity.UserCar;
+import lt.teamProject.smartCarCosts.entity.*;
 import lt.teamProject.smartCarCosts.repository.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,16 +18,25 @@ public class CarService {
     private final CarModelRepository carModelRepository;
     private final CarBrandRepository carBrandRepository;
     private final ReminderRepository reminderRepository;
+    private final FuelTypeRepository fuelTypeRepository;
+    private final ServiceVisitRepository serviceVisitRepository;
+    private final ServiceWorkRepository serviceWorkRepository;
 
     public CarService(CarRepository carRepository, UserCarRepository userCarRepository,
                       CarModelRepository carModelRepository, CarBrandRepository carBrandRepository,
-                      ExpenseRepository expenseRepository, ReminderRepository reminderRepository) {
+                      ExpenseRepository expenseRepository, ReminderRepository reminderRepository,
+                      FuelTypeRepository fuelTypeRepository,
+                      ServiceVisitRepository serviceVisitRepository,
+                      ServiceWorkRepository serviceWorkRepository) {
         this.carRepository = carRepository;
         this.userCarRepository = userCarRepository;
         this.carModelRepository = carModelRepository;
         this.carBrandRepository = carBrandRepository;
         this.expenseRepository = expenseRepository;
         this.reminderRepository = reminderRepository;
+        this.fuelTypeRepository = fuelTypeRepository;
+        this.serviceVisitRepository = serviceVisitRepository;
+        this.serviceWorkRepository = serviceWorkRepository;
     }
 
 
@@ -55,8 +61,12 @@ public class CarService {
                         CarBrand brand = carBrandRepository.findById(model.getBrandId()).orElse(null);
                         brandName = brand != null ? brand.getName() : "Unknown";
                     }
+                    String fuelTypeName = fuelTypeRepository.findById(car.getFuelTypeId())
+                            .map(f -> f.getFuelTypeName())
+                            .orElse("Unknown");
                     return new CarDto(car.getId(), brandName, modelName, car.getGeneration(),
-                            car.getEngineCapacity(), car.getLicencePlate(), car.getYear());
+                            car.getEngineCapacity(), car.getLicencePlate(), car.getYear(),
+                            car.getVin(), fuelTypeName);
                 })
                 .collect(Collectors.toList());
     }
@@ -82,6 +92,13 @@ public class CarService {
                 .ifPresent(userCar -> {
                     reminderRepository.deleteByUserCarIdIn(List.of(userCar.getId()));
                     expenseRepository.deleteByUserCarId(userCar.getId());
+
+                    List<ServiceVisit> visits = serviceVisitRepository.findByCarId(carId.intValue());
+                    for (ServiceVisit visit : visits) {
+                        serviceWorkRepository.deleteByVisitId(visit.getId());
+                    }
+                    serviceVisitRepository.deleteByCarId(carId.intValue());
+
                     userCarRepository.delete(userCar);
                     carRepository.deleteById(carId);
                 });
@@ -94,6 +111,8 @@ public class CarService {
         link.setCarId(savedCar.getId());
         userCarRepository.save(link);
     }
+
+
 
 
 }

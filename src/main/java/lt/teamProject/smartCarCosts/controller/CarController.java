@@ -8,6 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import jakarta.validation.Valid;
+import org.springframework.validation.BindingResult;
+
 
 @Controller
 public class CarController {
@@ -19,11 +22,24 @@ public class CarController {
     }
 
     @PostMapping("/my-cars/add")
-    public String addCar(@ModelAttribute AddCarRequest request, HttpSession session) {
-        // Retrieve the actual user ID from the session
+    public String addCar(@Valid @ModelAttribute AddCarRequest request,
+                         BindingResult bindingResult,
+                         HttpSession session) {
         Long userId = (Long) session.getAttribute("userId");
-        if (userId == null) {
-            return "redirect:/login"; // Redirect to login page if the user is not authenticated
+        if (userId == null) return "redirect:/login";
+
+        if (bindingResult.hasErrors()) {
+            session.setAttribute("openAddCarModal", true);
+            if (bindingResult.hasFieldErrors("licencePlate")) {
+                session.setAttribute("licencePlateError", bindingResult.getFieldError("licencePlate").getDefaultMessage());
+            }
+            if (bindingResult.hasFieldErrors("year")) {
+                session.setAttribute("carValidationError", bindingResult.getFieldError("year").getDefaultMessage());
+            }
+            if (bindingResult.hasFieldErrors("engineCapacity")) {
+                session.setAttribute("carValidationError", bindingResult.getFieldError("engineCapacity").getDefaultMessage());
+            }
+            return "redirect:/main-interface";
         }
 
         try {
@@ -56,9 +72,22 @@ public class CarController {
     }
 
     @PostMapping("/service/cars/add")
-    public String addServiceCar(@ModelAttribute AddCarRequest request, HttpSession session) {
+    public String addServiceCar(@Valid @ModelAttribute AddCarRequest request,
+                                BindingResult bindingResult,
+                                HttpSession session) {
         Long userId = (Long) session.getAttribute("userId");
         if (userId == null) return "redirect:/login";
+
+        if (bindingResult.hasErrors()) {
+            session.setAttribute("openAddCarModal", true);
+            if (bindingResult.hasFieldErrors("licencePlate")) {
+                session.setAttribute("licencePlateError", bindingResult.getFieldError("licencePlate").getDefaultMessage());
+            }
+            if (bindingResult.hasFieldErrors("vin")) {
+                session.setAttribute("vinError", bindingResult.getFieldError("vin").getDefaultMessage());
+            }
+            return "redirect:/service-main-interface";
+        }
 
         if (request.getLicencePlate() == null || request.getLicencePlate().isBlank()) {
             session.setAttribute("openAddCarModal", true);
@@ -100,6 +129,14 @@ public class CarController {
             carService.deleteCar(carId, userId);
         }
         return "redirect:/service-main-interface";
+    }
+
+    @PostMapping("/service/select-car")
+    public String selectServiceCar(@RequestParam Long carId, HttpSession session) {
+        Long userId = (Long) session.getAttribute("userId");
+        if (userId == null) return "redirect:/login";
+        session.setAttribute("selectedCarId", carId);
+        return "redirect:/service/repairs";
     }
 
 }
